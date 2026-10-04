@@ -1,5 +1,5 @@
 // Service Worker for Supernova AI PWA (Network First for Instant Live Updates)
-const CACHE_NAME = 'supernova-ai-v5';
+const CACHE_NAME = 'supernova-ai-v6';
 const ASSETS_TO_CACHE = [
   './',
   './index.html',

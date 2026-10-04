@@ -130,93 +130,75 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- SCREEN 2: NOVA AI ASSISTANT (Exact Screenshot 5 Layout + Real Gemini AI)  -->
     <!-- ========================================================================= -->
-    <div id="screenNovaAI" class="hidden space-y-4">
+    <!-- SCREEN 2: NOVA AI TWO-WAY CONVERSATION (WhatsApp / Gemini Experience)     -->
+    <!-- ========================================================================= -->
+    <div id="screenNovaAI" class="hidden flex flex-col h-[calc(100vh-145px)] space-y-2.5">
       
-      <div class="bg-[#161c2e] border border-slate-800 rounded-3xl p-6 shadow-xl flex flex-col items-center text-center space-y-4">
-        
-        <!-- Top bar: History & Tamil Toggle -->
-        <div class="w-full flex items-center justify-between text-slate-400 text-xs px-1">
-          <span class="cursor-pointer hover:text-white" id="historyBtn" title="Practice History">🕒 History</span>
-          <span class="px-2.5 py-0.5 rounded-lg bg-slate-800 border border-slate-700 font-tamil font-bold text-xs text-indigo-300">
-            அ | A தமிழ் & English
-          </span>
-        </div>
-
-        <!-- Nova Avatar with Glowing Purple Ring -->
-        <div class="relative">
-          <div class="w-24 h-24 rounded-full border-2 border-purple-500 p-1 shadow-2xl shadow-purple-500/40 flex items-center justify-center bg-purple-950/30">
-            <div class="w-full h-full rounded-full bg-slate-900 flex items-center justify-center text-4xl select-none">
+      <!-- Top Chat Header Bar -->
+      <div class="bg-[#161c2e] border border-slate-800 rounded-2xl p-2.5 px-3 flex items-center justify-between shadow-lg">
+        <div class="flex items-center gap-2.5">
+          <div class="relative">
+            <div class="w-10 h-10 rounded-full border border-purple-500 bg-slate-900 flex items-center justify-center text-xl cursor-pointer" id="headerAvatarStopBtn" title="Click to Stop Voice">
               👩‍🏫
             </div>
+            <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-slate-900"></span>
           </div>
-          <div class="absolute -bottom-1 -right-1 w-6 h-6 rounded-full bg-emerald-500 border-2 border-slate-900 flex items-center justify-center text-[10px] text-white">
-            ●
-          </div>
-        </div>
-
-        <!-- Personalized Greeting -->
-        <div class="space-y-1">
-          <h2 class="text-xl font-extrabold text-white tracking-tight">Hello Veera,</h2>
-          <p class="text-lg font-bold text-slate-300 font-tamil">என்ன help வேணும்?</p>
-        </div>
-
-        <!-- PRIMARY VOICE BUTTON: "Nova AI கிட்ட கேளுங்க" -->
-        <button id="askNovaBigBtn" class="w-full py-4 px-4 rounded-2xl bg-[#1e253c] hover:bg-[#252f4c] active:bg-[#2b3759] border border-slate-700 text-white font-bold text-sm transition-all flex items-center justify-center gap-2.5 shadow-lg">
-          <span class="text-amber-400 text-xl">🎙️</span>
-          <span class="font-tamil text-base font-bold">Nova AI கிட்ட கேளுங்க</span>
-        </button>
-
-        <!-- 2 Grid Action Cards -->
-        <div class="w-full grid grid-cols-2 gap-3 pt-2">
-          <!-- Card 1: Conversation Practice -->
-          <div id="actionPracticeCard" class="bg-[#1a2138] hover:bg-[#202947] active:scale-95 border border-slate-700/80 rounded-2xl p-4 text-left cursor-pointer transition-all space-y-2">
-            <div class="w-8 h-8 rounded-xl bg-blue-500/20 text-blue-400 flex items-center justify-center text-base">
-              🗣️
-            </div>
-            <div>
-              <strong class="text-xs text-white block">Conversation practice பண்ண...</strong>
-              <span class="text-[10px] text-slate-400">Speak with Nova</span>
-            </div>
-          </div>
-
-          <!-- Card 2: English Translation -->
-          <div id="actionTranslationCard" class="bg-[#1a2138] hover:bg-[#202947] active:scale-95 border border-slate-700/80 rounded-2xl p-4 text-left cursor-pointer transition-all space-y-2">
-            <div class="w-8 h-8 rounded-xl bg-indigo-500/20 text-indigo-400 flex items-center justify-center text-base font-bold">
-              🌐
-            </div>
-            <div>
-              <strong class="text-xs text-white block">English Translation வே...</strong>
-              <span class="text-[10px] text-slate-400">Tamil to English</span>
-            </div>
+          <div>
+            <h3 class="text-xs font-bold text-white flex items-center gap-1.5">
+              <span>Nova AI</span>
+              <span class="text-[9px] px-1.5 py-0.2 bg-purple-950 text-purple-300 rounded border border-purple-800 font-mono">COACH</span>
+            </h3>
+            <span class="text-[10px] text-slate-400 font-tamil">இருவழி உரையாடல் • Two-Way Chat</span>
           </div>
         </div>
 
-        <!-- 3 Feature Pill Rows -->
-        <div class="w-full space-y-2.5 pt-1">
-          <!-- Row 1: Learn New Word -->
-          <div id="actionNewWordRow" class="w-full bg-[#1a2138] hover:bg-[#202947] active:scale-[0.98] border border-slate-700/80 rounded-2xl p-3.5 flex items-center gap-3 cursor-pointer text-left transition-all">
-            <span class="text-lg">📕</span>
-            <span class="text-xs font-bold text-white font-tamil flex-1">புதுசா ஒரு Word கத்துக்கணும்</span>
-            <span class="text-slate-400 text-xs">➔</span>
-          </div>
+        <!-- Right Header Actions: Voice Toggle & Stop Button -->
+        <div class="flex items-center gap-1.5">
+          <!-- Character Voice ON/OFF Toggle Switch -->
+          <button id="characterVoiceToggleBtn" class="px-2.5 py-1.5 rounded-xl bg-slate-900 border border-emerald-500/60 text-emerald-400 hover:border-purple-500 text-xs font-bold flex items-center gap-1 transition-all" title="Toggle Nova Voice Sound">
+            <span id="voiceToggleIcon">🔊</span>
+            <span id="voiceToggleText" class="text-[10px] font-mono">Voice ON</span>
+          </button>
+          
+          <!-- Stop Audio Pill (Appears when Nova speaks) -->
+          <button id="chatStopAudioBtn" class="hidden px-2.5 py-1.5 rounded-xl bg-rose-950 border border-rose-500 text-rose-300 text-[10px] font-bold flex items-center gap-1 shadow-md active:scale-95 animate-pulse">
+            <span>⏹️</span>
+            <span>Stop</span>
+          </button>
 
-          <!-- Row 2: Email / Message Draft -->
-          <div id="actionDraftRow" class="w-full bg-[#1a2138] hover:bg-[#202947] active:scale-[0.98] border border-slate-700/80 rounded-2xl p-3.5 flex items-center gap-3 cursor-pointer text-left transition-all">
-            <span class="text-lg">✉️</span>
-            <span class="text-xs font-bold text-white font-tamil flex-1">Email/Message draft பண்ணணும்</span>
-            <span class="text-slate-400 text-xs">➔</span>
-          </div>
+          <!-- Clear Chat -->
+          <button id="clearChatBtn" class="p-1.5 px-2 rounded-xl bg-slate-900 border border-slate-800 text-slate-400 hover:text-rose-400 text-xs" title="Clear Chat History">
+            🗑️
+          </button>
+        </div>
+      </div>
 
-          <!-- Row 3: Photo / PDF Upload -->
-          <div id="actionUploadRow" class="w-full bg-[#1a2138] hover:bg-[#202947] active:scale-[0.98] border border-slate-700/80 rounded-2xl p-3.5 flex items-center gap-3 cursor-pointer text-left transition-all">
-            <span class="text-lg">📄</span>
-            <span class="text-xs font-bold text-white font-tamil flex-1">Photo/PDF upload பண்ணி கேளுங்க</span>
-            <span class="text-slate-400 text-xs">➔</span>
-          </div>
+      <!-- Live Two-Way Chat Stream (Scrollable like WhatsApp / Gemini) -->
+      <div id="chatStreamContainer" class="flex-1 overflow-y-auto no-scrollbar space-y-3 p-2.5 rounded-2xl bg-[#0d111d]/70 border border-slate-800/80">
+        <!-- Messages rendered dynamically here -->
+      </div>
+
+      <!-- Bottom Audio / Speaking Bar -->
+      <div class="bg-[#161c2e] border border-slate-800 rounded-3xl p-3 shadow-2xl flex flex-col items-center gap-1.5">
+        
+        <!-- Live Transcribing Preview / Subtitle Box -->
+        <div id="liveSubtitleBox" class="w-full text-center min-h-[22px] px-2">
+          <p id="liveSubtitleText" class="text-xs text-slate-400 italic font-sans truncate">
+            Tap the mic below and start speaking...
+          </p>
         </div>
 
+        <!-- Big Central Mic Button -->
+        <div class="flex items-center justify-center gap-4 w-full">
+          <button id="chatMicBtn" class="w-16 h-16 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 active:scale-95 text-white font-bold flex items-center justify-center text-3xl shadow-xl shadow-purple-600/40 transition-all border-2 border-slate-800">
+            🎙️
+          </button>
+        </div>
+
+        <span id="chatMicStatusLabel" class="text-[11px] font-bold text-slate-300">
+          Tap Mic to Speak (Continuous with Pauses)
+        </span>
       </div>
 
     </div>
@@ -389,62 +371,6 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL: NOVA AI VOICE INTERACTION ROOM (Dynamic Conversation!)             -->
-  <!-- ========================================================================= -->
-  <div id="novaVoiceModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-[#161c2e] border border-slate-800 rounded-3xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl relative">
-      <button id="closeVoiceModal" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">&times;</button>
-
-      <div class="w-20 h-20 rounded-full border-2 border-purple-500 p-0.5 mx-auto shadow-2xl shadow-purple-500/40 flex items-center justify-center bg-purple-950/30 cursor-pointer" id="avatarStopAudioBtn" title="Click to Stop Voice">
-        <span class="text-3xl">👩‍🏫</span>
-      </div>
-
-      <div>
-        <h3 class="text-base font-extrabold text-white">Nova AI Speaking Room</h3>
-        <p class="text-xs text-purple-300 font-tamil">ஆங்கிலத்தில் பேசுங்கள் அல்லது தமிழில் கேளுங்கள்!</p>
-      </div>
-
-      <!-- Audio Replay Control (Stop / Replay) -->
-      <div id="novaAudioControl" class="hidden flex items-center justify-center gap-2 pt-0.5">
-        <button id="stopAudioBtn" class="px-3.5 py-1.5 rounded-full bg-rose-950/80 border border-rose-500/60 text-rose-300 hover:text-white text-xs font-bold flex items-center gap-1.5 shadow-md active:scale-95 transition-all">
-          <span>⏹️</span>
-          <span>Stop Speaking</span>
-        </button>
-        <button id="replayAudioBtn" class="px-3.5 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-slate-300 hover:text-white text-xs font-bold flex items-center gap-1.5 active:scale-95 transition-all">
-          <span>🔁</span>
-          <span>Replay</span>
-        </button>
-      </div>
-
-      <!-- Dialogue History / AI Reply Box -->
-      <div id="voiceModalDialogueBox" class="p-3.5 bg-[#0d111d] rounded-2xl border border-slate-800 text-xs text-left min-h-[90px] max-h-[160px] overflow-y-auto no-scrollbar flex flex-col justify-center space-y-1.5 cursor-pointer" title="Tap to Stop Voice">
-        <div id="voiceModalLoading" class="hidden text-center text-purple-400 text-xs font-mono animate-pulse">
-          Nova is thinking & analyzing... 💭
-        </div>
-        <p id="voiceModalDialogue" class="text-slate-200 leading-relaxed font-sans">
-          "Hello Veera! I am listening. Tell me what tasks you are working on today or ask any question in English or Tamil!"
-        </p>
-      </div>
-
-      <!-- Speech Input Box (Continuous Streaming across pauses) -->
-      <textarea id="voiceModalInput" rows="3" class="w-full bg-[#0d111d] border border-slate-800 rounded-xl p-3 text-xs text-slate-100 placeholder-slate-500 focus:outline-none resize-none leading-relaxed" placeholder="Tap the mic below and start speaking. You can pause anytime and continue speaking..."></textarea>
-
-      <!-- BIG MIC ONLY (Continuous Recording & Tap-to-Send) -->
-      <div class="flex flex-col items-center justify-center gap-2 pt-1">
-        <button id="voiceModalMicBtn" class="w-20 h-20 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 active:scale-95 text-white font-bold flex items-center justify-center text-3xl shadow-2xl shadow-purple-600/40 transition-all border-4 border-slate-800">
-          🎙️
-        </button>
-        <span id="voiceModalMicStatus" class="text-xs font-bold text-slate-300">
-          Tap Mic to Start Speaking
-        </span>
-        <span class="text-[10px] text-slate-500">
-          Continuous speech across all pauses • Tap again to send
-        </span>
-      </div>
-    </div>
-  </div>
-
-  <!-- ========================================================================= -->
   <!-- MODAL: WORD OF THE DAY & CORPORATE JARGON                                 -->
   <!-- ========================================================================= -->
   <div id="wordModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
@@ -565,6 +491,11 @@ Veerakumar
         });
         tab.classList.remove('text-slate-400', 'font-medium');
         tab.classList.add('text-purple-400', 'font-bold');
+
+        if (target === 'screenNovaAI') {
+          if (typeof renderChatStream === 'function') renderChatStream();
+          if (typeof updateVoiceToggleUI === 'function') updateVoiceToggleUI();
+        }
       });
     });
 
@@ -589,11 +520,18 @@ Veerakumar
       isSpeakingAudio = false;
       const ctrl = document.getElementById('novaAudioControl');
       if (ctrl) ctrl.classList.add('hidden');
+      const chatStopBtn = document.getElementById('chatStopAudioBtn');
+      if (chatStopBtn) chatStopBtn.classList.add('hidden');
     }
 
     function speakText(text) {
       if (!('speechSynthesis' in window)) return;
       stopNovaSpeaking();
+
+      // Check if character voice is muted
+      if (localStorage.getItem('supernova_voice_muted') === 'true') {
+        return;
+      }
 
       // Only speak English text, omit Tamil or markdown brackets
       let cleanText = text.replace(/[\u0B80-\u0BFF]+/g, '').replace(/[*#_~()\[\]]/g, '').trim();
@@ -610,16 +548,22 @@ Veerakumar
         isSpeakingAudio = true;
         const ctrl = document.getElementById('novaAudioControl');
         if (ctrl) ctrl.classList.remove('hidden');
+        const chatStopBtn = document.getElementById('chatStopAudioBtn');
+        if (chatStopBtn) chatStopBtn.classList.remove('hidden');
       };
       utterance.onend = () => {
         isSpeakingAudio = false;
         const ctrl = document.getElementById('novaAudioControl');
         if (ctrl) ctrl.classList.add('hidden');
+        const chatStopBtn = document.getElementById('chatStopAudioBtn');
+        if (chatStopBtn) chatStopBtn.classList.add('hidden');
       };
       utterance.onerror = () => {
         isSpeakingAudio = false;
         const ctrl = document.getElementById('novaAudioControl');
         if (ctrl) ctrl.classList.add('hidden');
+        const chatStopBtn = document.getElementById('chatStopAudioBtn');
+        if (chatStopBtn) chatStopBtn.classList.add('hidden');
       };
 
       window.speechSynthesis.speak(utterance);
@@ -1045,10 +989,11 @@ Veerakumar
       }
     });
 
-    // Microphone in Lesson Modal (Continuous Dictation across pauses)
+    // Microphone in Lesson Modal (Zero-Duplication Continuous Dictation across pauses)
     let isLessonRecording = false;
     let lessonRecognition = null;
-    let lessonAccumulated = '';
+    let lessonCommittedText = '';
+    let lessonSessionFinal = '';
     let lessonRestartTimer = null;
 
     document.getElementById('modalMicBtn').addEventListener('click', () => {
@@ -1072,245 +1017,536 @@ Veerakumar
         }
         micText.innerText = "Speak";
         micBtn.classList.remove('bg-rose-600', 'speech-wave');
+        const finalRecorded = (lessonCommittedText + " " + lessonSessionFinal).replace(/\s+/g, ' ').trim();
+        if (finalRecorded) inputEl.value = finalRecorded;
+        lessonCommittedText = '';
+        lessonSessionFinal = '';
       } else {
         // User clicked to Start
         isLessonRecording = true;
         micText.innerText = "Listening... (Tap to Finish)";
         micBtn.classList.add('bg-rose-600', 'speech-wave');
 
-        lessonAccumulated = inputEl.value.trim() ? inputEl.value.trim() + " " : "";
+        lessonCommittedText = inputEl.value.trim();
+        lessonSessionFinal = '';
 
-        lessonRecognition = new SR();
-        lessonRecognition.continuous = true;
-        lessonRecognition.interimResults = true;
-        lessonRecognition.lang = 'en-US';
+        function launchLessonRecognition() {
+          if (!isLessonRecording) return;
+          try { if (lessonRecognition) lessonRecognition.abort(); } catch(e){}
 
-        lessonRecognition.onresult = (event) => {
-          let interim = '';
-          let finalChunk = '';
-          for (let i = event.resultIndex; i < event.results.length; ++i) {
-            if (event.results[i].isFinal) {
-              finalChunk += event.results[i][0].transcript + ' ';
-            } else {
-              interim += event.results[i][0].transcript;
+          lessonRecognition = new SR();
+          lessonRecognition.continuous = true;
+          lessonRecognition.interimResults = true;
+          lessonRecognition.lang = 'en-US';
+          lessonSessionFinal = '';
+
+          lessonRecognition.onresult = (event) => {
+            let interim = '';
+            let final = '';
+            for (let i = 0; i < event.results.length; ++i) {
+              const chunk = event.results[i][0].transcript;
+              if (event.results[i].isFinal) {
+                final += chunk + ' ';
+              } else {
+                interim += chunk;
+              }
             }
-          }
-          lessonAccumulated += finalChunk;
-          inputEl.value = (lessonAccumulated + interim).trim();
-        };
+            lessonSessionFinal = final;
+            inputEl.value = (lessonCommittedText + " " + lessonSessionFinal + " " + interim).replace(/\s+/g, ' ').trim();
+          };
 
-        lessonRecognition.onerror = (e) => {
-          console.log("Lesson mic error:", e.error);
-        };
+          lessonRecognition.onerror = (e) => {
+            console.log("Lesson mic error:", e.error);
+          };
 
-        lessonRecognition.onend = () => {
-          if (isLessonRecording) {
-            clearTimeout(lessonRestartTimer);
-            lessonRestartTimer = setTimeout(() => {
-              try {
-                if (isLessonRecording) lessonRecognition.start();
-              } catch(err){}
-            }, 200);
-          }
-        };
+          lessonRecognition.onend = () => {
+            if (isLessonRecording) {
+              lessonCommittedText = (lessonCommittedText + " " + lessonSessionFinal).replace(/\s+/g, ' ').trim();
+              lessonSessionFinal = '';
+              clearTimeout(lessonRestartTimer);
+              lessonRestartTimer = setTimeout(() => {
+                if (isLessonRecording) launchLessonRecognition();
+              }, 150);
+            }
+          };
 
-        try {
-          lessonRecognition.start();
-        } catch(e){}
+          try {
+            lessonRecognition.start();
+          } catch(e){}
+        }
+
+        launchLessonRecognition();
       }
     });
 
     // =========================================================================
-    // 8. NOVA AI VOICE INTERACTION ROOM (DYNAMIC CONVERSATION ENGINE)
+    // 8. NOVA AI TWO-WAY CONVERSATION ENGINE (WhatsApp / Gemini Experience)
     // =========================================================================
-    document.getElementById('askNovaBigBtn').addEventListener('click', () => {
-      document.getElementById('novaVoiceModal').classList.remove('hidden');
-      speakText("Hello Veera! I am listening. Tell me what tasks you are working on today or ask any question!");
-    });
 
-    document.getElementById('closeVoiceModal').addEventListener('click', () => {
-      stopNovaSpeaking();
-      stopVoiceRecognitionAndSend(false);
-      document.getElementById('novaVoiceModal').classList.add('hidden');
-    });
+    // Character Voice Toggle State (Default: Voice ON)
+    let isVoiceMuted = localStorage.getItem('supernova_voice_muted') === 'true';
 
-    // Audio Control Pill buttons & Avatar Tap to Stop
-    document.getElementById('stopAudioBtn').addEventListener('click', stopNovaSpeaking);
-    document.getElementById('replayAudioBtn').addEventListener('click', () => {
-      if (lastSpokenText) speakText(lastSpokenText);
-    });
-    document.getElementById('avatarStopAudioBtn').addEventListener('click', stopNovaSpeaking);
-    document.getElementById('voiceModalDialogueBox').addEventListener('click', stopNovaSpeaking);
+    function updateVoiceToggleUI() {
+      const btn = document.getElementById('characterVoiceToggleBtn');
+      const icon = document.getElementById('voiceToggleIcon');
+      const text = document.getElementById('voiceToggleText');
+      if (!btn) return;
 
-    document.getElementById('actionPracticeCard').addEventListener('click', () => {
-      document.getElementById('novaVoiceModal').classList.remove('hidden');
-      document.getElementById('voiceModalDialogue').innerText = "Let's do conversation practice! Tell me what tasks you are working on today in 2 sentences.";
-      speakText("Let's do conversation practice! Tell me what tasks you are working on today in two sentences.");
-    });
-
-    document.getElementById('actionTranslationCard').addEventListener('click', () => {
-      document.getElementById('novaVoiceModal').classList.remove('hidden');
-      document.getElementById('voiceModalDialogue').innerText = "தமிழில் நீங்கள் சொல்ல நினைப்பதை சொல்லுங்கள், அதை சரியான ஆங்கில வாக்கியமாக மாற்றிக் காட்டுகிறேன்!";
-      speakText("Tell me any sentence in Tamil, and I will translate it into native English for you.");
-    });
-
-    // BIG MIC ONLY: Continuous Voice Recording across speech pauses
-    let isVoiceModalRec = false;
-    let voiceModalRec = null;
-    let voiceAccumulated = '';
-    let voiceRestartTimer = null;
-
-    const voiceMicBtn = document.getElementById('voiceModalMicBtn');
-    const voiceMicStatus = document.getElementById('voiceModalMicStatus');
-    const voiceInput = document.getElementById('voiceModalInput');
-
-    voiceMicBtn.addEventListener('click', () => {
-      stopNovaSpeaking();
-
-      if (isVoiceModalRec) {
-        // User clicked again: STOP recording and automatically SEND!
-        stopVoiceRecognitionAndSend(true);
+      if (isVoiceMuted) {
+        btn.className = "px-2.5 py-1.5 rounded-xl bg-slate-900 border border-slate-700 text-slate-400 hover:border-slate-500 text-xs font-bold flex items-center gap-1 transition-all";
+        if (icon) icon.innerText = "🔇";
+        if (text) text.innerText = "Voice OFF";
+        btn.title = "Nova voice is muted (Tap to Unmute)";
       } else {
-        // User clicked: START recording continuously!
-        startVoiceRecognition();
+        btn.className = "px-2.5 py-1.5 rounded-xl bg-slate-900 border border-emerald-500/60 text-emerald-400 hover:border-emerald-400 text-xs font-bold flex items-center gap-1 transition-all";
+        if (icon) icon.innerText = "🔊";
+        if (text) text.innerText = "Voice ON";
+        btn.title = "Nova voice is active (Tap to Mute)";
       }
-    });
+    }
 
-    function startVoiceRecognition() {
+    const charVoiceBtn = document.getElementById('characterVoiceToggleBtn');
+    if (charVoiceBtn) {
+      charVoiceBtn.addEventListener('click', () => {
+        isVoiceMuted = !isVoiceMuted;
+        localStorage.setItem('supernova_voice_muted', isVoiceMuted ? 'true' : 'false');
+        updateVoiceToggleUI();
+        if (isVoiceMuted) {
+          stopNovaSpeaking();
+        }
+      });
+    }
+
+    // Header & Avatar Stop Audio Listeners
+    const chatStopBtn = document.getElementById('chatStopAudioBtn');
+    if (chatStopBtn) chatStopBtn.addEventListener('click', stopNovaSpeaking);
+
+    const headerAvatar = document.getElementById('headerAvatarStopBtn');
+    if (headerAvatar) headerAvatar.addEventListener('click', stopNovaSpeaking);
+
+    // Two-Way Chat History Management
+    let chatHistory = [];
+    try {
+      const savedHistory = localStorage.getItem('supernova_chat_history');
+      if (savedHistory) {
+        chatHistory = JSON.parse(savedHistory);
+      }
+    } catch(e) {
+      chatHistory = [];
+    }
+
+    if (!Array.isArray(chatHistory) || chatHistory.length === 0) {
+      chatHistory = [
+        {
+          sender: "nova",
+          text: "Hello Veera! I am Nova, your native English coach. Tap the mic below and tell me how your day is going, what tasks you are tackling, or practice any topic. I am listening! 🌟",
+          tamilNote: "கீழே உள்ள மைக் பட்டனைத் தட்டி ஆங்கிலத்தில் பேசத் தொடங்குங்கள். நீங்கள் பேசும்போது ஏற்படும் இலக்கணப் பிழைகளை நான் திருத்தி வழிகாட்டுகிறேன்!",
+          time: "Just now"
+        }
+      ];
+      try {
+        localStorage.setItem('supernova_chat_history', JSON.stringify(chatHistory));
+      } catch(e){}
+    }
+
+    function saveChatHistory() {
+      try {
+        localStorage.setItem('supernova_chat_history', JSON.stringify(chatHistory));
+      } catch(e){}
+    }
+
+    function renderChatStream() {
+      const container = document.getElementById('chatStreamContainer');
+      if (!container) return;
+
+      container.innerHTML = chatHistory.map((msg, idx) => {
+        if (msg.sender === 'user') {
+          return `
+            <div class="flex justify-end items-end gap-2 animate-fadeIn">
+              <div class="max-w-[85%] bg-gradient-to-r from-purple-700 to-indigo-700 text-white rounded-2xl rounded-tr-xs px-3.5 py-2.5 shadow-md space-y-1">
+                <p class="text-xs leading-relaxed font-sans select-text whitespace-pre-wrap">${escapeHtml(msg.text)}</p>
+                <div class="text-[9px] text-purple-200/70 text-right font-mono">${escapeHtml(msg.time || '')}</div>
+              </div>
+            </div>
+          `;
+        } else {
+          return `
+            <div class="flex justify-start items-start gap-2.5 animate-fadeIn">
+              <div class="w-8 h-8 rounded-full bg-slate-900 border border-purple-500/80 flex items-center justify-center text-base shrink-0 shadow-md">
+                👩‍🏫
+              </div>
+              <div class="max-w-[88%] bg-[#161c2e] border border-slate-700/80 text-slate-100 rounded-2xl rounded-tl-xs p-3.5 shadow-md space-y-2.5">
+                <div class="flex items-center justify-between border-b border-slate-800/80 pb-1.5">
+                  <span class="text-[10px] font-bold text-purple-400 font-mono tracking-wider">NOVA COACH</span>
+                  <button class="msg-speak-btn text-[11px] text-slate-400 hover:text-purple-300 active:scale-95 flex items-center gap-1 font-semibold transition-colors" data-msg-idx="${idx}" title="Listen to this message">
+                    🔊 <span>Listen</span>
+                  </button>
+                </div>
+                <p class="text-xs leading-relaxed text-slate-200 font-sans select-text whitespace-pre-wrap">${escapeHtml(msg.text)}</p>
+                ${msg.tamilNote ? `
+                  <div class="p-2.5 bg-[#0d111d] rounded-xl border border-amber-500/30 text-amber-200 text-xs font-tamil leading-relaxed space-y-1">
+                    <span class="text-[10px] text-amber-400 uppercase font-bold block">💡 Tamil Coaching Note:</span>
+                    <div>${escapeHtml(msg.tamilNote)}</div>
+                  </div>
+                ` : ''}
+                <div class="text-[9px] text-slate-500 font-mono text-right">${escapeHtml(msg.time || '')}</div>
+              </div>
+            </div>
+          `;
+        }
+      }).join('');
+
+      // Wire replay audio listeners
+      container.querySelectorAll('.msg-speak-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const i = parseInt(btn.getAttribute('data-msg-idx'), 10);
+          if (chatHistory[i] && chatHistory[i].text) {
+            const wasMuted = isVoiceMuted;
+            isVoiceMuted = false;
+            speakText(chatHistory[i].text);
+            isVoiceMuted = wasMuted;
+          }
+        });
+      });
+
+      container.scrollTop = container.scrollHeight;
+    }
+
+    function escapeHtml(text) {
+      if (!text) return '';
+      return String(text)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+    }
+
+    // Clear Chat Button
+    const clearChatBtn = document.getElementById('clearChatBtn');
+    if (clearChatBtn) {
+      clearChatBtn.addEventListener('click', () => {
+        if (confirm("Clear conversation history and start fresh?")) {
+          stopNovaSpeaking();
+          chatHistory = [
+            {
+              sender: "nova",
+              text: "Conversation reset! Tap the microphone below whenever you're ready to speak.",
+              tamilNote: "அனைத்தும் புதுப்பிக்கப்பட்டது! பேசத் தொடங்க மைக்கை அழுத்தவும்.",
+              time: "Just now"
+            }
+          ];
+          saveChatHistory();
+          renderChatStream();
+        }
+      });
+    }
+
+    // Zero-Duplication Continuous Voice Dictation Engine
+    let isChatRecording = false;
+    let chatRecognition = null;
+    let chatCommittedText = "";
+    let chatSessionFinal = "";
+    let chatRestartTimer = null;
+
+    const chatMicBtn = document.getElementById('chatMicBtn');
+    const chatMicStatus = document.getElementById('chatMicStatusLabel');
+    const liveSubtitle = document.getElementById('liveSubtitleText');
+
+    function updateChatMicUI(recording) {
+      if (!chatMicBtn) return;
+      if (recording) {
+        chatMicBtn.className = "w-16 h-16 rounded-full bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-bold flex items-center justify-center text-3xl shadow-2xl shadow-rose-600/50 transition-all border-4 border-rose-400 speech-wave";
+        chatMicBtn.innerHTML = "⏹️";
+        if (chatMicStatus) {
+          chatMicStatus.innerText = "🔴 Listening... Tap to Finish & Send 🚀";
+          chatMicStatus.className = "text-[11px] font-bold text-rose-400 animate-pulse";
+        }
+      } else {
+        chatMicBtn.className = "w-16 h-16 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 active:scale-95 text-white font-bold flex items-center justify-center text-3xl shadow-xl shadow-purple-600/40 transition-all border-2 border-slate-800";
+        chatMicBtn.innerHTML = "🎙️";
+        if (chatMicStatus) {
+          chatMicStatus.innerText = "Tap Mic to Speak (Continuous with Pauses)";
+          chatMicStatus.className = "text-[11px] font-bold text-slate-300";
+        }
+        if (liveSubtitle) {
+          liveSubtitle.innerText = "Tap the mic below and start speaking...";
+          liveSubtitle.className = "text-xs text-slate-400 italic font-sans truncate";
+        }
+      }
+    }
+
+    if (chatMicBtn) {
+      chatMicBtn.addEventListener('click', () => {
+        stopNovaSpeaking();
+        if (isChatRecording) {
+          stopChatVoice(true);
+        } else {
+          startChatVoice();
+        }
+      });
+    }
+
+    function startChatVoice() {
       const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SR) {
-        alert("Microphone recognition not supported in this browser. Please type directly into the box!");
+        alert("Microphone recognition not supported in this browser. Please use Chrome on Android or desktop.");
         return;
       }
 
-      isVoiceModalRec = true;
-      voiceMicBtn.className = "w-20 h-20 rounded-full bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-bold flex items-center justify-center text-3xl shadow-2xl shadow-rose-600/50 transition-all border-4 border-rose-400 speech-wave";
-      voiceMicStatus.innerText = "🔴 Listening... Speak as long as you want (Tap here to Finish & Send)";
-      voiceMicStatus.className = "text-xs font-bold text-rose-400 animate-pulse";
+      isChatRecording = true;
+      chatCommittedText = "";
+      chatSessionFinal = "";
+      updateChatMicUI(true);
 
-      // Append to whatever was in the box or start fresh
-      voiceAccumulated = voiceInput.value.trim() ? voiceInput.value.trim() + " " : "";
+      if (liveSubtitle) {
+        liveSubtitle.innerText = "Listening... Speak continuously (pauses are supported)...";
+        liveSubtitle.className = "text-xs text-purple-300 font-medium italic";
+      }
 
-      voiceModalRec = new SR();
-      voiceModalRec.continuous = true;
-      voiceModalRec.interimResults = true;
-      voiceModalRec.lang = 'en-US';
+      launchChatRecognition();
+    }
 
-      voiceModalRec.onresult = (event) => {
+    function launchChatRecognition() {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) return;
+
+      try {
+        if (chatRecognition) chatRecognition.abort();
+      } catch(e){}
+
+      chatRecognition = new SR();
+      chatRecognition.continuous = true;
+      chatRecognition.interimResults = true;
+      chatRecognition.lang = 'en-US';
+
+      chatSessionFinal = "";
+
+      chatRecognition.onresult = (event) => {
         let interim = '';
-        let finalChunk = '';
-        for (let i = event.resultIndex; i < event.results.length; ++i) {
+        let final = '';
+        for (let i = 0; i < event.results.length; ++i) {
+          const t = event.results[i][0].transcript;
           if (event.results[i].isFinal) {
-            finalChunk += event.results[i][0].transcript + ' ';
+            final += t + ' ';
           } else {
-            interim += event.results[i][0].transcript;
+            interim += t;
           }
         }
-        voiceAccumulated += finalChunk;
-        voiceInput.value = (voiceAccumulated + interim).trim();
-      };
+        chatSessionFinal = final;
 
-      voiceModalRec.onerror = (e) => {
-        console.log("Speech recognition error:", e.error);
-        if (e.error === 'not-allowed') {
-          alert("Microphone permission was denied. Please allow microphone in your browser settings.");
-          resetVoiceMicUI();
+        const liveText = (chatCommittedText + " " + chatSessionFinal + " " + interim).replace(/\s+/g, ' ').trim();
+        if (liveSubtitle && liveText) {
+          liveSubtitle.innerText = liveText;
+          liveSubtitle.className = "text-xs text-purple-300 font-medium italic";
         }
       };
 
-      voiceModalRec.onend = () => {
-        // If user is still in recording mode, automatically restart so pauses do NOT stop it!
-        if (isVoiceModalRec) {
-          clearTimeout(voiceRestartTimer);
-          voiceRestartTimer = setTimeout(() => {
-            try {
-              if (isVoiceModalRec) voiceModalRec.start();
-            } catch (err) {
-              console.log("Voice restart error:", err);
+      chatRecognition.onerror = (e) => {
+        console.log("Chat recognition error:", e.error);
+        if (e.error === 'not-allowed') {
+          alert("Microphone permission was denied. Please allow microphone access in your browser settings.");
+          stopChatVoice(false);
+        }
+      };
+
+      chatRecognition.onend = () => {
+        if (isChatRecording) {
+          chatCommittedText = (chatCommittedText + " " + chatSessionFinal).replace(/\s+/g, ' ').trim();
+          chatSessionFinal = "";
+          clearTimeout(chatRestartTimer);
+          chatRestartTimer = setTimeout(() => {
+            if (isChatRecording) {
+              try {
+                launchChatRecognition();
+              } catch(err){
+                console.log("Voice restart error:", err);
+              }
             }
-          }, 200);
+          }, 150);
         }
       };
 
       try {
-        voiceModalRec.start();
+        chatRecognition.start();
       } catch(e) {
         console.log("Voice start error:", e);
       }
     }
 
-    function stopVoiceRecognitionAndSend(shouldSend = true) {
-      isVoiceModalRec = false;
-      clearTimeout(voiceRestartTimer);
-      if (voiceModalRec) {
-        try { voiceModalRec.stop(); } catch(e){}
-      }
-      resetVoiceMicUI();
+    function stopChatVoice(shouldSend = true) {
+      isChatRecording = false;
+      clearTimeout(chatRestartTimer);
 
-      if (shouldSend) {
-        const textToSend = voiceInput.value.trim();
-        if (textToSend) {
-          processUserVoiceInput(textToSend);
+      if (chatRecognition) {
+        try { chatRecognition.stop(); } catch(e){}
+      }
+
+      const totalSpeech = (chatCommittedText + " " + chatSessionFinal).replace(/\s+/g, ' ').trim();
+      chatCommittedText = "";
+      chatSessionFinal = "";
+
+      updateChatMicUI(false);
+
+      if (shouldSend && totalSpeech) {
+        handleUserChatMessage(totalSpeech);
+      }
+    }
+
+    // Process Voice Message (Clean WhatsApp/Gemini Experience - NO "I heard you say", NO Brackets!)
+    async function handleUserChatMessage(userText) {
+      if (!userText || !userText.trim()) return;
+
+      const now = new Date();
+      const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+      // 1. Add User Message to Chat Stream
+      chatHistory.push({
+        sender: "user",
+        text: userText.trim(),
+        time: timeStr
+      });
+      saveChatHistory();
+      renderChatStream();
+
+      // 2. Show Typing Indicator
+      const container = document.getElementById('chatStreamContainer');
+      const typingIndicator = document.createElement('div');
+      typingIndicator.id = 'novaTypingIndicator';
+      typingIndicator.className = 'flex justify-start items-start gap-2.5 animate-fadeIn';
+      typingIndicator.innerHTML = `
+        <div class="w-8 h-8 rounded-full bg-slate-900 border border-purple-500/80 flex items-center justify-center text-base shrink-0 shadow">
+          👩‍🏫
+        </div>
+        <div class="bg-[#161c2e] border border-slate-800 rounded-2xl rounded-tl-xs px-4 py-3 shadow-md flex items-center gap-2">
+          <span class="w-2 h-2 rounded-full bg-purple-400 animate-bounce"></span>
+          <span class="w-2 h-2 rounded-full bg-indigo-400 animate-bounce [animation-delay:0.2s]"></span>
+          <span class="w-2 h-2 rounded-full bg-pink-400 animate-bounce [animation-delay:0.4s]"></span>
+          <span class="text-xs text-slate-400 font-mono ml-1">Nova is listening...</span>
+        </div>
+      `;
+      container.appendChild(typingIndicator);
+      container.scrollTop = container.scrollHeight;
+
+      let replyEnglish = "";
+      let replyTamilNote = "";
+
+      // 3. If Gemini AI is Connected
+      if (GEMINI_KEY) {
+        const sysPrompt = `You are Nova, an executive spoken English coach and friendly WhatsApp speaking partner bilingual in English and Tamil. You are speaking with Veerakumar (an IT automation engineer from Tamil Nadu).
+CRITICAL RULES:
+1. Respond warmly, directly, and naturally like an encouraging friend and senior colleague (2-3 sentences max).
+2. NEVER say "I heard you say", "You said", or repeat the user's sentence back to them.
+3. NEVER include meta commentary, disclaimers, markdown symbols, or bracketed instructions (NO "(Add your Gemini API key...)", NO "(Gemini API...)").
+4. If Veerakumar made a grammatical slip, Tamil MTI error (e.g., 'can't able', 'buyed', 'doubt', 'didn't went', 'revert back', 'prepone', 'pass out', 'today morning', 'myself [name]', 'tell me', 'anyways'), or awkward phrasing:
+   - Provide your warm conversational English reply first.
+   - Then provide a clear Tamil coaching tip explaining the sentence rule or formula so he understands the logic without mugging up.
+Format your output EXACTLY as:
+[Your English conversational reply here]
+---TAMIL_NOTE---
+[Your Tamil grammar rule or corporate tip here, or leave empty if speech was completely correct]`;
+
+        try {
+          const rawReply = await callGemini(userText, sysPrompt);
+          if (rawReply) {
+            if (rawReply.includes("---TAMIL_NOTE---")) {
+              const parts = rawReply.split("---TAMIL_NOTE---");
+              replyEnglish = parts[0].trim();
+              replyTamilNote = parts[1].trim();
+            } else {
+              replyEnglish = rawReply.trim();
+            }
+          }
+        } catch(e) {
+          console.error("Gemini call error:", e);
         }
       }
-    }
 
-    function resetVoiceMicUI() {
-      isVoiceModalRec = false;
-      voiceMicBtn.className = "w-20 h-20 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 active:scale-95 text-white font-bold flex items-center justify-center text-3xl shadow-2xl shadow-purple-600/40 transition-all border-4 border-slate-800";
-      voiceMicStatus.innerText = "Tap Mic to Start Speaking";
-      voiceMicStatus.className = "text-xs font-bold text-slate-300";
-    }
+      // 4. Offline / Fallback Linguistic Engine (Zero Robotic Phrases, Zero Brackets!)
+      if (!replyEnglish) {
+        const low = userText.toLowerCase();
 
-    // Process Voice Message (Real Conversational AI - NO "I heard you say", NO bracket notifications!)
-    async function processUserVoiceInput(userTxt) {
-      const loader = document.getElementById('voiceModalLoading');
-      const dialog = document.getElementById('voiceModalDialogue');
-      loader.classList.remove('hidden');
-
-      let reply = "";
-
-      // 1. If Gemini AI is Connected
-      if (GEMINI_KEY) {
-        const sysPrompt = "You are Nova, an empathetic, encouraging Native American English speaking coach who is completely bilingual in Tamil. The learner is Veerakumar, an IT professional from Tamil Nadu learning spoken English. First, respond directly and conversationally to what the user said (acknowledge their thoughts). Do NOT say 'I heard you say' and do NOT repeat their words verbatim. Second, if they made any grammar, pronunciation, or Tamil-MTI errors (e.g. 'can't able', 'buyed', 'doubt', 'didn't went', 'revert back'), point it out and explain the correct formula in clear Tamil. Keep your reply concise (2-4 sentences total) so it is natural when spoken out loud. End with an engaging follow-up question. NEVER include meta instructions, disclaimers, or brackets about API keys.";
-        reply = await callGemini(userTxt, sysPrompt);
-      }
-
-      // 2. If Offline / No Gemini Key (Smart Natural Conversational Engine - NO 'I heard you say', NO brackets!)
-      if (!reply) {
-        const low = userTxt.toLowerCase();
-        
-        if (low.includes("buyed")) {
-          reply = "In English, the past tense of buy is 'bought', never 'buyed'. தமிழில்: 'I bought it' என்று சொல்ல வேண்டும். What other equipment or tools did you purchase recently?";
-        } else if (low.includes("can't able") || low.includes("cannot able")) {
-          reply = "Remember, never combine 'can' and 'able'. You should say: 'I am unable to do this' or 'I cannot do this'. தமிழில்: 'unable to' பயன்படுத்துவதே சிறந்தது. What is causing the blocker right now?";
+        if (low.includes("can't able") || low.includes("cannot able") || low.includes("couldn't able") || low.includes("could not able")) {
+          replyEnglish = "I understand the obstacle. In English, 'can' and 'able' both represent capability, so we say 'I am unable to do this' or 'I cannot do this'. What specific part is blocking you right now?";
+          replyTamilNote = "Can மற்றும் Able இரண்டுமே திறனைக் (Capability) குறிக்கும் சொற்கள். எனவே இரண்டையும் ஒன்றாகச் சேர்த்து 'can't able' என்று கூறக் கூடாது. 'I am unable to do this' அல்லது 'I cannot do this' என்று பயன்படுத்துங்கள்.";
+        } else if (low.includes("buyed")) {
+          replyEnglish = "The past tense of buy is 'bought', never 'buyed'. You can say 'I bought the new equipment yesterday'. What other tools or devices did you purchase?";
+          replyTamilNote = "Buy-ன் கடந்த காலம் (Past Tense) 'bought' மட்டுமே, 'buyed' அல்ல. எ.கா: 'I bought a new laptop yesterday'.";
         } else if (low.includes("doubt")) {
-          reply = "In business meetings, replace 'I have a doubt' with 'Could you please clarify this point?'. தமிழில்: 'clarify' எனக் கேட்பது தொழில்முறை தரம். What specific technical detail would you like to verify?";
+          replyEnglish = "In corporate communications, instead of saying 'I have a doubt', say 'I have a question' or 'Could you please clarify this point?'. What detail would you like to verify?";
+          replyTamilNote = "கார்ப்பரேட் அலுவலகங்களில் 'I have a doubt' என்பதற்குப் பதிலாக 'I have a question' அல்லது 'Could you please clarify this?' என்று கேட்பது தொழில்முறைத் தரம்.";
         } else if (low.includes("revert back")) {
-          reply = "Avoid saying 'revert back' as revert already means to return. Simply say 'I will get back to you' or 'I will revert'. When do you expect to have those updates ready?";
-        } else if (low.includes("didn't went") || low.includes("did not went")) {
-          reply = "When using 'did not', always follow with the base verb: 'I didn't go', not 'didn't went'. தமிழில்: 'didn't go' என்பதே சரி. Who did you need to connect with regarding this?";
-        } else if (low.includes("meeting") || low.includes("standup") || low.includes("client")) {
-          reply = "That sounds like an important discussion. When presenting in team meetings, keep your updates crisp using the BLUF format: lead with your conclusion first. How did the team respond to your update?";
-        } else if (low.includes("code") || low.includes("script") || low.includes("python") || low.includes("automation") || low.includes("test")) {
-          reply = "Automating repetitive workflows is always the most effective path forward. Make sure to document your code and test for edge cases before production. What is the next module you are planning to optimize?";
+          replyEnglish = "Avoid saying 'revert back' because revert already means to return or reply. You can say 'I will get back to you' or 'I will revert by noon'. When do you expect the updates?";
+          replyTamilNote = "'Revert' என்ற சொல்லுக்கே 'பதிலளிப்பது' என்று பொருள். எனவே மீண்டும் 'back' சேர்க்கக் கூடாது. 'I will get back to you' அல்லது 'I will revert' என்பதே சரி.";
+        } else if (low.includes("didn't went") || low.includes("did not went") || low.includes("didn't came") || low.includes("didn't saw")) {
+          replyEnglish = "When using 'did not', always pair it with the base present verb: 'I didn't go' or 'I didn't see'. Who did you need to connect with regarding this?";
+          replyTamilNote = "'Did not' வந்தாலே அடுத்து Base Verb (Present form) தான் வர வேண்டும்: 'didn't go' (didn't went அல்ல), 'didn't come' (didn't came அல்ல).";
+        } else if (low.includes("today morning") || low.includes("yesterday night")) {
+          replyEnglish = "Native speakers say 'this morning' instead of 'today morning', and 'last night' instead of 'yesterday night'. What was the primary takeaway from that session?";
+          replyTamilNote = "இயல்பான ஆங்கிலத்தில் 'today morning' என்பதற்குப் பதிலாக 'this morning' என்றும், 'yesterday night' என்பதற்குப் பதிலாக 'last night' என்றும் கூற வேண்டும்.";
+        } else if (low.includes("prepone")) {
+          replyEnglish = "The word 'prepone' is Indian English. In international teams, say 'bring forward' or 'move the meeting earlier'. What time works best for the discussion?";
+          replyTamilNote = "சர்வதேச அளவில் 'Prepone' என்ற சொல் பயன்பாட்டில் இல்லை. 'Bring forward' அல்லது 'Move the meeting earlier' என்று பயன்படுத்தவும்.";
+        } else if (low.includes("myself ")) {
+          replyEnglish = "When introducing yourself, say 'I am Veerakumar' or 'My name is Veerakumar', rather than 'Myself Veerakumar'. It gives you an immediate confident presence!";
+          replyTamilNote = "சுய அறிமுகம் செய்யும்போது 'Myself Veerakumar' என்று சொல்லக் கூடாது. 'I am Veerakumar' அல்லது 'My name is Veerakumar' என்று கூறுவதே சரியான முறை.";
+        } else if (low.includes("pass out") || low.includes("passed out")) {
+          replyEnglish = "In native English, 'pass out' means to faint! When referring to completing college, say 'I graduated in 2021'. What was your engineering major?";
+          replyTamilNote = "'Pass out' என்றால் மயக்கமடைவது என்று பொருள். கல்லூரியில் படிப்பை முடித்ததற்கு 'I graduated' என்று சொல்ல வேண்டும்.";
+        } else if (low.includes("meeting") || low.includes("standup") || low.includes("client") || low.includes("call")) {
+          replyEnglish = "Sounds like a key discussion! When presenting in standups, keep your update crisp using the BLUF format: lead with your conclusion first. How did your team respond to your points?";
+          replyTamilNote = "குழு சந்திப்புகளில் பேசும்போது BLUF (Bottom Line Up Front) முறையைப் பின்பற்றுங்கள். முக்கிய முடிவை முதல் வரியிலேயே பேசிவிட்டு, பின் விளக்கத்தைத் தொடங்குங்கள்.";
+        } else if (low.includes("code") || low.includes("python") || low.includes("script") || low.includes("automation") || low.includes("test") || low.includes("bug")) {
+          replyEnglish = "Automating repetitive workflows is always the most effective path forward. Make sure to test for edge cases and document the logic clearly. What is the next module you are planning to optimize?";
+          replyTamilNote = "தொழில்நுட்ப விவாதங்களில் 'In order to optimize this, I refactored the pipeline' போன்ற சொற்களைப் பயன்படுத்துவது உங்கள் தொழில்முறை ஆளுமையை உயர்த்தும்.";
+        } else if (low.includes("hello") || low.includes("hi") || low.includes("hey") || low.includes("good morning") || low.includes("good afternoon") || low.includes("good evening")) {
+          replyEnglish = "Hello Veera! Great to hear from you. How are your projects shaping up today, and what would you like to practice together?";
         } else {
           const conversationalPicks = [
-            "That is a very clear point. Speaking with that steady rhythm builds great executive presence. What is the main priority you are aiming to complete today?",
-            "You articulated that smoothly! When speaking with leadership, taking a brief pause between thoughts gives your points great impact. How is your project timeline looking for this week?",
-            "Well said! Your sentence structure is coming together naturally. Would you like to practice explaining an automation challenge you recently solved?"
+            {
+              en: "That is a very clear point! Speaking with that steady rhythm builds great executive presence. What is the main priority you want to complete today?",
+              ta: "தொடர்ந்து பேசும்போது உங்கள் உச்சரிப்பும் வாக்கிய அமைப்பும் இயல்பாக மாறும். தினமும் 5 நிமிடங்கள் இதேபோல பேசிப் பழகுங்கள்!"
+            },
+            {
+              en: "You articulated that smoothly! Taking a brief pause between thoughts gives your points tremendous weight. How is your project timeline looking for this week?",
+              ta: "வேகமாகப் பேசுவதை விட, வார்த்தைகளுக்கு இடையே சிறு இடைவெளி (pause) விட்டுப் பேசுவது தலைமைப் பண்பை (Executive Presence) வெளிப்படுத்தும்."
+            },
+            {
+              en: "Great pacing on that sentence! Your fluency is shaping up naturally. Would you like to practice explaining an automation challenge you recently solved?",
+              ta: "மனப்பாடம் செய்யாமல் சொந்தமாக வாக்கியங்களை அமைத்துப் பேசுவதே உண்மையான சரளமான ஆங்கிலத்திற்கு வழிவகுக்கும்."
+            }
           ];
-          reply = conversationalPicks[Math.floor(Math.random() * conversationalPicks.length)];
+          const pick = conversationalPicks[Math.floor(Math.random() * conversationalPicks.length)];
+          replyEnglish = pick.en;
+          replyTamilNote = pick.ta;
         }
       }
 
-      loader.classList.add('hidden');
-      dialog.innerText = reply;
-      voiceInput.value = '';
-      speakText(reply);
+      // Remove Typing Indicator
+      const existingIndicator = document.getElementById('novaTypingIndicator');
+      if (existingIndicator) existingIndicator.remove();
+
+      // Clean up reply English (strip any stray meta or bracketed texts just in case)
+      replyEnglish = replyEnglish.replace(/\([^)]*API[^)]*\)/gi, '').replace(/\[[^\]]*API[^\]]*\]/gi, '').trim();
+
+      // 5. Add Nova Message to Chat Stream
+      chatHistory.push({
+        sender: "nova",
+        text: replyEnglish,
+        tamilNote: replyTamilNote || "",
+        time: timeStr
+      });
+      saveChatHistory();
+      renderChatStream();
+
+      // 6. Speak reply out loud if Voice is ON!
+      if (!isVoiceMuted) {
+        speakText(replyEnglish);
+      }
     }
 
-    // Word of the day Flashcards
+    // Word of the day Flashcards (Guarded)
     const vocabList = [
       { word: "Bandwidth", tamil: "நேரம் / வேலை செய்ய கொள்ளளவு அல்லது திறன்.", example: "'I don't have the bandwidth to take on extra tasks this week.'" },
       { word: "BLUF (Bottom Line Up Front)", tamil: "முக்கிய செய்தியை அல்லது முடிவை முதல் வரியிலேயே சொல்வது.", example: "'BLUF: The automated pipeline is 100% operational.'" },
@@ -1320,68 +1556,107 @@ Veerakumar
     ];
     let vocabIdx = 0;
 
-    document.getElementById('actionNewWordRow').addEventListener('click', () => {
-      document.getElementById('wordModal').classList.remove('hidden');
-      showVocab(vocabIdx);
-    });
+    const actionNewWord = document.getElementById('actionNewWordRow');
+    if (actionNewWord) {
+      actionNewWord.addEventListener('click', () => {
+        const modal = document.getElementById('wordModal');
+        if (modal) modal.classList.remove('hidden');
+        showVocab(vocabIdx);
+      });
+    }
 
-    document.getElementById('closeWordModal').addEventListener('click', () => {
-      document.getElementById('wordModal').classList.add('hidden');
-    });
+    const closeWord = document.getElementById('closeWordModal');
+    if (closeWord) {
+      closeWord.addEventListener('click', () => {
+        const modal = document.getElementById('wordModal');
+        if (modal) modal.classList.add('hidden');
+      });
+    }
 
-    document.getElementById('nextWordBtn').addEventListener('click', () => {
-      vocabIdx = (vocabIdx + 1) % vocabList.length;
-      showVocab(vocabIdx);
-    });
+    const nextWord = document.getElementById('nextWordBtn');
+    if (nextWord) {
+      nextWord.addEventListener('click', () => {
+        vocabIdx = (vocabIdx + 1) % vocabList.length;
+        showVocab(vocabIdx);
+      });
+    }
 
     function showVocab(i) {
       const v = vocabList[i];
-      document.getElementById('vocabWord').innerText = v.word;
-      document.getElementById('vocabTamil').innerText = v.tamil;
-      document.getElementById('vocabExample').innerText = v.example;
+      const w = document.getElementById('vocabWord');
+      const t = document.getElementById('vocabTamil');
+      const ex = document.getElementById('vocabExample');
+      if (w) w.innerText = v.word;
+      if (t) t.innerText = v.tamil;
+      if (ex) ex.innerText = v.example;
       speakText(v.word + ". " + v.example);
     }
 
-    // Email Draft Modal
-    document.getElementById('actionDraftRow').addEventListener('click', () => {
-      document.getElementById('draftModal').classList.remove('hidden');
-    });
+    // Email Draft Modal (Guarded)
+    const actionDraft = document.getElementById('actionDraftRow');
+    if (actionDraft) {
+      actionDraft.addEventListener('click', () => {
+        const modal = document.getElementById('draftModal');
+        if (modal) modal.classList.remove('hidden');
+      });
+    }
 
-    document.getElementById('closeDraftModal').addEventListener('click', () => {
-      document.getElementById('draftModal').classList.add('hidden');
-    });
+    const closeDraft = document.getElementById('closeDraftModal');
+    if (closeDraft) {
+      closeDraft.addEventListener('click', () => {
+        const modal = document.getElementById('draftModal');
+        if (modal) modal.classList.add('hidden');
+      });
+    }
 
-    document.getElementById('generateDraftBtn').addEventListener('click', () => {
-      const scen = document.getElementById('draftScenario').value;
-      let draft = "";
-      if (scen === "standup") {
-        draft = "Hi Team,\n\nHere is my status update for today:\n- Completed: Finished script optimization and data validation.\n- In Progress: Developing automated reconciliation logic.\n- Blockers: None at the moment. ETA for completion is 5:00 PM today.\n\nBest regards,\nVeerakumar";
-      } else if (scen === "leave") {
-        draft = "Hi Team,\n\nI am writing to inform you that I will be on personal leave tomorrow due to an urgent personal commitment. Ongoing tasks have been handed over, and I will be reachable on mobile for emergencies.\n\nThank you for understanding.\n\nBest regards,\nVeerakumar";
-      } else if (scen === "delay") {
-        draft = "Hi Team,\n\nI wanted to proactively share an update regarding the pending task. Due to additional data validation requirements, we anticipate a slight delay. Our revised ETA is tomorrow at 11:00 AM.\n\nThank you for your patience.\n\nBest regards,\nVeerakumar";
-      } else {
-        draft = "Hi Team,\n\nCould you please clarify the specific requirements for the upcoming milestone? I want to ensure full alignment before proceeding with implementation.\n\nThank you for your guidance.\n\nBest regards,\nVeerakumar";
-      }
-      document.getElementById('draftOutput').innerText = draft;
-    });
+    const genDraft = document.getElementById('generateDraftBtn');
+    if (genDraft) {
+      genDraft.addEventListener('click', () => {
+        const scenEl = document.getElementById('draftScenario');
+        const scen = scenEl ? scenEl.value : 'standup';
+        let draft = "";
+        if (scen === "standup") {
+          draft = "Hi Team,\n\nHere is my status update for today:\n- Completed: Finished script optimization and data validation.\n- In Progress: Developing automated reconciliation logic.\n- Blockers: None at the moment. ETA for completion is 5:00 PM today.\n\nBest regards,\nVeerakumar";
+        } else if (scen === "leave") {
+          draft = "Hi Team,\n\nI am writing to inform you that I will be on personal leave tomorrow due to an urgent personal commitment. Ongoing tasks have been handed over, and I will be reachable on mobile for emergencies.\n\nThank you for understanding.\n\nBest regards,\nVeerakumar";
+        } else if (scen === "delay") {
+          draft = "Hi Team,\n\nI wanted to proactively share an update regarding the pending task. Due to additional data validation requirements, we anticipate a slight delay. Our revised ETA is tomorrow at 11:00 AM.\n\nThank you for your patience.\n\nBest regards,\nVeerakumar";
+        } else {
+          draft = "Hi Team,\n\nCould you please clarify the specific requirements for the upcoming milestone? I want to ensure full alignment before proceeding with implementation.\n\nThank you for your guidance.\n\nBest regards,\nVeerakumar";
+        }
+        const out = document.getElementById('draftOutput');
+        if (out) out.innerText = draft;
+      });
+    }
 
-    document.getElementById('actionUploadRow').addEventListener('click', () => {
-      alert("📄 Document analysis: You can paste your meeting notes or study documents in Nova AI room to get vocabulary suggestions!");
-    });
+    const actionUpload = document.getElementById('actionUploadRow');
+    if (actionUpload) {
+      actionUpload.addEventListener('click', () => {
+        alert("📄 Document analysis: You can paste your meeting notes or study documents in Nova AI room to get vocabulary suggestions!");
+      });
+    }
 
-    document.getElementById('historyBtn').addEventListener('click', () => {
-      let done = 0;
-      for (let i = 1; i <= 45; i++) {
-        if (localStorage.getItem(`chapter_${i}_done`) === 'true') done++;
-      }
-      alert(`Practice History: You have mastered ${done} chapters so far! Keep up the momentum!`);
-    });
+    const histBtn = document.getElementById('historyBtn');
+    if (histBtn) {
+      histBtn.addEventListener('click', () => {
+        let done = 0;
+        for (let i = 1; i <= 45; i++) {
+          if (localStorage.getItem(`chapter_${i}_done`) === 'true') done++;
+        }
+        alert(`Practice History: You have mastered ${done} chapters so far! Keep up the momentum!`);
+      });
+    }
 
     // Initialize streak from storage
     const curStreak = localStorage.getItem('supernova_streak') || '1';
-    document.getElementById('streakNumber').innerText = curStreak;
-    document.getElementById('accStreak').innerText = curStreak;
+    const streakEl = document.getElementById('streakNumber');
+    if (streakEl) streakEl.innerText = curStreak;
+    const accStreakEl = document.getElementById('accStreak');
+    if (accStreakEl) accStreakEl.innerText = curStreak;
+
+    // Initial page load setup
+    renderChatStream();
+    updateVoiceToggleUI();
   </script>
 </body>
 </html>
