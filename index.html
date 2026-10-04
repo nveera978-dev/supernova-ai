@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>Supernova AI - Spoken English & Fluency</title>
+  <title>Supernova AI - Spoken English Fluency</title>
   
   <!-- PWA & Mobile Meta Tags -->
   <link rel="manifest" href="./manifest.json">
@@ -77,11 +77,11 @@
       <span class="text-purple-400 font-extrabold text-sm tracking-wider uppercase font-mono">SUPERNOVA AI</span>
     </div>
 
-    <!-- Free Lifetime Badge -->
-    <div class="flex items-center gap-1 px-2.5 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/60 text-emerald-400 text-xs font-bold">
-      <span>✨</span>
-      <span class="text-[10px] uppercase tracking-wide">Lifetime Free</span>
-    </div>
+    <!-- AI Connection Status Badge -->
+    <button id="topAiStatusBtn" class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-slate-900 border border-slate-700 text-xs font-bold transition-all hover:border-purple-500">
+      <span id="topAiDot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+      <span id="topAiLabel" class="text-[10px] text-slate-300 font-mono">AI: Setup</span>
+    </button>
   </header>
 
   <!-- ========================================================================= -->
@@ -90,210 +90,38 @@
   <main class="flex-1 max-w-md w-full mx-auto p-4 flex flex-col relative">
 
     <!-- ========================================================================= -->
-    <!-- SCREEN 1: SERPENTINE LEARNING PATH (Exact Supernova Screenshots)          -->
+    <!-- SCREEN 1: SERPENTINE LEARNING PATH (Full 45 Chapters Curriculum)          -->
     <!-- ========================================================================= -->
     <div id="screenHome" class="space-y-6">
       
-      <!-- CHAPTER 1: Time Words & Daily Actions -->
-      <div class="space-y-4">
-        <!-- Section Header with +/- -->
-        <div class="bg-[#161c2e] border border-slate-800 rounded-2xl p-4 flex items-center justify-between shadow-lg">
-          <div>
-            <span class="text-[10px] text-purple-400 font-bold uppercase tracking-wider block font-mono">CHAPTER 1 • SELF-PACED</span>
-            <h2 class="text-base font-extrabold text-white">Time Words & Prepositions</h2>
-            <p class="text-xs text-slate-400 font-tamil">At, On, In பயன்பாடுகள்</p>
-          </div>
-          <div class="flex items-center gap-1 text-slate-400 font-bold">
-            <span class="w-7 h-7 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xs text-purple-300 font-mono">✓</span>
-          </div>
+      <!-- Progress Bar Banner -->
+      <div class="bg-gradient-to-r from-purple-900/40 via-indigo-900/20 to-slate-900 border border-purple-500/30 rounded-2xl p-4 shadow-lg flex items-center justify-between">
+        <div>
+          <span class="text-[10px] text-purple-400 font-bold uppercase tracking-wider font-mono">CURRICULUM OVERVIEW</span>
+          <h2 class="text-sm font-extrabold text-white">45 Chapters • Full Fluency Path</h2>
+          <p class="text-xs text-slate-400 font-tamil">சுய வேகத்தில் கற்றுக்கொள்ளலாம் (Self-Paced)</p>
         </div>
-
-        <!-- Serpentine Curve Nodes -->
-        <div class="relative py-2 flex flex-col items-center gap-8">
-          
-          <!-- Node 1: START Node (Active Pulse + START Tooltip) -->
-          <div class="relative flex items-center justify-center w-full">
-            <div class="absolute left-6 px-3 py-1 bg-emerald-950 border border-emerald-500 rounded-xl text-[11px] font-extrabold text-emerald-400 tracking-wider shadow-lg flex items-center gap-1">
-              START ➔
-            </div>
-            <div class="flex items-center gap-4 cursor-pointer node-item" data-node="1" data-type="test" data-title="Test: Time Words">
-              <div class="w-20 h-20 rounded-full border-4 border-emerald-500 p-0.5 bg-slate-900 shadow-xl node-pulse flex items-center justify-center overflow-hidden">
-                <div class="w-full h-full rounded-full bg-emerald-950/60 flex items-center justify-center text-2xl">
-                  🧑‍🤝‍🧑
-                </div>
-              </div>
-              <div class="max-w-[150px]">
-                <h3 class="text-xs font-bold text-white leading-tight">Test: Time Words</h3>
-                <span class="text-[10px] text-emerald-400 font-semibold">Active • Tap to Practice</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Node 2: Learn Time Words (In, On, At) -->
-          <div class="relative flex items-center justify-center w-full pl-10">
-            <div class="flex items-center gap-4 cursor-pointer node-item" data-node="2" data-type="learn" data-title="Learn: Time Words (In, On, At)">
-              <div class="w-16 h-16 rounded-full border-2 border-slate-700 bg-slate-900 shadow-md flex items-center justify-center overflow-hidden">
-                <span class="text-2xl">📖</span>
-              </div>
-              <div class="max-w-[150px]">
-                <h3 class="text-xs font-bold text-slate-300 leading-tight">Learn: Time Words</h3>
-                <span class="text-[10px] text-slate-500">Sentence Formula</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Node 3: Test Past Verbs (No Buyed) -->
-          <div class="relative flex items-center justify-center w-full pr-10">
-            <div class="flex items-center gap-4 cursor-pointer node-item" data-node="3" data-type="test" data-title="Test: Irregular Past Verbs">
-              <div class="w-16 h-16 rounded-full border-2 border-slate-700 bg-slate-900 shadow-md flex items-center justify-center overflow-hidden">
-                <span class="text-2xl">📝</span>
-              </div>
-              <div class="max-w-[150px]">
-                <h3 class="text-xs font-bold text-slate-300 leading-tight">Test: Past Verbs</h3>
-                <span class="text-[10px] text-slate-500">No 'Buyed' Rule</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Node 4: Learn Past Milestones -->
-          <div class="relative flex items-center justify-center w-full pl-8">
-            <div class="flex items-center gap-4 cursor-pointer node-item" data-node="4" data-type="learn" data-title="Learn: Completed Tasks">
-              <div class="w-16 h-16 rounded-full border-2 border-slate-700 bg-slate-900 shadow-md flex items-center justify-center overflow-hidden">
-                <span class="text-2xl">🎯</span>
-              </div>
-              <div class="max-w-[150px]">
-                <h3 class="text-xs font-bold text-slate-300 leading-tight">Learn: Completed Work</h3>
-                <span class="text-[10px] text-slate-500">Yesterday & Last Week</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Node 5: Fluency Booster (Brain + Lightning) -->
-          <div class="relative flex items-center justify-center w-full">
-            <div class="flex items-center gap-4 cursor-pointer node-item" data-node="5" data-type="booster" data-title="Fluency Booster: Muscle Memory">
-              <div class="w-16 h-16 rounded-full border-2 border-purple-500 bg-purple-950/50 shadow-lg flex items-center justify-center overflow-hidden">
-                <span class="text-2xl">🧠⚡</span>
-              </div>
-              <div class="max-w-[150px]">
-                <h3 class="text-xs font-bold text-purple-300 leading-tight">Fluency Booster</h3>
-                <span class="text-[10px] text-purple-400 font-semibold">Speed Speaking Drill</span>
-              </div>
-            </div>
-          </div>
-
+        <div class="text-right">
+          <span id="pathProgressPercent" class="text-base font-extrabold text-emerald-400 font-mono">0%</span>
+          <span class="text-[10px] text-slate-500 block uppercase">Completed</span>
         </div>
       </div>
 
-      <!-- CHAPTER 2: Future Commitments & Workplace Inability -->
-      <div class="space-y-4 pt-4 border-t border-slate-800">
-        <!-- Section Header -->
-        <div class="bg-[#161c2e] border border-slate-800 rounded-2xl p-4 flex items-center justify-between shadow-lg">
-          <div>
-            <span class="text-[10px] text-purple-400 font-bold uppercase tracking-wider block font-mono">CHAPTER 2 • SELF-PACED</span>
-            <h2 class="text-base font-extrabold text-white">Commitments & Inability</h2>
-            <p class="text-xs text-slate-400 font-tamil">Unable to & Will do</p>
-          </div>
-          <span class="px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-400 text-xs font-bold border border-emerald-500/40">Unlocked</span>
-        </div>
-
-        <!-- Serpentine Nodes -->
-        <div class="relative py-2 flex flex-col items-center gap-8">
-          <!-- Node 6: Learn Future Actions -->
-          <div class="relative flex items-center justify-center w-full pr-10">
-            <div class="flex items-center gap-4 cursor-pointer node-item" data-node="6" data-type="learn" data-title="Learn: Future Commitments">
-              <div class="w-16 h-16 rounded-full border-2 border-slate-700 bg-slate-900 shadow-md flex items-center justify-center overflow-hidden">
-                <span class="text-2xl">🚀</span>
-              </div>
-              <div class="max-w-[150px]">
-                <h3 class="text-xs font-bold text-slate-300 leading-tight">Learn: Future Actions</h3>
-                <span class="text-[10px] text-slate-500">'will + verb' Formula</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Node 7: Learn Stating Inability (No Can't Able) -->
-          <div class="relative flex items-center justify-center w-full pl-10">
-            <div class="flex items-center gap-4 cursor-pointer node-item" data-node="7" data-type="learn" data-title="Learn: Stating Inability">
-              <div class="w-16 h-16 rounded-full border-2 border-slate-700 bg-slate-900 shadow-md flex items-center justify-center overflow-hidden">
-                <span class="text-2xl">🛡️</span>
-              </div>
-              <div class="max-w-[150px]">
-                <h3 class="text-xs font-bold text-slate-300 leading-tight">Learn: Inability</h3>
-                <span class="text-[10px] text-slate-500">No 'Can't Able To'</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Node 8: Test Executive Inability -->
-          <div class="relative flex items-center justify-center w-full pr-8">
-            <div class="flex items-center gap-4 cursor-pointer node-item" data-node="8" data-type="test" data-title="Test: Professional Inability">
-              <div class="w-16 h-16 rounded-full border-2 border-slate-700 bg-slate-900 shadow-md flex items-center justify-center overflow-hidden">
-                <span class="text-2xl">💼</span>
-              </div>
-              <div class="max-w-[150px]">
-                <h3 class="text-xs font-bold text-slate-300 leading-tight">Test: Unable to Attend</h3>
-                <span class="text-[10px] text-slate-500">Corporate Etiquette</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Node 9: Fluency Booster Chapter 2 -->
-          <div class="relative flex items-center justify-center w-full">
-            <div class="flex items-center gap-4 cursor-pointer node-item" data-node="9" data-type="booster" data-title="Fluency Booster: Commitments">
-              <div class="w-16 h-16 rounded-full border-2 border-purple-500 bg-purple-950/50 shadow-lg flex items-center justify-center overflow-hidden">
-                <span class="text-2xl">🧠⚡</span>
-              </div>
-              <div class="max-w-[150px]">
-                <h3 class="text-xs font-bold text-purple-300 leading-tight">Fluency Booster</h3>
-                <span class="text-[10px] text-purple-400 font-semibold">Immediate Execution</span>
-              </div>
-            </div>
-          </div>
-        </div>
+      <!-- Quick Search / Filter -->
+      <div class="flex items-center gap-2">
+        <input id="chapterSearchInput" type="text" placeholder="Search chapters (e.g., past, standup, doubt)..." class="flex-1 bg-[#161c2e] border border-slate-800 rounded-xl px-3 py-2 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-purple-500">
+        <button id="expandAllBtn" class="px-2.5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 text-[11px] font-bold rounded-xl whitespace-nowrap">
+          Expand All
+        </button>
       </div>
 
-      <!-- CHAPTER 3: Executive Clarifications & Tech Jargon -->
-      <div class="space-y-4 pt-4 border-t border-slate-800">
-        <div class="bg-[#161c2e] border border-slate-800 rounded-2xl p-4 flex items-center justify-between shadow-lg">
-          <div>
-            <span class="text-[10px] text-purple-400 font-bold uppercase tracking-wider block font-mono">CHAPTER 3 • SELF-PACED</span>
-            <h2 class="text-base font-extrabold text-white">Corporate Jargon & Questions</h2>
-            <p class="text-xs text-slate-400 font-tamil">No 'Doubt' & BLUF / ETA</p>
-          </div>
-          <span class="px-2.5 py-0.5 rounded-full bg-emerald-950 text-emerald-400 text-xs font-bold border border-emerald-500/40">Unlocked</span>
-        </div>
-
-        <div class="relative py-2 flex flex-col items-center gap-8">
-          <!-- Node 10: Asking Clarifications -->
-          <div class="relative flex items-center justify-center w-full pl-8">
-            <div class="flex items-center gap-4 cursor-pointer node-item" data-node="10" data-type="learn" data-title="Learn: Asking Clarification">
-              <div class="w-16 h-16 rounded-full border-2 border-slate-700 bg-slate-900 shadow-md flex items-center justify-center overflow-hidden">
-                <span class="text-2xl">🙋‍♂️</span>
-              </div>
-              <div class="max-w-[150px]">
-                <h3 class="text-xs font-bold text-slate-300 leading-tight">Asking Questions</h3>
-                <span class="text-[10px] text-slate-500">Replace 'I have doubt'</span>
-              </div>
-            </div>
-          </div>
-
-          <!-- Node 11: Daily Standup Updates -->
-          <div class="relative flex items-center justify-center w-full pr-8">
-            <div class="flex items-center gap-4 cursor-pointer node-item" data-node="11" data-type="learn" data-title="Learn: 3-Part Standup Update">
-              <div class="w-16 h-16 rounded-full border-2 border-slate-700 bg-slate-900 shadow-md flex items-center justify-center overflow-hidden">
-                <span class="text-2xl">📊</span>
-              </div>
-              <div class="max-w-[150px]">
-                <h3 class="text-xs font-bold text-slate-300 leading-tight">Standup Updates</h3>
-                <span class="text-[10px] text-slate-500">Done • Doing • Blockers</span>
-              </div>
-            </div>
-          </div>
-        </div>
+      <!-- Container for all 45 chapters dynamically rendered -->
+      <div id="chaptersSectionsContainer" class="space-y-6">
+        <!-- Dynamically injected via JavaScript -->
       </div>
 
       <!-- Floating Nova AI Launcher Button -->
-      <button id="floatingNovaBtn" class="fixed bottom-24 right-5 w-14 h-14 rounded-full bg-gradient-to-tr from-amber-500 via-purple-600 to-indigo-600 p-0.5 shadow-2xl shadow-purple-500/40 flex items-center justify-center z-40 transition-transform active:scale-95">
+      <button id="floatingNovaBtn" class="fixed bottom-20 right-5 w-14 h-14 rounded-full bg-gradient-to-tr from-amber-500 via-purple-600 to-indigo-600 p-0.5 shadow-2xl shadow-purple-500/40 flex items-center justify-center z-40 transition-transform active:scale-95">
         <div class="w-full h-full rounded-full bg-[#0d111d] flex items-center justify-center text-2xl">
           👩‍🏫
         </div>
@@ -302,7 +130,7 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- SCREEN 2: NOVA AI ASSISTANT (Exact Screenshot 5 Layout)                   -->
+    <!-- SCREEN 2: NOVA AI ASSISTANT (Exact Screenshot 5 Layout + Real Gemini AI)  -->
     <!-- ========================================================================= -->
     <div id="screenNovaAI" class="hidden space-y-4">
       
@@ -394,93 +222,93 @@
     </div>
 
     <!-- ========================================================================= -->
-    <!-- SCREEN 3: ACCOUNT & USER PROGRESS                                         -->
+    <!-- SCREEN 3: PROFILE & AI SETUP (Zero Premium Mentions)                      -->
     <!-- ========================================================================= -->
     <div id="screenAccount" class="hidden space-y-4">
-      <div class="bg-[#161c2e] border border-slate-800 rounded-3xl p-6 text-center space-y-4 shadow-xl">
+      
+      <!-- User Profile Card -->
+      <div class="bg-[#161c2e] border border-slate-800 rounded-3xl p-5 text-center space-y-4 shadow-xl">
         <div class="w-16 h-16 rounded-full bg-slate-800 border-2 border-purple-500 mx-auto flex items-center justify-center text-3xl shadow-lg">
           👨‍💻
         </div>
         <div>
           <h2 class="text-lg font-bold text-white">Veerakumar</h2>
-          <p class="text-xs text-slate-400">Pudukkottai, Tamil Nadu • Supernova Student</p>
+          <p class="text-xs text-slate-400">Pudukkottai, Tamil Nadu • Tech & Automation</p>
         </div>
 
-        <div class="grid grid-cols-3 gap-2.5 pt-2 text-center text-xs">
+        <div class="grid grid-cols-3 gap-2 pt-2 text-center text-xs">
           <div class="p-3 bg-[#0d111d] rounded-2xl border border-slate-800">
             <span class="font-extrabold text-amber-400 text-base block" id="accStreak">1</span>
             <span class="text-[10px] text-slate-400 uppercase">Day Streak</span>
           </div>
           <div class="p-3 bg-[#0d111d] rounded-2xl border border-slate-800">
-            <span class="font-extrabold text-emerald-400 text-base block" id="accChapters">3 / 50</span>
-            <span class="text-[10px] text-slate-400 uppercase">Chapters</span>
+            <span class="font-extrabold text-emerald-400 text-base block" id="accChapters">0 / 45</span>
+            <span class="text-[10px] text-slate-400 uppercase">Mastered</span>
           </div>
           <div class="p-3 bg-[#0d111d] rounded-2xl border border-slate-800">
-            <span class="font-extrabold text-indigo-400 text-base block" id="accScore">96%</span>
-            <span class="text-[10px] text-slate-400 uppercase">Accuracy</span>
-          </div>
-        </div>
-
-        <div class="pt-4 border-t border-slate-800 text-left space-y-2 text-xs">
-          <span class="text-slate-400 font-bold uppercase text-[10px] tracking-wider block">App Configuration</span>
-          <div class="p-3 bg-[#0d111d] rounded-xl border border-slate-800 flex items-center justify-between">
-            <span>AI Voice Accent</span>
-            <strong class="text-purple-400">American Native (Nova)</strong>
-          </div>
-          <div class="p-3 bg-[#0d111d] rounded-xl border border-slate-800 flex items-center justify-between">
-            <span>Primary Explanation</span>
-            <strong class="text-indigo-400 font-tamil">தமிழ் (Tamil)</strong>
-          </div>
-          <div class="p-3 bg-[#0d111d] rounded-xl border border-slate-800 flex items-center justify-between">
-            <span>Pacing Mode</span>
-            <strong class="text-emerald-400">Self-Paced (Instant Unlock)</strong>
+            <span class="font-extrabold text-indigo-400 text-base block" id="accScore">100%</span>
+            <span class="text-[10px] text-slate-400 uppercase">Fluency</span>
           </div>
         </div>
       </div>
-    </div>
 
-    <!-- ========================================================================= -->
-    <!-- SCREEN 4: PREMIUM (LIFETIME FREE UNLOCKED)                                 -->
-    <!-- ========================================================================= -->
-    <div id="screenPremium" class="hidden space-y-4">
-      <div class="bg-gradient-to-br from-purple-950/60 via-[#161c2e] to-[#161c2e] border border-purple-500/40 rounded-3xl p-6 text-center space-y-4 shadow-xl">
-        <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-amber-500 to-purple-600 flex items-center justify-center text-2xl mx-auto shadow-lg shadow-purple-500/30">
-          ✨
-        </div>
-        <div>
-          <h2 class="text-lg font-extrabold text-white">Supernova Lifetime Unlocked</h2>
-          <p class="text-xs text-purple-300">Permanent Free Access (Zero ₹4,000/yr Paywalls)</p>
-        </div>
-
-        <div class="space-y-2 text-xs text-left">
-          <div class="p-3 bg-[#0d111d] rounded-xl border border-slate-800 flex items-center gap-2.5">
-            <span class="text-emerald-400 font-bold">✓</span>
-            <span>All Chapters & Serpentine Nodes Unlocked Immediately</span>
+      <!-- GEMINI AI INTELLIGENCE SETUP CARD -->
+      <div class="bg-gradient-to-br from-indigo-950/40 via-[#161c2e] to-[#161c2e] border border-indigo-500/40 rounded-3xl p-5 space-y-3.5 shadow-xl">
+        <div class="flex items-center gap-2.5">
+          <div class="w-8 h-8 rounded-xl bg-purple-500/20 text-purple-400 flex items-center justify-center text-lg font-bold">
+            ⚡
           </div>
-          <div class="p-3 bg-[#0d111d] rounded-xl border border-slate-800 flex items-center gap-2.5">
-            <span class="text-emerald-400 font-bold">✓</span>
-            <span>24/7 Voice Practice with Nova AI Native American Coach</span>
-          </div>
-          <div class="p-3 bg-[#0d111d] rounded-xl border border-slate-800 flex items-center gap-2.5">
-            <span class="text-emerald-400 font-bold">✓</span>
-            <span>Bilingual Tamil Explanations for All Grammatical Nuances</span>
-          </div>
-          <div class="p-3 bg-[#0d111d] rounded-xl border border-slate-800 flex items-center gap-2.5">
-            <span class="text-emerald-400 font-bold">✓</span>
-            <span>Executive Business Communication & Standup Templates</span>
+          <div>
+            <h3 class="text-sm font-bold text-white">Google Gemini AI Engine</h3>
+            <p class="text-[11px] text-slate-400">Powers dynamic conversation & real feedback</p>
           </div>
         </div>
 
-        <div class="p-3 rounded-xl bg-emerald-950/50 border border-emerald-500/50 text-emerald-300 text-xs font-bold">
-          🎉 Account Status: 100% Lifetime Free Active
+        <p class="text-xs text-slate-300 leading-relaxed font-tamil">
+          Google AI Studio-வின் இலவச Gemini API Key-ஐ இணைத்தால், Nova AI நிஜமாகவே நீங்கள் பேசுவதைக் கேட்டு, உங்கள் தவறுகளைத் திருத்தி உரையாடும்!
+        </p>
+
+        <div class="space-y-2">
+          <label class="text-[11px] text-slate-400 font-bold block uppercase tracking-wider">Your Gemini API Key:</label>
+          <div class="flex items-center gap-2">
+            <input id="geminiApiKeyInput" type="password" placeholder="AIzaSy..." class="flex-1 bg-[#0d111d] border border-slate-700 rounded-xl px-3 py-2 text-xs font-mono text-purple-300 placeholder-slate-600 focus:outline-none focus:border-purple-500">
+            <button id="saveApiKeyBtn" class="px-3.5 py-2 bg-purple-600 hover:bg-purple-500 active:scale-95 text-white font-bold text-xs rounded-xl transition-all">
+              Save
+            </button>
+          </div>
+        </div>
+
+        <div class="flex items-center justify-between pt-1">
+          <a href="https://aistudio.google.com/app/apikey" target="_blank" class="text-xs text-indigo-400 hover:text-indigo-300 underline font-semibold flex items-center gap-1">
+            ➔ Get Free Gemini Key (100% Free)
+          </a>
+          <span id="apiKeyStatusBadge" class="text-[11px] text-amber-400 font-bold font-mono">Not Connected</span>
         </div>
       </div>
+
+      <!-- App Settings -->
+      <div class="bg-[#161c2e] border border-slate-800 rounded-3xl p-5 text-left space-y-3 text-xs shadow-xl">
+        <span class="text-slate-400 font-bold uppercase text-[10px] tracking-wider block">Preferences</span>
+        <div class="p-3 bg-[#0d111d] rounded-xl border border-slate-800 flex items-center justify-between">
+          <span>AI Coach Voice Accent</span>
+          <strong class="text-purple-400">American Native (en-US)</strong>
+        </div>
+        <div class="p-3 bg-[#0d111d] rounded-xl border border-slate-800 flex items-center justify-between">
+          <span>Grammar Explanations</span>
+          <strong class="text-indigo-400 font-tamil">தமிழ் (Tamil)</strong>
+        </div>
+        <div class="p-3 bg-[#0d111d] rounded-xl border border-slate-800 flex items-center justify-between">
+          <span>Course Pace</span>
+          <strong class="text-emerald-400">Self-Paced (Instant Unlocks)</strong>
+        </div>
+      </div>
+
     </div>
 
   </main>
 
   <!-- ========================================================================= -->
-  <!-- MODAL: THE LESSON RUNNER (When you tap any node in the Path!)              -->
+  <!-- MODAL: THE LESSON RUNNER (With Dynamic AI Evaluation)                      -->
   <!-- ========================================================================= -->
   <div id="lessonModal" class="fixed inset-0 bg-black/80 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
     <div class="bg-[#161c2e] border border-slate-800 rounded-3xl max-w-md w-full p-5 space-y-4 shadow-2xl relative max-h-[90vh] overflow-y-auto no-scrollbar">
@@ -488,7 +316,7 @@
       <!-- Modal Header -->
       <div class="flex items-center justify-between border-b border-slate-800 pb-3">
         <div>
-          <span id="modalTypeTag" class="text-[10px] font-bold uppercase tracking-wider text-purple-400 font-mono">LEARN NODE</span>
+          <span id="modalChapterBadge" class="text-[10px] font-bold uppercase tracking-wider text-purple-400 font-mono">CHAPTER 1</span>
           <h3 id="modalNodeTitle" class="text-sm font-bold text-white">Time Words (In, On, At)</h3>
         </div>
         <button id="closeLessonModal" class="w-8 h-8 rounded-full bg-slate-800 text-slate-300 hover:text-white flex items-center justify-center text-sm font-bold">
@@ -512,37 +340,47 @@
         <div class="flex items-center justify-between">
           <span class="text-[10px] text-slate-400 uppercase font-bold">Translate to English:</span>
           <button id="listenPromptBtn" class="text-xs text-purple-400 hover:text-purple-300 flex items-center gap-1 font-semibold">
-            🔊 Listen
+            🔊 Listen Target
           </button>
         </div>
         <h4 id="modalTamilPrompt" class="text-sm font-bold text-amber-300 font-tamil leading-relaxed">
           "நான் நாளைக்கு 10 மணிக்கு அலுவலகத்திற்கு வருவேன்."
         </h4>
         
-        <textarea id="modalTranslationInput" rows="2" class="w-full bg-[#161c2e] border border-slate-700 rounded-xl p-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-500 resize-none" placeholder="Tap 'Speak' to say it in English, or type here..."></textarea>
+        <textarea id="modalTranslationInput" rows="2" class="w-full bg-[#161c2e] border border-slate-700 rounded-xl p-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-500 resize-none" placeholder="Tap 'Speak' to speak in English, or type here..."></textarea>
         
         <div class="flex items-center justify-between gap-2">
           <button id="modalMicBtn" class="px-4 py-2.5 rounded-xl bg-purple-600 hover:bg-purple-500 active:scale-95 text-white font-bold text-xs flex items-center gap-1.5 shadow-md transition-all">
             <span id="modalMicIcon">🎙️</span>
             <span id="modalMicText">Speak</span>
           </button>
-          <button id="modalCheckBtn" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold text-xs shadow-md transition-all">
-            Check Answer ⚡
+          <button id="modalCheckBtn" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold text-xs shadow-md transition-all flex items-center gap-1.5">
+            <span id="checkBtnSpinner" class="hidden animate-spin">⏳</span>
+            <span>Check Answer ⚡</span>
           </button>
         </div>
 
-        <!-- Result Box -->
-        <div id="modalResultBox" class="hidden p-3.5 rounded-xl bg-slate-900 border border-slate-800 space-y-2 text-xs">
+        <!-- Result Box (Dynamic Real AI Evaluation!) -->
+        <div id="modalResultBox" class="hidden p-3.5 rounded-xl bg-slate-900 border border-slate-800 space-y-2.5 text-xs">
           <div class="flex items-center justify-between font-bold">
-            <span id="modalResultStatus" class="text-emerald-400">✓ Correct!</span>
-            <span id="modalResultScore" class="text-amber-400 font-mono">95% Match</span>
+            <span id="modalResultStatus" class="text-emerald-400">✓ Accurate!</span>
+            <span id="modalResultScore" class="text-amber-400 font-mono">92% Match</span>
           </div>
-          <div class="p-2.5 rounded-lg bg-slate-950 border border-slate-800 space-y-1">
+
+          <!-- Tamil Linguistic Feedback -->
+          <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
+            <span class="text-[10px] text-purple-400 uppercase font-bold block">AI Feedback & Grammar Analysis:</span>
+            <p id="modalTamilFeedback" class="text-slate-200 font-tamil leading-relaxed text-xs"></p>
+          </div>
+
+          <!-- Native American Suggestion -->
+          <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
             <span class="text-[10px] text-slate-400 uppercase font-bold">Native American Phrasing:</span>
             <p id="modalCorrectEn" class="text-emerald-300 font-bold text-xs"></p>
           </div>
+
           <button id="modalNextBtn" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 active:scale-98 text-white rounded-xl text-xs font-bold shadow-md transition-all">
-            Next Lesson Node ➔
+            Next Chapter ➔
           </button>
         </div>
       </div>
@@ -551,10 +389,10 @@
   </div>
 
   <!-- ========================================================================= -->
-  <!-- MODAL: NOVA AI VOICE INTERACTION ROOM                                     -->
+  <!-- MODAL: NOVA AI VOICE INTERACTION ROOM (Dynamic Conversation!)             -->
   <!-- ========================================================================= -->
   <div id="novaVoiceModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
-    <div class="bg-[#161c2e] border border-slate-800 rounded-3xl max-w-sm w-full p-6 text-center space-y-5 shadow-2xl relative">
+    <div class="bg-[#161c2e] border border-slate-800 rounded-3xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl relative">
       <button id="closeVoiceModal" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">&times;</button>
 
       <div class="w-20 h-20 rounded-full border-2 border-purple-500 p-0.5 mx-auto shadow-2xl shadow-purple-500/40 flex items-center justify-center bg-purple-950/30">
@@ -566,9 +404,13 @@
         <p class="text-xs text-purple-300 font-tamil">ஆங்கிலத்தில் பேசுங்கள் அல்லது தமிழில் கேளுங்கள்!</p>
       </div>
 
-      <div class="p-3.5 bg-[#0d111d] rounded-2xl border border-slate-800 text-xs text-left min-h-[70px] flex items-center">
-        <p id="voiceModalDialogue" class="text-slate-200 leading-relaxed">
-          "Hello Veera! I am listening. Ask me any question or doubt in English or Tamil!"
+      <!-- Dialogue History / AI Reply Box -->
+      <div class="p-3.5 bg-[#0d111d] rounded-2xl border border-slate-800 text-xs text-left min-h-[90px] max-h-[160px] overflow-y-auto no-scrollbar flex flex-col justify-center space-y-1.5">
+        <div id="voiceModalLoading" class="hidden text-center text-purple-400 text-xs font-mono animate-pulse">
+          Nova is thinking & analyzing... 💭
+        </div>
+        <p id="voiceModalDialogue" class="text-slate-200 leading-relaxed font-sans">
+          "Hello Veera! I am listening. Tell me what tasks you are working on today or ask any doubt in English or Tamil!"
         </p>
       </div>
 
@@ -580,8 +422,9 @@
         <button id="voiceModalMicBtn" class="w-14 h-14 rounded-full bg-purple-600 hover:bg-purple-500 active:scale-95 text-white font-bold flex items-center justify-center text-2xl shadow-xl shadow-purple-600/40 transition-all">
           🎙️
         </button>
-        <button id="voiceModalSubmitBtn" class="px-5 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold text-xs shadow-md transition-all">
-          Send ➔
+        <button id="voiceModalSubmitBtn" class="px-5 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold text-xs shadow-md transition-all flex items-center gap-1">
+          <span>Send</span>
+          <span>➔</span>
         </button>
       </div>
     </div>
@@ -659,28 +502,23 @@ Veerakumar
   </div>
 
   <!-- ========================================================================= -->
-  <!-- BOTTOM NAVIGATION BAR (Exact Screenshot 5 Layout)                         -->
+  <!-- BOTTOM NAVIGATION BAR (Clean 3 Tabs - Zero Premium Clutter!)              -->
   <!-- ========================================================================= -->
-  <nav class="fixed bottom-0 left-0 right-0 bg-[#111625] border-t border-slate-800/90 backdrop-blur-lg px-2 py-2 flex items-center justify-around z-50 text-[10px]">
-    <!-- Tab 1: Home (Serpentine Path) -->
-    <button class="nav-tab flex flex-col items-center gap-0.5 text-purple-400 font-bold p-1" data-screen="screenHome">
-      <span class="text-lg">〰️</span>
-      <span>Home</span>
+  <nav class="fixed bottom-0 left-0 right-0 bg-[#111625] border-t border-slate-800/90 backdrop-blur-lg px-4 py-2.5 flex items-center justify-around z-50 text-[11px]">
+    <!-- Tab 1: Home (45 Chapters Path) -->
+    <button class="nav-tab flex flex-col items-center gap-1 text-purple-400 font-bold p-1" data-screen="screenHome">
+      <span class="text-xl">〰️</span>
+      <span>Chapters (45)</span>
     </button>
     <!-- Tab 2: Nova AI (Avatar) -->
-    <button class="nav-tab flex flex-col items-center gap-0.5 text-slate-400 font-medium p-1" data-screen="screenNovaAI">
-      <span class="text-lg">👩‍💼</span>
+    <button class="nav-tab flex flex-col items-center gap-1 text-slate-400 font-medium p-1" data-screen="screenNovaAI">
+      <span class="text-xl">👩‍💼</span>
       <span>Nova AI</span>
     </button>
-    <!-- Tab 3: Account -->
-    <button class="nav-tab flex flex-col items-center gap-0.5 text-slate-400 font-medium p-1" data-screen="screenAccount">
-      <span class="text-lg">👤</span>
-      <span>Account</span>
-    </button>
-    <!-- Tab 4: Premium -->
-    <button class="nav-tab flex flex-col items-center gap-0.5 text-slate-400 font-medium p-1" data-screen="screenPremium">
-      <span class="text-lg">✦</span>
-      <span>Premium</span>
+    <!-- Tab 3: Account & AI Setup -->
+    <button class="nav-tab flex flex-col items-center gap-1 text-slate-400 font-medium p-1" data-screen="screenAccount">
+      <span class="text-xl">⚙️</span>
+      <span>AI Setup</span>
     </button>
   </nav>
 
@@ -688,20 +526,18 @@ Veerakumar
   <!-- JAVASCRIPT APPLICATION ENGINE                                             -->
   <!-- ========================================================================= -->
   <script>
-    // 1. PWA Service Worker Registration
+    // 1. PWA Service Worker Registration (Network-First Auto Updates)
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js').then(reg => {
-          console.log('Supernova PWA Service Worker Registered', reg.scope);
-        }).catch(err => {
-          console.log('Service Worker registration skipped:', err);
-        });
+          console.log('Supernova PWA Registered', reg.scope);
+        }).catch(err => console.log('SW registration skipped:', err));
       });
     }
 
-    // 2. Tab Navigation Logic
+    // 2. Tab Navigation
     const navTabs = document.querySelectorAll('.nav-tab');
-    const screens = ['screenHome', 'screenNovaAI', 'screenAccount', 'screenPremium'];
+    const screens = ['screenHome', 'screenNovaAI', 'screenAccount'];
 
     navTabs.forEach(tab => {
       tab.addEventListener('click', () => {
@@ -718,21 +554,30 @@ Veerakumar
       });
     });
 
-    // Floating Nova Button navigates to Nova AI Screen
+    // Floating Button jumps to Nova AI
     document.getElementById('floatingNovaBtn').addEventListener('click', () => {
       document.querySelector('[data-screen="screenNovaAI"]').click();
     });
 
-    // 3. Native Speech Synthesis (American English Accent)
+    // Top AI Status button jumps to AI Setup
+    document.getElementById('topAiStatusBtn').addEventListener('click', () => {
+      document.querySelector('[data-screen="screenAccount"]').click();
+    });
+
+    // 3. Speech Synthesis (American English Accent)
     function speakText(text) {
       if (!('speechSynthesis' in window)) return;
       window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance(text);
+
+      // Only speak English text, omit Tamil or markdown brackets
+      let cleanText = text.replace(/[\u0B80-\u0BFF]+/g, '').replace(/[*#_~]/g, '').trim();
+      if (!cleanText) return;
+
+      const utterance = new SpeechSynthesisUtterance(cleanText);
       const voices = window.speechSynthesis.getVoices();
       const usVoice = voices.find(v => v.lang === 'en-US' && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Jenny') || v.name.includes('Samantha') || v.name.includes('Zira'))) || voices.find(v => v.lang.startsWith('en'));
       if (usVoice) utterance.voice = usVoice;
       utterance.rate = 0.95;
-      utterance.pitch = 1.0;
       window.speechSynthesis.speak(utterance);
     }
 
@@ -740,162 +585,407 @@ Veerakumar
       window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
     }
 
-    // 4. Curriculum Data (Self-Paced, Instant Unlocks)
-    const nodeLessons = {
-      "1": {
-        type: "Test: Time Words",
-        title: "Using 'At' for Specific Times",
-        formula: "[Subject] + [Verb] + at [Specific Time]",
-        tamilExp: "ஒரு குறிப்பிட்ட மணிநேரத்தைக் குறிப்பிட 'at' பயன்படுத்த வேண்டும் (எ.கா: at 9 AM, at 5 PM).",
-        prompt: "நான் நாளைக்கு 10 மணிக்கு அலுவலகத்திற்கு வருவேன்.",
-        correct: "I will come to the office tomorrow at 10 AM.",
-        pattern: "at 10"
-      },
-      "2": {
-        type: "Learn: Time Words",
-        title: "Using 'In' for Periods of Time",
-        formula: "[Subject] + [Verb] + in [Period / Month / Year]",
-        tamilExp: "மாதங்கள், வருடங்கள் அல்லது கால இடைவெளிக்கு 'in' பயன்படுத்த வேண்டும் (எ.கா: in the morning, in 2 hours).",
-        prompt: "நாங்கள் காலையில் வேலையைத் தொடங்குவோம்.",
-        correct: "We will start the work in the morning.",
-        pattern: "in the morning"
-      },
-      "3": {
-        type: "Test: Past Actions",
-        title: "Reporting Past Actions (No 'Buyed')",
-        formula: "[Subject] + [V2 Past Verb] + yesterday / last [Time]",
-        tamilExp: "கடந்த காலத்தில் முடிந்த செயல்களுக்கு V2 பயன்படுத்த வேண்டும். 'Buyed' தவறு; 'bought' என்று கூற வேண்டும்.",
-        prompt: "நான் நேற்று ஒரு புதிய மேஜை வாங்கினேன்.",
-        correct: "I bought a new desk yesterday.",
-        pattern: "bought"
-      },
-      "4": {
-        type: "Learn: Past Milestones",
-        title: "Accomplishing Projects",
-        formula: "[Subject] + finished / completed + [Project] + last [Time]",
-        tamilExp: "முடித்த வேலைக்கு 'finished' அல்லது 'completed' என சொல்ல வேண்டும்.",
-        prompt: "நாங்கள் போன வாரம் வேலையை முடித்தோம்.",
-        correct: "We finished the work last week.",
-        pattern: "finished"
-      },
-      "5": {
-        type: "Fluency Booster",
-        title: "Time & Place Muscle Memory",
-        formula: "I will meet you at [Time] in [Place].",
-        tamilExp: "நேரம் மற்றும் இடத்தை ஒரே வாக்கியத்தில் இணைக்கும் வேகப் பயிற்சி.",
-        prompt: "நான் உங்களை மாலை 5 மணிக்கு அலுவலகத்தில் சந்திப்பேன்.",
-        correct: "I will meet you at 5 PM in the office.",
-        pattern: "at 5"
-      },
-      "6": {
-        type: "Learn: Future Commitments",
-        title: "Future Action Commitments",
-        formula: "[Subject] + will + [Base Verb] + [Time]",
-        tamilExp: "எதிர்காலக் கடமைகளுக்கு 'will' + base verb மட்டுமே பயன்படும் (No 'will going').",
-        prompt: "அவர்கள் 5 மணிக்கு திட்டத்தை முடிப்பார்கள்.",
-        correct: "They will finish the project at 5 PM.",
-        pattern: "will finish"
-      },
-      "7": {
-        type: "Learn: Stating Inability",
-        title: "Professional Inability (No 'Can't Able')",
-        formula: "[Subject] + am/is/are + unable to + [Verb]",
-        tamilExp: "'I can't able to' தவறு! 'I am unable to' என்று மட்டுமே கூற வேண்டும்.",
-        prompt: "என்னால் இன்று கூட்டத்தில் கலந்து கொள்ள முடியவில்லை.",
-        correct: "I am unable to attend the meeting today.",
-        pattern: "unable to attend"
-      },
-      "8": {
-        type: "Test: Professional Inability",
-        title: "Declining Requests Politely",
-        formula: "I am unable to take this on due to [Reason].",
-        tamilExp: "கூடுதல் வேலையை மறுக்கும்போது பயன்படுத்தும் தொழில்முறை வாக்கியம்.",
-        prompt: "தற்போது என்னால் இதை செய்ய இயலாது.",
-        correct: "I am unable to do this at the moment.",
-        pattern: "unable to do"
-      },
-      "9": {
-        type: "Fluency Booster",
-        title: "Instant Execution Drill",
-        formula: "I will deliver the task by EOD.",
-        tamilExp: "அலுவலகத்தில் உறுதியாகக் கூறும் பயிற்சி.",
-        prompt: "இன்று மாலைக்குள் நான் பணியை முடித்துக் கொடுப்பேன்.",
-        correct: "I will deliver the task by EOD.",
-        pattern: "by EOD"
-      },
-      "10": {
-        type: "Learn: Asking Clarification",
-        title: "Replacing 'I Have a Doubt'",
-        formula: "Could you please clarify [Point]?",
-        tamilExp: "கார்ப்பரேட் மீட்டிங்குகளில் 'I have doubt' என்று சொல்லக்கூடாது; 'Could you clarify?' என கேட்க வேண்டும்.",
-        prompt: "இந்த தேவையைப் பற்றி சற்று விளக்க முடியுமா?",
-        correct: "Could you please clarify this requirement?",
-        pattern: "clarify"
-      },
-      "11": {
-        type: "Learn: Standup Updates",
-        title: "3-Part Daily Standup Update",
-        formula: "Yesterday I [V2], Today I will [V1], No blockers.",
-        tamilExp: "டெய்லி ஸ்டாண்டப் மீட்டிங்கில் 30 வினாடிகளில் நிலை அறிக்கை தரும் முறை.",
-        prompt: "நேற்று ஸ்கிரிப்ட் முடித்தேன், இன்று டெஸ்ட் செய்வேன்.",
-        correct: "Yesterday I completed the script, and today I will test it.",
-        pattern: "completed"
-      }
-    };
+    // 4. Gemini API Key Management
+    let GEMINI_KEY = localStorage.getItem('supernova_gemini_key') || '';
+    const geminiInput = document.getElementById('geminiApiKeyInput');
+    if (GEMINI_KEY) {
+      geminiInput.value = GEMINI_KEY;
+      updateAiBadge(true);
+    } else {
+      updateAiBadge(false);
+    }
 
-    let currentNodeId = "1";
+    document.getElementById('saveApiKeyBtn').addEventListener('click', () => {
+      const k = geminiInput.value.trim();
+      if (!k) {
+        localStorage.removeItem('supernova_gemini_key');
+        GEMINI_KEY = '';
+        updateAiBadge(false);
+        alert("API Key removed. Switched to offline smart linguistic engine.");
+        return;
+      }
+      localStorage.setItem('supernova_gemini_key', k);
+      GEMINI_KEY = k;
+      updateAiBadge(true);
+      alert("🎉 Gemini AI successfully connected! Nova AI will now talk dynamically with real intelligence.");
+    });
+
+    function updateAiBadge(isConnected) {
+      const topDot = document.getElementById('topAiDot');
+      const topLabel = document.getElementById('topAiLabel');
+      const badge = document.getElementById('apiKeyStatusBadge');
+      if (isConnected) {
+        topDot.className = "w-2 h-2 rounded-full bg-emerald-400";
+        topLabel.innerText = "Gemini: Live";
+        badge.innerText = "● Connected (Live AI)";
+        badge.className = "text-[11px] text-emerald-400 font-bold font-mono";
+      } else {
+        topDot.className = "w-2 h-2 rounded-full bg-amber-400 animate-pulse";
+        topLabel.innerText = "AI: Setup";
+        badge.innerText = "Offline Mode (Click to Add Key)";
+        badge.className = "text-[11px] text-amber-400 font-bold font-mono";
+      }
+    }
+
+    // Call Gemini REST API directly from browser
+    async function callGemini(promptText, systemInstruction) {
+      if (!GEMINI_KEY) return null;
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_KEY}`;
+      
+      const payload = {
+        contents: [
+          {
+            parts: [{ text: promptText }]
+          }
+        ]
+      };
+
+      if (systemInstruction) {
+        payload.systemInstruction = {
+          parts: [{ text: systemInstruction }]
+        };
+      }
+
+      try {
+        const resp = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        if (!resp.ok) {
+          // Fallback to gemini-1.5-flash if 2.5 is rate-limited
+          const fallbackUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`;
+          const fallbackResp = await fetch(fallbackUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          if (!fallbackResp.ok) throw new Error("API call failed");
+          const fData = await fallbackResp.json();
+          return fData.candidates[0].content.parts[0].text;
+        }
+
+        const data = await resp.json();
+        return data.candidates[0].content.parts[0].text;
+      } catch (err) {
+        console.error("Gemini API Error:", err);
+        return null;
+      }
+    }
+
+    // =========================================================================
+    // 5. MASTER 45-CHAPTER CURRICULUM DATA (Weeks 1 to 35+ / Chapters 1 to 45)
+    // =========================================================================
+    const chaptersCurriculum = [
+      // SECTION 1: Time Prepositions & Daily Actions (Ch 1-5)
+      { id: 1, section: "Section 1: Time Prepositions", title: "Specific Times with 'At'", formula: "[Subject] + [Verb] + at [Time]", tamilExp: "குறிப்பிட்ட மணிநேரத்திற்கு 'at' பயன்படுத்த வேண்டும் (எ.கா: at 10 AM, at 5 PM).", prompt: "நான் நாளைக்கு 10 மணிக்கு அலுவலகத்திற்கு வருவேன்.", correct: "I will come to the office tomorrow at 10 AM.", pattern: "at 10" },
+      { id: 2, section: "Section 1: Time Prepositions", title: "Time Periods with 'In'", formula: "[Subject] + [Verb] + in [Period/Month]", tamilExp: "கால இடைவெளி, மாதங்கள் மற்றும் வருடங்களுக்கு 'in' பயன்படுத்த வேண்டும் (எ.கா: in the morning, in 2 hours).", prompt: "நாங்கள் காலையில் வேலையைத் தொடங்குவோம்.", correct: "We will start the work in the morning.", pattern: "in the morning" },
+      { id: 3, section: "Section 1: Time Prepositions", title: "Days & Dates with 'On'", formula: "[Subject] + [Verb] + on [Day/Date]", tamilExp: "கிழமைகள் மற்றும் குறிப்பிட்ட தேதிகளுக்கு 'on' பயன்படுத்த வேண்டும் (எ.கா: on Monday, on July 10th).", prompt: "திங்கட்கிழமை அன்று சந்திப்பு நடைபெறும்.", correct: "The meeting will happen on Monday.", pattern: "on Monday" },
+      { id: 4, section: "Section 1: Time Prepositions", title: "Duration with 'For' & 'Since'", formula: "I have been [Verb-ing] for [Duration] / since [Start Point]", tamilExp: "ஒரு செயல் எவ்வளவு காலம் நடக்கிறது என்பதற்கு 'for', எப்போது தொடங்கியது என்பதற்கு 'since'.", prompt: "நான் இரண்டு மணி நேரமாக வேலை செய்து கொண்டிருக்கிறேன்.", correct: "I have been working for two hours.", pattern: "for two hours" },
+      { id: 5, section: "Section 1: Time Prepositions", title: "Habitual Routines with 'Every Day'", formula: "[Subject] + [V1 Verb] + every day / usually", tamilExp: "வழக்கமான தினசரி பழக்கவழக்கங்களைக் கூற V1 பேஸ் வெர்ப் மட்டுமே பயன்படும்.", prompt: "நான் தினமும் காலை 9 மணிக்கு பணிகளை சரிபார்க்கிறேன்.", correct: "I check my tasks every day at 9 AM.", pattern: "every day" },
+
+      // SECTION 2: Irregular Past Tense & Milestones (Ch 6-10)
+      { id: 6, section: "Section 2: Past Actions & Irregular Verbs", title: "Irregular Past Verbs (No 'Buyed')", formula: "[Subject] + [V2 Past Verb] + yesterday", tamilExp: "கடந்த கால செயல்களுக்கு V2 பயன்படுத்த வேண்டும். 'Buyed' தவறு; 'bought' என்று மட்டுமே கூற வேண்டும்.", prompt: "நான் நேற்று ஒரு புதிய மேஜை வாங்கினேன்.", correct: "I bought a new desk yesterday.", pattern: "bought" },
+      { id: 7, section: "Section 2: Past Actions & Irregular Verbs", title: "Negative Past (Did Not + Base Verb)", formula: "[Subject] + did not / didn't + [V1 Base Verb]", tamilExp: "'Didn't went' தவறு! 'Didn't' வந்தால் அதைத் தொடர்ந்து base verb (didn't go, didn't see) மட்டுமே வர வேண்டும்.", prompt: "நான் நேற்று அவரிடம் பேசவில்லை.", correct: "I did not speak with him yesterday.", pattern: "did not speak" },
+      { id: 8, section: "Section 2: Past Actions & Irregular Verbs", title: "Completed Milestones", formula: "[Subject] + completed / delivered + [Task] + last week", tamilExp: "அலுவலகத்தில் முடித்த வேலைகளைப் பற்றி அறிக்கையிடும் முறை.", prompt: "நாங்கள் போன வாரம் சோதனையை முடித்தோம்.", correct: "We completed the testing last week.", pattern: "completed" },
+      { id: 9, section: "Section 2: Past Actions & Irregular Verbs", title: "Reporting Bugs & Issues", formula: "We identified / encountered an issue with [Module]", tamilExp: "தொழில்நுட்ப கோளாறுகளை தொழில்முறையாக தெரிவிக்கும் முறை.", prompt: "நாங்கள் டேட்டாபேஸில் ஒரு சிக்கலைக் கண்டறிந்தோம்.", correct: "We encountered an issue with the database.", pattern: "encountered" },
+      { id: 10, section: "Section 2: Past Actions & Irregular Verbs", title: "Fluency Booster: Past Storytelling", formula: "First we [V2], then we [V2], and finally we [V2].", tamilExp: "வரிசையாக நடந்த நிகழ்வுகளை இணைக்கும் வேகப் பயிற்சி.", prompt: "முதலில் ஸ்கிரிப்டை எழுதினோம், பின்னர் அதை சோதித்தோம்.", correct: "First we wrote the script, and then we tested it.", pattern: "wrote" },
+
+      // SECTION 3: Future Commitments & Deadlines (Ch 11-15)
+      { id: 11, section: "Section 3: Future Commitments", title: "Firm Commitments with 'Will'", formula: "[Subject] + will + [Base Verb] + [Time]", tamilExp: "உறுதியான எதிர்கால வாக்குறுதிகளுக்கு 'will' + base verb மட்டுமே பயன்படும் (No 'will going').", prompt: "அவர்கள் 5 மணிக்கு திட்டத்தை முடிப்பார்கள்.", correct: "They will finish the project at 5 PM.", pattern: "will finish" },
+      { id: 12, section: "Section 3: Future Commitments", title: "Near Future with 'Going to'", formula: "[Subject] + is/am/are + going to + [Verb]", tamilExp: "ஏற்கனவே திட்டமிட்ட உடனடி செயல்களுக்கு 'going to' பயன்படுத்த வேண்டும்.", prompt: "நான் இப்போது புதிய சர்வரைப் பரிசோதிக்கப் போகிறேன்.", correct: "I am going to test the new server now.", pattern: "going to test" },
+      { id: 13, section: "Section 3: Future Commitments", title: "Deadlines with 'By' (By EOD / By 4 PM)", formula: "I will deliver [Task] by [Deadline]", tamilExp: "குறிப்பிட்ட நேரத்திற்கு முன்பாக முடித்துக் கொடுப்பதற்கு 'by' பயன்படும் (by EOD = end of day).", prompt: "இன்று மாலைக்குள் நான் பணியை முடித்துக் கொடுப்பேன்.", correct: "I will deliver the task by EOD.", pattern: "by EOD" },
+      { id: 14, section: "Section 3: Future Commitments", title: "Conditional Commitments with 'If'", formula: "If [Condition happens], we will [Result]", tamilExp: "ஒரு காரியம் நடந்தால் அடுத்ததை செய்வோம் என்ற நிபந்தனை வாக்கியம்.", prompt: "அவர்கள் அனுமதி தந்தால், நாங்கள் தொடங்குவோம்.", correct: "If they give approval, we will start.", pattern: "we will start" },
+      { id: 15, section: "Section 3: Future Commitments", title: "Fluency Booster: Commitments", formula: "I will make sure the pipeline runs smoothly.", tamilExp: "நிர்வாகத்திற்கு உறுதியளிக்கும் அதிவேகப் பயிற்சி.", prompt: "பணிகள் சரியாக நடப்பதை நான் உறுதி செய்வேன்.", correct: "I will make sure the work is done properly.", pattern: "make sure" },
+
+      // SECTION 4: Workplace Inability & Modals (Ch 16-20)
+      { id: 16, section: "Section 4: Inability & Modals", title: "Professional Inability (No 'Can't Able')", formula: "[Subject] + am/is/are + unable to + [Verb]", tamilExp: "'I can't able to' தவறு! 'I am unable to' அல்லது 'I cannot' என்று மட்டுமே கூற வேண்டும்.", prompt: "என்னால் இன்று கூட்டத்தில் கலந்து கொள்ள முடியவில்லை.", correct: "I am unable to attend the meeting today.", pattern: "unable to attend" },
+      { id: 17, section: "Section 4: Inability & Modals", title: "Declining Extra Work Politely", formula: "I don't have the bandwidth to take this on.", tamilExp: "கூடுதல் வேலையை மறுக்கும்போது 'Bandwidth' என்ற சொல்லைப் பயன்படுத்துவது தொழில்முறை தரம்.", prompt: "இந்த வாரம் எனக்கு கூடுதல் பணி செய்ய நேரம் இல்லை.", correct: "I don't have the bandwidth to take on extra work this week.", pattern: "bandwidth" },
+      { id: 18, section: "Section 4: Inability & Modals", title: "Possibility with 'Could' & 'Might'", formula: "We might / could face a delay due to [Reason]", tamilExp: "சாத்தியக்கூறுகளை வெளிப்படுத்த 'might' மற்றும் 'could' பயன்படும்.", prompt: "சர்வர் தாமதம் காரணமாக நாம் சில தடைகளை சந்திக்கலாம்.", correct: "We might face some delay due to server issues.", pattern: "might face" },
+      { id: 19, section: "Section 4: Inability & Modals", title: "Professional Advice with 'Should'", formula: "We should optimize the code before deployment.", tamilExp: "சக ஊழியர்களுக்கு ஆலோசனைகள் கூற 'should' பயன்படுத்தவும்.", prompt: "வெளியிடுவதற்கு முன் நாம் இதைச் சரிபார்க்க வேண்டும்.", correct: "We should verify this before deployment.", pattern: "should verify" },
+      { id: 20, section: "Section 4: Inability & Modals", title: "Polite Requests with 'Could you'", formula: "Could you please share the updated sheet?", tamilExp: "மரியாதையாக உதவி கேட்க 'Could you please' பயன்படுத்தவும்.", prompt: "அந்த கோப்பினை என்னுடன் பகிர முடியுமா?", correct: "Could you please share that file with me?", pattern: "Could you please" },
+
+      // SECTION 5: Asking Clarifications (Ch 21-25)
+      { id: 21, section: "Section 5: Clarifications & Questions", title: "Replacing 'I Have a Doubt'", formula: "Could you please clarify [Point]?", tamilExp: "கார்ப்பரேட் மீட்டிங்குகளில் 'I have a doubt' என்று சொல்லக்கூடாது; 'Could you clarify?' என கேட்க வேண்டும்.", prompt: "இந்த தேவையைப் பற்றி சற்று விளக்க முடியுமா?", correct: "Could you please clarify this requirement?", pattern: "clarify" },
+      { id: 22, section: "Section 5: Clarifications & Questions", title: "Confirming Understanding", formula: "Just to make sure we are aligned, are you saying [Summary]?", tamilExp: "பேசியதை சரியாக புரிந்து கொண்டோமா என உறுதி செய்யும் முறை.", prompt: "நாம் சரியாக இணைந்துள்ளோமா என்பதை உறுதி செய்ய கேட்கிறேன்.", correct: "Just to confirm, are you asking me to update this?", pattern: "Just to confirm" },
+      { id: 23, section: "Section 5: Clarifications & Questions", title: "Probing Technical Specifications", formula: "What is the expected output for this API?", tamilExp: "தொழில்நுட்ப விவரங்களை ஆழமாகக் கேட்கும் முறை.", prompt: "இதன் எதிர்பார்க்கப்படும் முடிவு என்ன?", correct: "What is the expected outcome for this task?", pattern: "expected" },
+      { id: 24, section: "Section 5: Clarifications & Questions", title: "Asking for Lead Feedback", formula: "What are your thoughts on this design?", tamilExp: "மேலதிகாரியின் கருத்தை மரியாதையாகக் கேட்கும் வாக்கியம்.", prompt: "இந்த அணுகுமுறை குறித்து உங்கள் கருத்து என்ன?", correct: "What are your thoughts on this approach?", pattern: "thoughts on" },
+      { id: 25, section: "Section 5: Clarifications & Questions", title: "Fluency Booster: Q&A Confidence", formula: "I would be happy to elaborate on that point.", tamilExp: "கேள்விக்கு தைரியமாக பதிலளிக்கும் பயிற்சி.", prompt: "நான் அதை மேலும் விளக்க மகிழ்ச்சி அடைகிறேன்.", correct: "I would be happy to elaborate on that point.", pattern: "elaborate" },
+
+      // SECTION 6: Daily Standups & Status Reporting (Ch 26-30)
+      { id: 26, section: "Section 6: Daily Standups & Status", title: "3-Part Daily Standup Update", formula: "Yesterday I [V2], Today I will [V1], No blockers.", tamilExp: "டெய்லி ஸ்டாண்டப் மீட்டிங்கில் 30 வினாடிகளில் நிலை அறிக்கை தரும் முறை.", prompt: "நேற்று ஸ்கிரிப்ட் முடித்தேன், இன்று டெஸ்ட் செய்வேன்.", correct: "Yesterday I completed the script, and today I will test it.", pattern: "completed" },
+      { id: 27, section: "Section 6: Daily Standups & Status", title: "Reporting Active Blockers", formula: "I am currently blocked on [Dependency/Access].", tamilExp: "வேலை தடைபட்டுள்ளதை உடனடியாகத் தெரிவிக்கும் முறை.", prompt: "அனுமதி கிடைக்காததால் நான் தற்போது காத்திருக்கிறேன்.", correct: "I am currently blocked waiting for access.", pattern: "blocked" },
+      { id: 28, section: "Section 6: Daily Standups & Status", title: "Providing Realistic ETAs", formula: "My estimated ETA for completion is [Time].", tamilExp: "வேலை எப்போது முடியும் என்பதை உத்தேசமாகத் தெரிவிப்பது (ETA).", prompt: "இன்று மதியம் 3 மணிக்குள் முடித்துவிடுவேன் என எதிர்பார்க்கிறேன்.", correct: "My ETA for this is 3:00 PM today.", pattern: "ETA" },
+      { id: 29, section: "Section 6: Daily Standups & Status", title: "Bottom Line Up Front (BLUF)", formula: "BLUF: The core feature is deployed and working.", tamilExp: "அதிகாரிகளிடம் பேசும்போது முக்கிய செய்தியை முதல் வரியிலேயே சொல்வது.", prompt: "முக்கிய செய்தி: அனைத்தும் வெற்றிகரமாக இயங்குகிறது.", correct: "BLUF: The system is running successfully without errors.", pattern: "BLUF" },
+      { id: 30, section: "Section 6: Daily Standups & Status", title: "Fluency Booster: Crisp 60s Update", formula: "On track with deliverables, syncing with team at 2 PM.", tamilExp: "வேகமாக சுருக்கமான அப்டேட் தரும் பயிற்சி.", prompt: "வேலைகள் திட்டமிட்டபடி நடக்கின்றன, 2 மணிக்கு பேசலாம்.", correct: "Everything is on track with deliverables.", pattern: "on track" },
+
+      // SECTION 7: Expressing Opinions & Polite Disagreement (Ch 31-35)
+      { id: 31, section: "Section 7: Opinions & Disagreement", title: "Softening Opinions with 'In My View'", formula: "In my view / From my perspective, [Thought]", tamilExp: "அதிகாரமாகப் பேசாமல் மென்மையாக உங்கள் கருத்தை வெளிப்படுத்துங்கள்.", prompt: "என் பார்வையில், இதுவே சிறந்த தீர்வாக இருக்கும்.", correct: "In my view, this is the best solution.", pattern: "In my view" },
+      { id: 32, section: "Section 7: Opinions & Disagreement", title: "Constructive Disagreement", formula: "I see your point, however, we should consider [Factor].", tamilExp: "எதிர்மறையாக சண்டையிடாமல் நாகரிகமாக மாற்றுக்கருத்தை முன்வைக்கும் கலை.", prompt: "நீங்கள் சொல்வது புரிகிறது, ஆனால் இதில் ஒரு ஆபத்து உள்ளது.", correct: "I see your point, however, there is a risk involved.", pattern: "see your point" },
+      { id: 33, section: "Section 7: Opinions & Disagreement", title: "Suggesting Better Alternatives", formula: "What if we tried an automated approach instead?", tamilExp: "சிறந்த மாற்றுகளை முன்வைக்கும் முறை.", prompt: "இதற்கு பதிலாக நாம் ஆட்டோமேஷன் செய்தால் என்ன?", correct: "What if we automated this process instead?", pattern: "What if" },
+      { id: 34, section: "Section 7: Opinions & Disagreement", title: "Acknowledging Team Ideas", formula: "That makes a lot of sense, building on that...", tamilExp: "மற்றவர்கள் கருத்தை பாராட்டி உங்கள் கருத்தை சேர்க்கும் முறை.", prompt: "அது மிகச் சரியான யோசனை, அதோடு இதையும் சேர்க்கலாம்.", correct: "That makes sense, and building on that idea...", pattern: "building on" },
+      { id: 35, section: "Section 7: Opinions & Disagreement", title: "Fluency Booster: Debate Alignment", formula: "Let's find common ground that satisfies both goals.", tamilExp: "கருத்து வேறுபாடுகளை தீர்க்கும் வேகப் பயிற்சி.", prompt: "இருவருக்கும் ஏற்புடைய ஒரு பொதுவான முடிவை எடுப்போம்.", correct: "Let's find common ground that works for everyone.", pattern: "common ground" },
+
+      // SECTION 8: Tech & Cross-Functional Collaboration (Ch 36-40)
+      { id: 36, section: "Section 8: Cross-Functional Teamwork", title: "Async Handover Notes", formula: "Handing over the module for QA review.", tamilExp: "வேலையை அடுத்த டீமிடம் ஒப்படைக்கும்போது எழுதும் செய்தி.", prompt: "பரிசோதனைக்காக இந்த மாட்யூலை ஒப்படைக்கிறேன்.", correct: "Handing over the module for testing.", pattern: "Handing over" },
+      { id: 37, section: "Section 8: Cross-Functional Teamwork", title: "Flagging Risks Early", formula: "I want to flag a potential bottleneck in this flow.", tamilExp: "வரவிருக்கும் சிக்கல்களை முன்கூட்டியே எச்சரிப்பது.", prompt: "இதில் வரக்கூடிய ஒரு பெரிய சிக்கலை நான் சுட்டிக்காட்ட விரும்புகிறேன்.", correct: "I want to flag a potential bottleneck here.", pattern: "flag a potential" },
+      { id: 38, section: "Section 8: Cross-Functional Teamwork", title: "No 'Revert Back' Rule", formula: "I will revert with details / I will get back to you.", tamilExp: "'Revert back' என்பது இலக்கணப் பிழை! 'I will revert' அல்லது 'I will get back to you' என்று சொல்ல வேண்டும்.", prompt: "விவரங்களை ஆராய்ந்துவிட்டு நான் உங்களுக்கு பதில் அளிக்கிறேன்.", correct: "I will get back to you with the details shortly.", pattern: "get back to you" },
+      { id: 39, section: "Section 8: Cross-Functional Teamwork", title: "Team Sync & Touch Base", formula: "Let's touch base tomorrow morning to align.", tamilExp: "சுருக்கமாகப் பேசி திட்டத்தை ஒருங்கிணைக்கும் வாக்கியம்.", prompt: "நாளை காலை நாம் சுருக்கமாகப் பேசி முடிவு செய்வோம்.", correct: "Let's touch base tomorrow morning to align.", pattern: "touch base" },
+      { id: 40, section: "Section 8: Cross-Functional Teamwork", title: "Fluency Booster: Cross-Team Sync", formula: "We are aligned on the roadmap and next steps.", tamilExp: "குழு ஒற்றுமையை வெளிப்படுத்தும் பயிற்சி.", prompt: "அடுத்த கட்ட நடவடிக்கைகள் குறித்து நாங்கள் உடன்பட்டுள்ளோம்.", correct: "We are aligned on the roadmap and next steps.", pattern: "aligned" },
+
+      // SECTION 9: Executive Fluency & Presentation Mastery (Ch 41-45)
+      { id: 41, section: "Section 9: Executive Presentations", title: "High-Level Project Demo Pitch", formula: "The core business impact of this tool is [Outcome].", tamilExp: "உயரதிகாரிகளிடம் தொழில்நுட்ப விவரங்களை விட வணிக பலனை முன்னிறுத்தும் முறை.", prompt: "இந்த கருவியின் முக்கிய பலன் நேரம் மிச்சமாவது தான்.", correct: "The primary impact of this automation is time savings.", pattern: "primary impact" },
+      { id: 42, section: "Section 9: Executive Presentations", title: "Handling Unexpected Questions", formula: "That is a great question. Let me verify the numbers and follow up.", tamilExp: "தெரியாத கேள்விக்கு தடுமாறாமல் கம்பீரமாகப் பதில் அளிக்கும் சூத்திரம்.", prompt: "அது சிறந்த கேள்வி, சரிபார்த்துவிட்டு தகவல் தருகிறேன்.", correct: "That is a great question. Let me verify and follow up.", pattern: "verify and follow up" },
+      { id: 43, section: "Section 9: Executive Presentations", title: "Handling Interruptions Gracefully", formula: "Allow me to conclude this point, and then I will take questions.", tamilExp: "இடையில் குறுக்கிடுபவர்களை நாகரிகமாக கையாளும் முறை.", prompt: "இதை முடித்துக் கொள்ள அனுமதியுங்கள், பின் கேள்விக்கு பதிலளிக்கிறேன்.", correct: "Allow me to conclude this point, and then we will take questions.", pattern: "Allow me to conclude" },
+      { id: 44, section: "Section 9: Executive Presentations", title: "Summarizing Action Items", formula: "To summarize action items: Veera will own [Task].", tamilExp: "கூட்டத்தின் இறுதியில் யார் என்ன செய்ய வேண்டும் என தொகுத்துரைப்பது.", prompt: "இறுதியாக: இந்த பணிகளுக்கு நான் பொறுப்பேற்கிறேன்.", correct: "To summarize action items, I will take ownership of this task.", pattern: "action items" },
+      { id: 45, section: "Section 9: Executive Presentations", title: "Mastery Booster: Full Executive Simulation", formula: "Thank you all for your time, looking forward to the rollout.", tamilExp: "முழுமையான தொழில்முறை ஆளுமை மற்றும் தன்னம்பிக்கை பயிற்சி.", prompt: "உங்கள் நேரத்திற்கு நன்றி, திட்டத்தை வெளியிட ஆவலுடன் உள்ளேன்.", correct: "Thank you all for your time, looking forward to the rollout.", pattern: "Thank you all" }
+    ];
+
+    // 6. Build the 45 Chapters Serpentine Path in Screen 1
+    const sectionsContainer = document.getElementById('chaptersSectionsContainer');
+    
+    // Group chapters by section
+    const grouped = {};
+    chaptersCurriculum.forEach(ch => {
+      if (!grouped[ch.section]) grouped[ch.section] = [];
+      grouped[ch.section].push(ch);
+    });
+
+    function renderChapters(filter = '') {
+      sectionsContainer.innerHTML = '';
+      let isFirstSection = true;
+
+      for (const secName in grouped) {
+        const chList = grouped[secName].filter(c => 
+          c.title.toLowerCase().includes(filter.toLowerCase()) || 
+          c.formula.toLowerCase().includes(filter.toLowerCase()) ||
+          c.prompt.toLowerCase().includes(filter.toLowerCase())
+        );
+
+        if (chList.length === 0) continue;
+
+        const secCard = document.createElement('div');
+        secCard.className = "bg-[#161c2e] border border-slate-800 rounded-3xl p-4 shadow-xl space-y-4";
+        
+        // Header
+        const header = document.createElement('div');
+        header.className = "flex items-center justify-between cursor-pointer border-b border-slate-800/80 pb-3";
+        header.innerHTML = `
+          <div>
+            <span class="text-[10px] text-purple-400 font-extrabold uppercase tracking-wider font-mono">${secName.split(':')[0]}</span>
+            <h3 class="text-sm font-extrabold text-white">${secName.split(':')[1] || secName}</h3>
+          </div>
+          <span class="w-7 h-7 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xs text-purple-300 font-bold toggle-icon">
+            ${isFirstSection ? '−' : '+'}
+          </span>
+        `;
+
+        // Nodes List Container
+        const nodesWrap = document.createElement('div');
+        nodesWrap.className = `space-y-4 pt-1 ${isFirstSection ? '' : 'hidden'} section-content`;
+
+        chList.forEach((ch, idx) => {
+          const isNodeStart = ch.id === 1;
+          const nodeRow = document.createElement('div');
+          nodeRow.className = "relative flex items-center justify-between p-3 rounded-2xl bg-[#0d111d] border border-slate-800 hover:border-purple-500/60 cursor-pointer transition-all active:scale-[0.98] node-card";
+          nodeRow.setAttribute('data-id', ch.id);
+
+          const isCompleted = localStorage.getItem(`chapter_${ch.id}_done`) === 'true';
+
+          nodeRow.innerHTML = `
+            <div class="flex items-center gap-3">
+              <div class="w-12 h-12 rounded-full ${isCompleted ? 'border-2 border-emerald-400 bg-emerald-950/40 text-emerald-400' : isNodeStart ? 'border-2 border-purple-500 bg-purple-950/40 node-pulse text-amber-400' : 'border border-slate-700 bg-slate-800 text-slate-400'} flex items-center justify-center font-bold text-base shadow-md">
+                ${isCompleted ? '✓' : isNodeStart ? '★' : ch.id}
+              </div>
+              <div class="max-w-[210px]">
+                <div class="flex items-center gap-1.5">
+                  <span class="text-[10px] text-purple-400 font-bold uppercase font-mono">Ch ${ch.id}</span>
+                  ${isNodeStart ? '<span class="px-1.5 py-0.2 bg-emerald-900 text-emerald-300 text-[9px] font-bold rounded">START</span>' : ''}
+                  ${isCompleted ? '<span class="text-emerald-400 text-[10px] font-bold">Mastered</span>' : ''}
+                </div>
+                <h4 class="text-xs font-bold text-white truncate">${ch.title}</h4>
+                <p class="text-[10px] text-slate-400 font-mono truncate">${ch.formula}</p>
+              </div>
+            </div>
+            <div class="text-slate-500 text-xs font-bold">
+              ➔
+            </div>
+          `;
+
+          nodeRow.addEventListener('click', () => openChapterModal(ch));
+          nodesWrap.appendChild(nodeRow);
+        });
+
+        header.addEventListener('click', () => {
+          const isHidden = nodesWrap.classList.contains('hidden');
+          nodesWrap.classList.toggle('hidden');
+          header.querySelector('.toggle-icon').innerText = isHidden ? '−' : '+';
+        });
+
+        secCard.appendChild(header);
+        secCard.appendChild(nodesWrap);
+        sectionsContainer.appendChild(secCard);
+
+        isFirstSection = false;
+      }
+
+      updateMasteryStats();
+    }
+
+    renderChapters();
+
+    // Search filter
+    document.getElementById('chapterSearchInput').addEventListener('input', (e) => {
+      renderChapters(e.target.value.trim());
+    });
+
+    // Expand All / Collapse All
+    let allExpanded = false;
+    document.getElementById('expandAllBtn').addEventListener('click', () => {
+      allExpanded = !allExpanded;
+      document.querySelectorAll('.section-content').forEach(el => {
+        if (allExpanded) el.classList.remove('hidden');
+        else el.classList.add('hidden');
+      });
+      document.querySelectorAll('.toggle-icon').forEach(icon => {
+        icon.innerText = allExpanded ? '−' : '+';
+      });
+      document.getElementById('expandAllBtn').innerText = allExpanded ? 'Collapse All' : 'Expand All';
+    });
+
+    function updateMasteryStats() {
+      let done = 0;
+      for (let i = 1; i <= 45; i++) {
+        if (localStorage.getItem(`chapter_${i}_done`) === 'true') done++;
+      }
+      document.getElementById('accChapters').innerText = `${done} / 45`;
+      const pct = Math.round((done / 45) * 100);
+      document.getElementById('pathProgressPercent').innerText = `${pct}%`;
+    }
+
+    // =========================================================================
+    // 7. LESSON MODAL & DYNAMIC EVALUATION
+    // =========================================================================
+    let currentActiveChapter = chaptersCurriculum[0];
     let isLessonRecording = false;
     let lessonRecognition = null;
 
-    // Open Lesson Modal on Node Click
-    document.querySelectorAll('.node-item').forEach(item => {
-      item.addEventListener('click', () => {
-        currentNodeId = item.getAttribute('data-node');
-        const lesson = nodeLessons[currentNodeId] || nodeLessons["1"];
-        
-        document.getElementById('modalTypeTag').innerText = item.getAttribute('data-type').toUpperCase() + " NODE";
-        document.getElementById('modalNodeTitle').innerText = lesson.title;
-        document.getElementById('modalFormula').innerText = lesson.formula;
-        document.getElementById('modalTamilExp').innerText = lesson.tamilExp;
-        document.getElementById('modalTamilPrompt').innerText = `"${lesson.prompt}"`;
-        document.getElementById('modalTranslationInput').value = '';
-        document.getElementById('modalResultBox').classList.add('hidden');
-        document.getElementById('lessonModal').classList.remove('hidden');
+    function openChapterModal(ch) {
+      currentActiveChapter = ch;
+      document.getElementById('modalChapterBadge').innerText = `CHAPTER ${ch.id} • ${ch.section.toUpperCase()}`;
+      document.getElementById('modalNodeTitle').innerText = ch.title;
+      document.getElementById('modalFormula').innerText = ch.formula;
+      document.getElementById('modalTamilExp').innerText = ch.tamilExp;
+      document.getElementById('modalTamilPrompt').innerText = `"${ch.prompt}"`;
+      document.getElementById('modalTranslationInput').value = '';
+      document.getElementById('modalResultBox').classList.add('hidden');
+      document.getElementById('lessonModal').classList.remove('hidden');
 
-        speakText(lesson.title);
-      });
-    });
+      speakText(ch.title);
+    }
 
     document.getElementById('closeLessonModal').addEventListener('click', () => {
       document.getElementById('lessonModal').classList.add('hidden');
+      if (lessonRecognition) lessonRecognition.stop();
     });
 
-    // Listen button inside Lesson Modal
+    // Listen button speaks the correct answer for model listening
     document.getElementById('listenPromptBtn').addEventListener('click', () => {
-      const lesson = nodeLessons[currentNodeId] || nodeLessons["1"];
-      speakText(lesson.correct);
+      speakText(currentActiveChapter.correct);
     });
 
-    // Check Answer in Lesson Modal
-    document.getElementById('modalCheckBtn').addEventListener('click', () => {
-      const lesson = nodeLessons[currentNodeId] || nodeLessons["1"];
-      const userTxt = document.getElementById('modalTranslationInput').value.trim().toLowerCase();
+    // Check Answer Button (DYNAMIC AI or SMART LINGUISTIC GRADING)
+    document.getElementById('modalCheckBtn').addEventListener('click', async () => {
+      const userTxt = document.getElementById('modalTranslationInput').value.trim();
       if (!userTxt) {
         alert("Please speak or write your translation first!");
         return;
       }
 
-      const isMatch = userTxt.includes(lesson.pattern.toLowerCase()) || userTxt.length > 8;
+      const spinner = document.getElementById('checkBtnSpinner');
+      spinner.classList.remove('hidden');
+
+      const ch = currentActiveChapter;
+      let score = 0;
+      let isMatch = false;
+      let feedback = "";
+      let nativeSuggested = ch.correct;
+
+      // Check if Gemini is connected for Real AI Grading
+      if (GEMINI_KEY) {
+        const sysPrompt = "You are an expert bilingual spoken English examiner for Tamil native speakers. Evaluate the user's spoken answer accurately. Respond ONLY in valid JSON matching: {\"score\": number, \"isCorrect\": boolean, \"feedbackTamil\": \"string in Tamil explaining grammar errors or praise\", \"nativeEnglish\": \"string\"}";
+        const userPrompt = `Tamil Prompt to translate: "${ch.prompt}".\nGrammar Formula: "${ch.formula}".\nTarget Reference: "${ch.correct}".\nUser's spoken answer: "${userTxt}".\nEvaluate grammar, tense, prepositions, and natural phrasing.`;
+        
+        const aiRaw = await callGemini(userPrompt, sysPrompt);
+        if (aiRaw) {
+          try {
+            const cleanJson = aiRaw.replace(/```json/g, '').replace(/```/g, '').trim();
+            const parsed = JSON.parse(cleanJson);
+            score = parsed.score || 80;
+            isMatch = parsed.isCorrect || score >= 70;
+            feedback = parsed.feedbackTamil || "நன்றாக முயற்சி செய்துள்ளீர்கள்!";
+            nativeSuggested = parsed.nativeEnglish || ch.correct;
+          } catch (e) {
+            console.log("JSON parsing error, falling to linguistic analyzer", e);
+          }
+        }
+      }
+
+      // Fallback: Smart Linguistic Similarity & MTI Pattern Check
+      if (!feedback) {
+        const cleanUser = userTxt.toLowerCase().replace(/[.,!?'"]/g, '');
+        const cleanTarget = ch.correct.toLowerCase().replace(/[.,!?'"]/g, '');
+        
+        // Exact token overlap calculation
+        const userWords = cleanUser.split(/\s+/);
+        const targetWords = cleanTarget.split(/\s+/);
+        let matches = 0;
+        targetWords.forEach(w => {
+          if (userWords.includes(w)) matches++;
+        });
+
+        score = Math.round((matches / targetWords.length) * 100);
+        if (cleanUser.includes(ch.pattern.toLowerCase())) score = Math.max(score, 75);
+
+        // Common Tamil MTI Detection
+        let errorNotes = [];
+        if (cleanUser.includes("buyed")) errorNotes.push("'buyed' தவறு; 'bought' என கூற வேண்டும்.");
+        if (cleanUser.includes("can't able") || cleanUser.includes("cannot able")) errorNotes.push("'can't able' தவறு; 'unable to' என்று மட்டுமே கூற வேண்டும்.");
+        if (cleanUser.includes("doubt")) errorNotes.push("அலுவலகத்தில் 'doubt' என கேட்காமல் 'Could you clarify' என கேட்க வேண்டும்.");
+        if (cleanUser.includes("revert back")) errorNotes.push("'revert back' தவறு; 'get back' அல்லது 'revert' என கூற வேண்டும்.");
+        if (cleanUser.includes("didn't went")) errorNotes.push("'didn't went' தவறு; didn't go என base verb வர வேண்டும்.");
+
+        isMatch = score >= 70 && errorNotes.length === 0;
+        if (errorNotes.length > 0) {
+          score = Math.min(score, 60);
+          feedback = "இலக்கண எச்சரிக்கை: " + errorNotes.join(" ");
+        } else if (isMatch) {
+          feedback = "அருமை! நீங்கள் வாக்கிய அமைப்பை மிகச்சரியாகப் பேசியுள்ளீர்கள்.";
+        } else {
+          feedback = "நல்ல முயற்சி! ஆனால் வாக்கிய அமைப்பில் சில வார்த்தைகள் விடுபட்டுள்ளன. சரியான வாக்கியத்தைக் கவனியுங்கள்.";
+        }
+      }
+
+      spinner.classList.add('hidden');
+
+      // Display Results
       const resBox = document.getElementById('modalResultBox');
       resBox.classList.remove('hidden');
-      document.getElementById('modalResultStatus').innerText = isMatch ? "✓ Correct! Awesome Job!" : "⚠️ Good effort! Check the native phrasing:";
+      document.getElementById('modalResultStatus').innerText = isMatch ? "✓ Accurate & Fluent!" : "⚠️ Needs Improvement:";
       document.getElementById('modalResultStatus').className = isMatch ? "text-emerald-400 font-bold" : "text-amber-400 font-bold";
-      document.getElementById('modalResultScore').innerText = isMatch ? "96% Match" : "75% Match";
-      document.getElementById('modalCorrectEn').innerText = `"${lesson.correct}"`;
+      document.getElementById('modalResultScore').innerText = `${score}% Accuracy`;
+      document.getElementById('modalTamilFeedback').innerText = feedback;
+      document.getElementById('modalCorrectEn').innerText = `"${nativeSuggested}"`;
 
-      speakText(lesson.correct);
+      speakText(nativeSuggested);
 
-      // Increment Streak and update local storage
+      if (isMatch) {
+        localStorage.setItem(`chapter_${ch.id}_done`, 'true');
+        renderChapters(document.getElementById('chapterSearchInput').value.trim());
+      }
+
+      // Increment Streak
       let streak = parseInt(localStorage.getItem('supernova_streak') || '1') + 1;
       localStorage.setItem('supernova_streak', streak);
       document.getElementById('streakNumber').innerText = streak;
@@ -904,14 +994,20 @@ Veerakumar
 
     document.getElementById('modalNextBtn').addEventListener('click', () => {
       document.getElementById('lessonModal').classList.add('hidden');
-      alert("🎉 Milestone Completed! You have mastered this node. Move ahead to the next node!");
+      const nextId = currentActiveChapter.id + 1;
+      const nextCh = chaptersCurriculum.find(c => c.id === nextId);
+      if (nextCh) {
+        openChapterModal(nextCh);
+      } else {
+        alert("🎉 Congratulations! You have completed all 45 chapters!");
+      }
     });
 
-    // Mic in Lesson Modal
+    // Microphone in Lesson Modal
     document.getElementById('modalMicBtn').addEventListener('click', () => {
       const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SR) {
-        alert("Microphone recognition is not supported in this browser. Please type directly into the box!");
+        alert("Microphone recognition not supported in this browser. Please type directly into the box!");
         return;
       }
       if (isLessonRecording) {
@@ -941,10 +1037,12 @@ Veerakumar
       }
     });
 
-    // 5. Nova AI Voice Modal Room
+    // =========================================================================
+    // 8. NOVA AI VOICE INTERACTION ROOM (DYNAMIC CONVERSATION ENGINE)
+    // =========================================================================
     document.getElementById('askNovaBigBtn').addEventListener('click', () => {
       document.getElementById('novaVoiceModal').classList.remove('hidden');
-      speakText("Hello Veera! I am listening. Ask me any question in Tamil or English!");
+      speakText("Hello Veera! I am listening. Tell me what tasks you are working on today or ask any question!");
     });
 
     document.getElementById('closeVoiceModal').addEventListener('click', () => {
@@ -953,23 +1051,100 @@ Veerakumar
 
     document.getElementById('actionPracticeCard').addEventListener('click', () => {
       document.getElementById('novaVoiceModal').classList.remove('hidden');
-      document.getElementById('voiceModalDialogue').innerText = "Let's do conversation practice! Tell me what tasks you are working on today.";
-      speakText("Let's do conversation practice! Tell me what tasks you are working on today.");
+      document.getElementById('voiceModalDialogue').innerText = "Let's do conversation practice! Tell me what tasks you are working on today in 2 sentences.";
+      speakText("Let's do conversation practice! Tell me what tasks you are working on today in two sentences.");
     });
 
     document.getElementById('actionTranslationCard').addEventListener('click', () => {
       document.getElementById('novaVoiceModal').classList.remove('hidden');
-      document.getElementById('voiceModalDialogue').innerText = "தமிழில் ஏதேனும் வாக்கியத்தைச் சொல்லுங்கள், நான் அதை சரியான ஆங்கில வாக்கியமாக மாற்றிக் காட்டுகிறேன்!";
+      document.getElementById('voiceModalDialogue').innerText = "தமிழில் நீங்கள் சொல்ல நினைப்பதை சொல்லுங்கள், அதை சரியான ஆங்கில வாக்கியமாக மாற்றிக் காட்டுகிறேன்!";
       speakText("Tell me any sentence in Tamil, and I will translate it into native English for you.");
+    });
+
+    // Send in Voice Modal (Real Gemini AI Conversation!)
+    document.getElementById('voiceModalSubmitBtn').addEventListener('click', async () => {
+      const userTxt = document.getElementById('voiceModalInput').value.trim();
+      if (!userTxt) return;
+
+      const loader = document.getElementById('voiceModalLoading');
+      const dialog = document.getElementById('voiceModalDialogue');
+      loader.classList.remove('hidden');
+
+      let reply = "";
+
+      // 1. If Gemini AI is Connected
+      if (GEMINI_KEY) {
+        const sysPrompt = "You are Nova, an empathetic, encouraging Native American English speaking coach who is fluent in Tamil. The learner is Veerakumar, an IT professional from Tamil Nadu learning spoken English. First, respond directly and conversationally to what the user said (acknowledge their thoughts). Second, if they made any grammar, pronunciation, or Tamil-MTI errors (e.g. 'can't able', 'buyed', 'doubt', 'didn't went'), point it out and explain the correct formula in clear Tamil. Keep your reply concise (2-4 sentences total) so it is natural when spoken out loud. End with an engaging follow-up question to keep the conversation flowing.";
+        reply = await callGemini(userTxt, sysPrompt);
+      }
+
+      // 2. If Offline / No Gemini Key (Smart Dynamic Fallback)
+      if (!reply) {
+        const low = userTxt.toLowerCase();
+        let mtiCorrection = "";
+        if (low.includes("buyed")) {
+          mtiCorrection = "Grammar Alert: The past tense of buy is 'bought', never 'buyed'. Say: 'I bought it'.";
+        } else if (low.includes("can't able") || low.includes("cannot able")) {
+          mtiCorrection = "Grammar Alert: Never combine can and able. Say: 'I am unable to do this' or 'I cannot do this'.";
+        } else if (low.includes("doubt")) {
+          mtiCorrection = "Vocabulary Tip: In business meetings, don't say 'I have a doubt'. Say: 'Could you please clarify a point?'.";
+        } else if (low.includes("revert back")) {
+          mtiCorrection = "Vocabulary Tip: Avoid saying 'revert back'. Just say 'I will get back to you'.";
+        }
+
+        if (mtiCorrection) {
+          reply = `${mtiCorrection} Now, try saying your sentence again with the correct formula!`;
+        } else {
+          reply = `I heard you say: "${userTxt}". That was phrased well! In professional English, remember to speak with a relaxed pace and pause naturally between sentences. What is your next priority today? (Add your free Gemini API key in AI Setup to talk completely freely with me!)`;
+        }
+      }
+
+      loader.classList.add('hidden');
+      dialog.innerText = reply;
+      document.getElementById('voiceModalInput').value = '';
+      speakText(reply);
+    });
+
+    // Voice Modal Mic Toggle
+    let isVoiceModalRec = false;
+    let voiceModalRec = null;
+    document.getElementById('voiceModalMicBtn').addEventListener('click', () => {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) {
+        alert("Microphone recognition not supported in this browser. Please type directly into the box!");
+        return;
+      }
+      if (isVoiceModalRec) {
+        if (voiceModalRec) voiceModalRec.stop();
+        isVoiceModalRec = false;
+        document.getElementById('voiceModalMicBtn').classList.remove('bg-rose-600', 'speech-wave');
+      } else {
+        voiceModalRec = new SR();
+        voiceModalRec.continuous = false;
+        voiceModalRec.interimResults = true;
+        voiceModalRec.lang = 'en-US';
+        voiceModalRec.onresult = (e) => {
+          let t = '';
+          for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript;
+          document.getElementById('voiceModalInput').value = t;
+        };
+        voiceModalRec.onend = () => {
+          isVoiceModalRec = false;
+          document.getElementById('voiceModalMicBtn').classList.remove('bg-rose-600', 'speech-wave');
+        };
+        voiceModalRec.start();
+        isVoiceModalRec = true;
+        document.getElementById('voiceModalMicBtn').classList.add('bg-rose-600', 'speech-wave');
+      }
     });
 
     // Word of the day Flashcards
     const vocabList = [
       { word: "Bandwidth", tamil: "நேரம் / வேலை செய்ய கொள்ளளவு அல்லது திறன்.", example: "'I don't have the bandwidth to take on extra tasks this week.'" },
-      { word: "BLUF (Bottom Line Up Front)", tamil: "முக்கிய முடிவை அல்லது தகவலை முதலில் சொல்வது.", example: "'BLUF: The automated pipeline is 100% operational.'" },
+      { word: "BLUF (Bottom Line Up Front)", tamil: "முக்கிய செய்தியை அல்லது முடிவை முதல் வரியிலேயே சொல்வது.", example: "'BLUF: The automated pipeline is 100% operational.'" },
       { word: "Bottleneck", tamil: "வேலை தடைபடும் இடம் அல்லது தாமதம் ஏற்படுத்தும் காரணி.", example: "'The approval process is our main bottleneck right now.'" },
-      { word: "ETA (Estimated Time of Arrival)", tamil: "எப்போது முடிவடையும் என்ற உத்தேச நேரம்.", example: "'What is the ETA for the client review?'" },
-      { word: "Touch base", tamil: "சுருக்கமாகப் பேசி அப்டேட் பெறுவது.", example: "'Let's touch base tomorrow morning at 10 AM.'" }
+      { word: "ETA (Estimated Time of Arrival)", tamil: "பணி எப்போது முடிவடையும் என்ற உத்தேச நேரம்.", example: "'What is the ETA for the client review?'" },
+      { word: "Touch base", tamil: "சுருக்கமாகப் பேசி திட்டத்தை ஒருங்கிணைப்பது.", example: "'Let's touch base tomorrow morning at 10 AM.'" }
     ];
     let vocabIdx = 0;
 
@@ -1008,11 +1183,11 @@ Veerakumar
       const scen = document.getElementById('draftScenario').value;
       let draft = "";
       if (scen === "standup") {
-        draft = "Hi Team,\n\nHere is my status update for today:\n- Completed: Finished the script optimization and data cleaning.\n- In Progress: Developing the automated reconciliation module.\n- Blockers: None at the moment. ETA for completion is 5:00 PM today.\n\nBest regards,\nVeerakumar";
+        draft = "Hi Team,\n\nHere is my status update for today:\n- Completed: Finished script optimization and data validation.\n- In Progress: Developing automated reconciliation logic.\n- Blockers: None at the moment. ETA for completion is 5:00 PM today.\n\nBest regards,\nVeerakumar";
       } else if (scen === "leave") {
-        draft = "Hi Team,\n\nI am writing to inform you that I will be taking a personal leave of absence tomorrow due to an urgent personal commitment. I have handed over ongoing tasks, and I will be reachable via phone for emergencies.\n\nThank you for understanding.\n\nBest regards,\nVeerakumar";
+        draft = "Hi Team,\n\nI am writing to inform you that I will be on personal leave tomorrow due to an urgent personal commitment. Ongoing tasks have been handed over, and I will be reachable on mobile for emergencies.\n\nThank you for understanding.\n\nBest regards,\nVeerakumar";
       } else if (scen === "delay") {
-        draft = "Hi Team,\n\nI wanted to proactively share an update regarding the pending task. Due to an unexpected delay in data verification, we anticipate a brief delay. Our revised ETA for full completion is tomorrow at 11:00 AM.\n\nI appreciate your patience.\n\nBest regards,\nVeerakumar";
+        draft = "Hi Team,\n\nI wanted to proactively share an update regarding the pending task. Due to additional data validation requirements, we anticipate a slight delay. Our revised ETA is tomorrow at 11:00 AM.\n\nThank you for your patience.\n\nBest regards,\nVeerakumar";
       } else {
         draft = "Hi Team,\n\nCould you please clarify the specific requirements for the upcoming milestone? I want to ensure full alignment before proceeding with implementation.\n\nThank you for your guidance.\n\nBest regards,\nVeerakumar";
       }
@@ -1020,67 +1195,15 @@ Veerakumar
     });
 
     document.getElementById('actionUploadRow').addEventListener('click', () => {
-      alert("📄 Document analysis: You can upload study documents or workplace meeting notes to extract key phrases.");
+      alert("📄 Document analysis: You can paste your meeting notes or study documents in Nova AI room to get vocabulary suggestions!");
     });
 
-    // Voice Modal Mic Toggle
-    let isVoiceModalRec = false;
-    let voiceModalRec = null;
-    document.getElementById('voiceModalMicBtn').addEventListener('click', () => {
-      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SR) {
-        alert("Microphone recognition not supported in this browser. Please type directly into the box!");
-        return;
-      }
-      if (isVoiceModalRec) {
-        if (voiceModalRec) voiceModalRec.stop();
-        isVoiceModalRec = false;
-        document.getElementById('voiceModalMicBtn').classList.remove('bg-rose-600', 'speech-wave');
-      } else {
-        voiceModalRec = new SR();
-        voiceModalRec.continuous = false;
-        voiceModalRec.interimResults = true;
-        voiceModalRec.lang = 'en-US';
-        voiceModalRec.onresult = (e) => {
-          let t = '';
-          for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript;
-          document.getElementById('voiceModalInput').value = t;
-        };
-        voiceModalRec.onend = () => {
-          isVoiceModalRec = false;
-          document.getElementById('voiceModalMicBtn').classList.remove('bg-rose-600', 'speech-wave');
-        };
-        voiceModalRec.start();
-        isVoiceModalRec = true;
-        document.getElementById('voiceModalMicBtn').classList.add('bg-rose-600', 'speech-wave');
-      }
-    });
-
-    // Submit in Voice Modal
-    document.getElementById('voiceModalSubmitBtn').addEventListener('click', () => {
-      const txt = document.getElementById('voiceModalInput').value.trim();
-      if (!txt) return;
-
-      let reply = "Great phrasing! You communicated your idea clearly. Remember to maintain a steady speaking pace and pause naturally.";
-      const low = txt.toLowerCase();
-      if (low.includes("buyed")) {
-        reply = "Grammar Alert: In English, the past tense of 'buy' is 'bought'. Never say 'buyed'. You should say: 'I bought it'.";
-      } else if (low.includes("can't able") || low.includes("cannot able")) {
-        reply = "Grammar Alert: Never combine 'can' and 'able'. Say: 'I am unable to do this' or 'I cannot do this'.";
-      } else if (low.includes("doubt")) {
-        reply = "Vocabulary Tip: In business discussions, avoid saying 'I have a doubt'. Say: 'Could you please clarify a point?'.";
-      } else if (low.includes("revert back")) {
-        reply = "Vocabulary Tip: Avoid saying 'revert back'. Just say 'I will revert with details' or 'I will get back to you'.";
-      }
-
-      document.getElementById('voiceModalDialogue').innerText = reply;
-      document.getElementById('voiceModalInput').value = '';
-      speakText(reply);
-    });
-
-    // History button
     document.getElementById('historyBtn').addEventListener('click', () => {
-      alert("Practice History: You have practiced 12 sentence building exercises and 3 corporate dialogues with Nova AI.");
+      let done = 0;
+      for (let i = 1; i <= 45; i++) {
+        if (localStorage.getItem(`chapter_${i}_done`) === 'true') done++;
+      }
+      alert(`Practice History: You have mastered ${done} chapters so far! Keep up the momentum!`);
     });
 
     // Initialize streak from storage
