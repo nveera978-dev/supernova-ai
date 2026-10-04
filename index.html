@@ -179,26 +179,33 @@
         <!-- Messages rendered dynamically here -->
       </div>
 
-      <!-- Bottom Audio / Speaking Bar -->
-      <div class="bg-[#161c2e] border border-slate-800 rounded-3xl p-3 shadow-2xl flex flex-col items-center gap-1.5">
+      <!-- Bottom Two-Way Input & Voice Bar (WhatsApp / Gemini Experience) -->
+      <div class="bg-[#161c2e] border border-slate-800 rounded-3xl p-2.5 shadow-2xl flex flex-col gap-1.5 shrink-0">
         
-        <!-- Live Transcribing Preview / Subtitle Box -->
-        <div id="liveSubtitleBox" class="w-full text-center min-h-[22px] px-2">
-          <p id="liveSubtitleText" class="text-xs text-slate-400 italic font-sans truncate">
-            Tap the mic below and start speaking...
-          </p>
+        <!-- Live Status Label & Subtitle -->
+        <div id="liveSubtitleBox" class="flex items-center justify-between px-2 text-[11px]">
+          <span id="chatMicStatusLabel" class="text-slate-400 font-medium truncate flex items-center gap-1.5">
+            <span id="micDot" class="w-2 h-2 rounded-full bg-purple-500 inline-block"></span>
+            <span id="chatMicStatusText">Tap mic to speak, or type your message</span>
+          </span>
+          <span id="liveSubtitleText" class="text-xs text-purple-300 font-medium italic hidden"></span>
         </div>
 
-        <!-- Big Central Mic Button -->
-        <div class="flex items-center justify-center gap-4 w-full">
-          <button id="chatMicBtn" class="w-16 h-16 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 active:scale-95 text-white font-bold flex items-center justify-center text-3xl shadow-xl shadow-purple-600/40 transition-all border-2 border-slate-800">
+        <!-- Unified Input Area: Live Auto-Transcribing Textarea + Mic + Send -->
+        <div class="flex items-center gap-2 bg-[#0d111d] border border-slate-700/80 focus-within:border-purple-500 rounded-2xl p-1.5 transition-all">
+          <textarea id="chatTextInput" rows="1" class="flex-1 bg-transparent border-0 text-slate-100 placeholder-slate-500 text-xs px-2.5 py-1.5 focus:outline-none resize-none max-h-20 leading-relaxed font-sans" placeholder="Speak with mic or type here..."></textarea>
+          
+          <!-- Mic Button (Dual Mode: Continuous Voice Dictation + Auto Send) -->
+          <button id="chatMicBtn" class="w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 active:scale-95 text-white font-bold flex items-center justify-center text-lg shadow-md transition-all shrink-0 border border-purple-500/40" title="Tap to Speak (Continuous with pauses)">
             🎙️
+          </button>
+
+          <!-- Direct Send Button (Works with typed text or spoken text) -->
+          <button id="chatSendBtn" class="w-10 h-10 rounded-xl bg-indigo-600 hover:bg-indigo-500 active:scale-95 text-white font-bold flex items-center justify-center text-base shadow-md transition-all shrink-0 border border-indigo-400/40" title="Send message (or press Enter)">
+            🚀
           </button>
         </div>
 
-        <span id="chatMicStatusLabel" class="text-[11px] font-bold text-slate-300">
-          Tap Mic to Speak (Continuous with Pauses)
-        </span>
       </div>
 
     </div>
@@ -1631,8 +1638,8 @@ Veerakumar
         const capturedFinal = lessonSessionFinal;
         killLessonRecognition();
         micText.innerText = "Speak";
-        micBtn.classList.remove('bg-rose-600', 'speech-wave');
-        const finalRecorded = cleanSpeechTranscript(lessonCommittedText + " " + capturedFinal);
+        const capturedInput = inputEl.value.trim();
+        const finalRecorded = cleanSpeechTranscript(capturedInput || (lessonCommittedText + " " + capturedFinal));
         if (finalRecorded) inputEl.value = finalRecorded;
         lessonCommittedText = '';
         lessonSessionFinal = '';
@@ -1994,28 +2001,34 @@ Veerakumar
     }
 
     const chatMicBtn = document.getElementById('chatMicBtn');
-    const chatMicStatus = document.getElementById('chatMicStatusLabel');
+    const chatMicStatus = document.getElementById('chatMicStatusText');
+    const micDot = document.getElementById('micDot');
     const liveSubtitle = document.getElementById('liveSubtitleText');
+    const chatTextInput = document.getElementById('chatTextInput');
+    const chatSendBtn = document.getElementById('chatSendBtn');
+
+    let chatSessionInterim = "";
+    let chatLatestLiveTranscript = "";
 
     function updateChatMicUI(recording) {
       if (!chatMicBtn) return;
       if (recording) {
-        chatMicBtn.className = "w-16 h-16 rounded-full bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-bold flex items-center justify-center text-3xl shadow-2xl shadow-rose-600/50 transition-all border-4 border-rose-400 speech-wave";
+        chatMicBtn.className = "w-10 h-10 rounded-xl bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-bold flex items-center justify-center text-lg shadow-lg shadow-rose-600/50 transition-all border-2 border-rose-400 speech-wave shrink-0";
         chatMicBtn.innerHTML = "⏹️";
+        chatMicBtn.title = "Tap to Stop & Send";
+        if (micDot) micDot.className = "w-2 h-2 rounded-full bg-rose-500 animate-ping inline-block";
         if (chatMicStatus) {
-          chatMicStatus.innerText = "🔴 Listening... Tap to Finish & Send 🚀";
-          chatMicStatus.className = "text-[11px] font-bold text-rose-400 animate-pulse";
+          chatMicStatus.innerText = "🔴 Listening... (Tap ⏹️ or 🚀 to send)";
+          chatMicStatus.className = "text-rose-400 font-bold";
         }
       } else {
-        chatMicBtn.className = "w-16 h-16 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 active:scale-95 text-white font-bold flex items-center justify-center text-3xl shadow-xl shadow-purple-600/40 transition-all border-2 border-slate-800";
+        chatMicBtn.className = "w-10 h-10 rounded-xl bg-gradient-to-tr from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 active:scale-95 text-white font-bold flex items-center justify-center text-lg shadow-md transition-all shrink-0 border border-purple-500/40";
         chatMicBtn.innerHTML = "🎙️";
+        chatMicBtn.title = "Tap to Speak (Continuous with pauses)";
+        if (micDot) micDot.className = "w-2 h-2 rounded-full bg-purple-500 inline-block";
         if (chatMicStatus) {
-          chatMicStatus.innerText = "Tap Mic to Speak (Continuous with Pauses)";
-          chatMicStatus.className = "text-[11px] font-bold text-slate-300";
-        }
-        if (liveSubtitle) {
-          liveSubtitle.innerText = "Tap the mic below and start speaking...";
-          liveSubtitle.className = "text-xs text-slate-400 italic font-sans truncate";
+          chatMicStatus.innerText = "Tap mic to speak, or type your message";
+          chatMicStatus.className = "text-slate-400 font-medium";
         }
       }
     }
@@ -2031,22 +2044,59 @@ Veerakumar
       });
     }
 
+    if (chatSendBtn) {
+      chatSendBtn.addEventListener('click', () => {
+        stopNovaSpeaking();
+        if (isChatRecording) {
+          stopChatVoice(true);
+        } else {
+          const val = chatTextInput ? chatTextInput.value.trim() : "";
+          if (val) {
+            chatTextInput.value = "";
+            chatTextInput.style.height = 'auto';
+            handleUserChatMessage(val);
+          }
+        }
+      });
+    }
+
+    if (chatTextInput) {
+      chatTextInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          stopNovaSpeaking();
+          if (isChatRecording) {
+            stopChatVoice(true);
+          } else {
+            const val = chatTextInput.value.trim();
+            if (val) {
+              chatTextInput.value = "";
+              chatTextInput.style.height = 'auto';
+              handleUserChatMessage(val);
+            }
+          }
+        }
+      });
+
+      chatTextInput.addEventListener('input', () => {
+        chatTextInput.style.height = 'auto';
+        chatTextInput.style.height = Math.min(chatTextInput.scrollHeight, 80) + 'px';
+      });
+    }
+
     function startChatVoice() {
       const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SR) {
-        alert("Microphone recognition not supported in this browser. Please use Chrome on Android or desktop.");
+        alert("Microphone recognition is not supported in this browser. Please use Chrome or Edge on Windows/Android, or type your message directly in the box!");
         return;
       }
 
       isChatRecording = true;
-      chatCommittedText = "";
+      chatCommittedText = chatTextInput ? chatTextInput.value.trim() : "";
       chatSessionFinal = "";
+      chatSessionInterim = "";
+      chatLatestLiveTranscript = chatCommittedText;
       updateChatMicUI(true);
-
-      if (liveSubtitle) {
-        liveSubtitle.innerText = "Listening... Speak continuously (pauses are supported)...";
-        liveSubtitle.className = "text-xs text-purple-300 font-medium italic";
-      }
 
       launchChatRecognition();
     }
@@ -2063,6 +2113,7 @@ Veerakumar
       chatRecognition.lang = 'en-US';
 
       chatSessionFinal = "";
+      chatSessionInterim = "";
 
       chatRecognition.onresult = (event) => {
         let interim = '';
@@ -2076,29 +2127,50 @@ Veerakumar
           }
         }
         chatSessionFinal = final;
+        chatSessionInterim = interim;
 
         const currentDeduped = cleanSpeechTranscript(chatCommittedText + " " + chatSessionFinal);
         const liveText = (currentDeduped + (interim ? " " + interim.trim() : "")).replace(/\s+/g, ' ').trim();
-        if (liveSubtitle && liveText) {
-          liveSubtitle.innerText = liveText;
-          liveSubtitle.className = "text-xs text-purple-300 font-medium italic";
+        
+        chatLatestLiveTranscript = liveText;
+
+        // Instantly write to text box so user SEES what is spoken on PC & Mobile!
+        if (chatTextInput && liveText) {
+          chatTextInput.value = liveText;
+          chatTextInput.scrollTop = chatTextInput.scrollHeight;
+        }
+
+        if (chatMicStatus) {
+          chatMicStatus.innerText = "🔴 Listening... (Tap ⏹️ or 🚀 to send)";
+          chatMicStatus.className = "text-rose-400 font-bold";
         }
       };
 
       chatRecognition.onerror = (e) => {
         console.log("Chat recognition error:", e.error);
         if (e.error === 'not-allowed') {
-          alert("Microphone permission was denied. Please allow microphone access in your browser settings.");
+          alert("Microphone permission was denied. Please allow microphone access in your browser (check the lock/mic icon in the browser address bar) or Windows Sound settings.");
           stopChatVoice(false);
+        } else if (e.error === 'audio-capture') {
+          alert("No microphone was detected on this PC. Please connect a microphone or headset, or type your message in the text box!");
+          stopChatVoice(false);
+        } else if (e.error === 'no-speech') {
+          if (chatMicStatus && isChatRecording) {
+            chatMicStatus.innerText = "⚠️ Speak clearly into your mic...";
+          }
         }
       };
 
       chatRecognition.onend = () => {
         if (!isChatRecording) return;
 
+        // Commit gathered tokens before restarting
         if (chatSessionFinal && chatSessionFinal.trim()) {
           chatCommittedText = cleanSpeechTranscript(chatCommittedText + " " + chatSessionFinal);
           chatSessionFinal = "";
+        } else if (chatSessionInterim && chatSessionInterim.trim()) {
+          chatCommittedText = cleanSpeechTranscript(chatCommittedText + " " + chatSessionInterim);
+          chatSessionInterim = "";
         }
 
         killChatRecognition();
@@ -2126,17 +2198,39 @@ Veerakumar
       isChatRecording = false;
       clearTimeout(chatRestartTimer);
 
+      const capturedLive = chatLatestLiveTranscript;
       const capturedFinal = chatSessionFinal;
+      const capturedInterim = chatSessionInterim;
+      const capturedInput = chatTextInput ? chatTextInput.value.trim() : "";
+
       killChatRecognition();
 
-      const totalSpeech = cleanSpeechTranscript(chatCommittedText + " " + capturedFinal);
+      // Gather from all possible sources: live transcript, final, interim, or typed text box
+      let totalSpeech = capturedLive;
+      if (!totalSpeech) {
+        totalSpeech = cleanSpeechTranscript(chatCommittedText + " " + capturedFinal + " " + capturedInterim);
+      }
+      if (!totalSpeech) {
+        totalSpeech = capturedInput;
+      }
+
+      totalSpeech = cleanSpeechTranscript(totalSpeech);
+
       chatCommittedText = "";
       chatSessionFinal = "";
+      chatSessionInterim = "";
+      chatLatestLiveTranscript = "";
 
       updateChatMicUI(false);
 
       if (shouldSend && totalSpeech) {
+        if (chatTextInput) {
+          chatTextInput.value = "";
+          chatTextInput.style.height = 'auto';
+        }
         handleUserChatMessage(totalSpeech);
+      } else if (!shouldSend && totalSpeech && chatTextInput) {
+        chatTextInput.value = totalSpeech;
       }
     }
 
