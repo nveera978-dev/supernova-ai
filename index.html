@@ -314,11 +314,19 @@
           <span>Test Sarah's Executive Voice</span>
         </button>
 
-        <!-- Cadence & Tamil Info -->
+        <!-- Cadence & Speech Rate Selector -->
         <div class="border-t border-slate-800 pt-2 space-y-2">
-          <div class="p-2.5 bg-[#0d111d] rounded-xl border border-slate-800 flex items-center justify-between">
-            <span>Executive Cadence (Pace)</span>
-            <strong class="text-purple-400 font-mono">0.92x (Measured & Articulate)</strong>
+          <div class="space-y-1.5">
+            <div class="flex items-center justify-between">
+              <label class="text-[11px] text-slate-300 font-bold">Executive Cadence & Speech Rate:</label>
+              <span id="speedBadgeLabel" class="text-[10px] text-purple-400 font-mono font-bold">1.02x</span>
+            </div>
+            <select id="voiceSpeedSelect" class="w-full bg-[#0d111d] border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-purple-500 font-sans">
+              <option value="1.02" selected>1.02x - Standard Native US Cadence (Recommended)</option>
+              <option value="0.95">0.95x - Deliberate Executive Cadence</option>
+              <option value="0.80">0.80x - Slow Pronunciation Breakdown (Snail)</option>
+              <option value="1.15">1.15x - Fast Conversational Cadence</option>
+            </select>
           </div>
           <div class="p-2.5 bg-[#0d111d] rounded-xl border border-slate-800 flex items-center justify-between">
             <span>Grammar Explanations</span>
@@ -367,9 +375,14 @@
       <div class="p-4 bg-[#0d111d] rounded-2xl border border-slate-800 space-y-2.5">
         <div class="flex items-center justify-between">
           <span class="text-[10px] text-slate-400 uppercase font-bold">Translate to English:</span>
-          <button id="listenPromptBtn" class="text-xs text-purple-400 hover:text-purple-300 flex items-center gap-1 font-semibold">
-            🔊 Listen Target
-          </button>
+          <div class="flex items-center gap-1.5">
+            <button id="listenPromptBtn" class="text-xs text-purple-400 hover:text-purple-300 flex items-center gap-1 font-semibold px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 transition-colors" title="Listen at normal speed">
+              🔊 <span>Listen</span>
+            </button>
+            <button id="listenSlowPromptBtn" class="text-xs text-amber-400 hover:text-amber-300 flex items-center gap-1 font-semibold px-2 py-1 rounded-lg bg-slate-900 border border-slate-800 transition-colors" title="Listen at 0.8x slow speed">
+              🐌 <span>Slow</span>
+            </button>
+          </div>
         </div>
         <h4 id="modalTamilPrompt" class="text-sm font-bold text-amber-300 font-tamil leading-relaxed">
           "நான் நாளைக்கு 10 மணிக்கு அலுவலகத்திற்கு வருவேன்."
@@ -403,7 +416,17 @@
 
           <!-- Native American Suggestion -->
           <div class="p-2.5 rounded-xl bg-slate-950 border border-slate-800 space-y-1">
-            <span class="text-[10px] text-slate-400 uppercase font-bold">Native American Phrasing:</span>
+            <div class="flex items-center justify-between">
+              <span class="text-[10px] text-slate-400 uppercase font-bold">Native American Phrasing:</span>
+              <div class="flex items-center gap-1">
+                <button id="listenResultEnBtn" class="text-[11px] text-emerald-400 hover:text-emerald-300 font-semibold px-2 py-0.5 rounded bg-slate-900 border border-slate-800 flex items-center gap-1 transition-colors" title="Listen at normal speed">
+                  🔊 <span>Listen</span>
+                </button>
+                <button id="listenResultSlowEnBtn" class="text-[11px] text-amber-400 hover:text-amber-300 font-semibold px-2 py-0.5 rounded bg-slate-900 border border-slate-800 flex items-center gap-1 transition-colors" title="Listen slow at 0.8x">
+                  🐌 <span>Slow</span>
+                </button>
+              </div>
+            </div>
             <p id="modalCorrectEn" class="text-emerald-300 font-bold text-xs"></p>
           </div>
 
@@ -484,6 +507,76 @@ Best regards,
 Veerakumar
         </div>
       </div>
+    </div>
+  </div>
+
+  <!-- ========================================================================= -->
+  <!-- MODAL: SUGGESTED TIP / MISTAKES PAARUNGAL (Inspired by Supernova AI)      -->
+  <!-- ========================================================================= -->
+  <div id="suggestedTipModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-[#161c2e] border border-slate-800 rounded-3xl max-w-sm w-full p-5 space-y-4 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+      <button id="closeTipModalBtn" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">&times;</button>
+      
+      <div class="flex items-center gap-2.5 border-b border-slate-800 pb-3">
+        <span class="text-2xl">💡</span>
+        <div>
+          <h3 class="text-sm font-bold text-white">Suggested Tip</h3>
+          <p class="text-[11px] text-purple-400 font-tamil">Mistakes paarungal & Pronunciation</p>
+        </div>
+      </div>
+
+      <!-- Section 1: What you said -->
+      <div class="p-3 bg-[#0d111d] rounded-2xl border border-slate-800 space-y-1.5">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] text-slate-400 uppercase font-bold flex items-center gap-1">
+            <span>🎙️</span> What you said:
+          </span>
+          <button id="tipUserAudioBtn" class="text-[11px] text-purple-400 hover:text-purple-300 font-semibold flex items-center gap-1">
+            🔊 Replay
+          </button>
+        </div>
+        <p id="tipUserText" class="text-xs text-rose-300/90 font-sans italic bg-rose-950/20 p-2.5 rounded-xl border border-rose-900/40 select-text whitespace-pre-wrap">
+          "I can't able to come tomorrow."
+        </p>
+      </div>
+
+      <!-- Section 2: Correct Response -->
+      <div class="p-3.5 bg-emerald-950/20 rounded-2xl border border-emerald-500/40 space-y-2">
+        <span class="text-[10px] text-emerald-400 uppercase font-bold flex items-center gap-1">
+          <span>✔️</span> Correct Executive English:
+        </span>
+        <p id="tipCorrectText" class="text-xs font-bold text-emerald-300 leading-relaxed font-sans select-text whitespace-pre-wrap">
+          "I am unable to attend tomorrow's meeting."
+        </p>
+        <div class="flex items-center gap-2 pt-1">
+          <button id="tipPlayNormalBtn" class="flex-1 py-1.5 px-2 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-bold flex items-center justify-center gap-1 shadow transition-all active:scale-95">
+            <span>▶ Tap to Play</span>
+          </button>
+          <button id="tipPlaySlowBtn" class="py-1.5 px-3 bg-amber-600/30 hover:bg-amber-600/50 border border-amber-500/50 text-amber-300 rounded-xl text-xs font-bold flex items-center justify-center gap-1 transition-all active:scale-95" title="Listen at 0.8x slow speed">
+            <span>🐌 Slow</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Section 3: Why it's wrong & Tamil Explanation -->
+      <div class="p-3 bg-[#0d111d] rounded-2xl border border-slate-800 space-y-2">
+        <div class="flex items-center justify-between">
+          <span class="text-[10px] text-amber-400 uppercase font-bold flex items-center gap-1">
+            <span>💡</span> Why it's wrong (Tamil Coaching):
+          </span>
+          <button id="tipExplainAudioBtn" class="text-[11px] text-amber-400 hover:text-amber-300 font-semibold flex items-center gap-1">
+            🔊 Listen
+          </button>
+        </div>
+        <p id="tipTamilExplanation" class="text-xs text-slate-200 font-tamil leading-relaxed select-text whitespace-pre-wrap">
+          'Can' மற்றும் 'Able' இரண்டுமே திறனைக் குறிக்கும் ஒரே அர்த்தம் கொண்ட சொற்கள். எனவே 'can't able' என்று இரட்டையாகப் பயன்படுத்தக் கூடாது. 'I am unable to' அல்லது 'I cannot' என்றே கூற வேண்டும்.
+        </p>
+      </div>
+
+      <!-- Action Button -->
+      <button id="tipGotItBtn" class="w-full py-2.5 bg-purple-600 hover:bg-purple-500 active:scale-98 text-white rounded-xl text-xs font-bold shadow-md transition-all">
+        Got it! Continue Practice 👍
+      </button>
     </div>
   </div>
 
@@ -694,7 +787,153 @@ Veerakumar
       if (chatStopBtn) chatStopBtn.classList.add('hidden');
     }
 
-    async function speakText(text) {
+    // =========================================================================
+    // HIGH-FIDELITY SPEECH SYNTHESIS ENGINE (US Executive Leadership Studio Audio)
+    // =========================================================================
+    let googleAudioQueue = [];
+    let googleAudioIndex = 0;
+
+    function textToSentences(text) {
+      if (!text) return [];
+      const clean = text.replace(/[\u0B80-\u0BFF]+/g, '').replace(/[*#_~()\[\]]/g, '').trim();
+      const sentences = clean.match(/[^.!?]+[.!?]+|[^.!?]+$/g) || [clean];
+      const chunks = [];
+      let cur = '';
+      for (const s of sentences) {
+        const trimmed = s.trim();
+        if (!trimmed) continue;
+        if ((cur + ' ' + trimmed).length <= 150) {
+          cur = (cur ? cur + ' ' : '') + trimmed;
+        } else {
+          if (cur) chunks.push(cur);
+          if (trimmed.length > 150) {
+            const words = trimmed.split(' ');
+            let wcur = '';
+            for (const w of words) {
+              if ((wcur + ' ' + w).length <= 150) {
+                wcur = (wcur ? wcur + ' ' : '') + w;
+              } else {
+                if (wcur) chunks.push(wcur);
+                wcur = w;
+              }
+            }
+            if (wcur) chunks.push(wcur);
+            cur = '';
+          } else {
+            cur = trimmed;
+          }
+        }
+      }
+      if (cur) chunks.push(cur);
+      return chunks;
+    }
+
+    // Convert raw Gemini 24kHz 16-bit mono PCM base64 to standard RIFF WAVE Blob
+    function pcmToWavBlob(pcmBase64, sampleRate = 24000, numChannels = 1, bitsPerSample = 16) {
+      try {
+        const binaryStr = window.atob(pcmBase64);
+        const dataLength = binaryStr.length;
+        const buffer = new ArrayBuffer(44 + dataLength);
+        const view = new DataView(buffer);
+
+        function writeString(offset, string) {
+          for (let i = 0; i < string.length; i++) {
+            view.setUint8(offset + i, string.charCodeAt(i));
+          }
+        }
+
+        writeString(0, 'RIFF');
+        view.setUint32(4, 36 + dataLength, true);
+        writeString(8, 'WAVE');
+
+        writeString(12, 'fmt ');
+        view.setUint32(16, 16, true);
+        view.setUint16(20, 1, true); // PCM format
+        view.setUint16(22, numChannels, true);
+        view.setUint32(24, sampleRate, true);
+        view.setUint32(28, sampleRate * numChannels * (bitsPerSample / 8), true);
+        view.setUint16(32, numChannels * (bitsPerSample / 8), true);
+        view.setUint16(34, bitsPerSample, true);
+
+        writeString(36, 'data');
+        view.setUint32(40, dataLength, true);
+
+        const uint8 = new Uint8Array(buffer, 44);
+        for (let i = 0; i < dataLength; i++) {
+          uint8[i] = binaryStr.charCodeAt(i);
+        }
+
+        return new Blob([buffer], { type: 'audio/wav' });
+      } catch(e) {
+        console.error("PCM to WAV conversion error:", e);
+        return null;
+      }
+    }
+
+    // Free Google US Neural Studio Voice Stream (Natural American Executive Voice)
+    function playGoogleNeuralTTS(cleanText, isSlow = false) {
+      return new Promise((resolve) => {
+        const chunks = textToSentences(cleanText);
+        if (!chunks.length) {
+          resolve();
+          return;
+        }
+
+        googleAudioQueue = chunks;
+        googleAudioIndex = 0;
+
+        function playNext() {
+          if (googleAudioIndex >= googleAudioQueue.length) {
+            isSpeakingAudio = false;
+            const ctrl = document.getElementById('novaAudioControl');
+            if (ctrl) ctrl.classList.add('hidden');
+            const chatStopBtn = document.getElementById('chatStopAudioBtn');
+            if (chatStopBtn) chatStopBtn.classList.add('hidden');
+            currentAudioElement = null;
+            resolve();
+            return;
+          }
+
+          const chunk = googleAudioQueue[googleAudioIndex++];
+          const url = `https://translate.google.com/translate_tts?ie=UTF-8&tl=en-US&client=tw-ob&q=${encodeURIComponent(chunk)}`;
+          const audio = new Audio(url);
+          currentAudioElement = audio;
+          isSpeakingAudio = true;
+
+          const userRate = parseFloat(localStorage.getItem('supernova_voice_speed') || '1.02');
+          audio.playbackRate = isSlow ? 0.8 : userRate;
+
+          const ctrl = document.getElementById('novaAudioControl');
+          if (ctrl) ctrl.classList.remove('hidden');
+          const chatStopBtn = document.getElementById('chatStopAudioBtn');
+          if (chatStopBtn) chatStopBtn.classList.remove('hidden');
+
+          audio.onended = () => {
+            playNext();
+          };
+
+          audio.onerror = (err) => {
+            console.log("Google neural stream fallback to browser:", err);
+            isSpeakingAudio = false;
+            currentAudioElement = null;
+            speakWithBrowserTTS(cleanText, isSlow);
+            resolve();
+          };
+
+          audio.play().catch(err => {
+            console.log("Audio autoplay prevented, fallback to browser:", err);
+            isSpeakingAudio = false;
+            currentAudioElement = null;
+            speakWithBrowserTTS(cleanText, isSlow);
+            resolve();
+          });
+        }
+
+        playNext();
+      });
+    }
+
+    async function speakText(text, isSlow = false) {
       stopNovaSpeaking();
 
       // Check if character voice is muted
@@ -709,42 +948,63 @@ Veerakumar
       lastSpokenText = cleanText;
 
       const chatStopBtn = document.getElementById('chatStopAudioBtn');
+      const ctrl = document.getElementById('novaAudioControl');
 
       // 1. Try Gemini Cloud AI Studio Voice if connected (Ultra-realistic human neural studio audio)
       if (GEMINI_KEY) {
         try {
           const audioData = await fetchGeminiSpeech(cleanText);
           if (audioData && audioData.base64) {
-            const audio = new Audio(`data:${audioData.mimeType};base64,${audioData.base64}`);
-            currentAudioElement = audio;
-            isSpeakingAudio = true;
-            if (chatStopBtn) chatStopBtn.classList.remove('hidden');
+            let audioUrl = '';
+            if (audioData.mimeType && audioData.mimeType.includes('pcm')) {
+              const wavBlob = pcmToWavBlob(audioData.base64, 24000);
+              if (wavBlob) audioUrl = URL.createObjectURL(wavBlob);
+            } else {
+              audioUrl = `data:${audioData.mimeType};base64,${audioData.base64}`;
+            }
 
-            audio.onended = () => {
-              isSpeakingAudio = false;
-              if (chatStopBtn) chatStopBtn.classList.add('hidden');
-              currentAudioElement = null;
-            };
-            audio.onerror = () => {
-              isSpeakingAudio = false;
-              if (chatStopBtn) chatStopBtn.classList.add('hidden');
-              currentAudioElement = null;
-              speakWithBrowserTTS(cleanText);
-            };
+            if (audioUrl) {
+              const audio = new Audio(audioUrl);
+              currentAudioElement = audio;
+              isSpeakingAudio = true;
+              const userRate = parseFloat(localStorage.getItem('supernova_voice_speed') || '1.02');
+              audio.playbackRate = isSlow ? 0.8 : userRate;
 
-            await audio.play();
-            return;
+              if (chatStopBtn) chatStopBtn.classList.remove('hidden');
+              if (ctrl) ctrl.classList.remove('hidden');
+
+              audio.onended = () => {
+                isSpeakingAudio = false;
+                if (chatStopBtn) chatStopBtn.classList.add('hidden');
+                if (ctrl) ctrl.classList.add('hidden');
+                currentAudioElement = null;
+              };
+              audio.onerror = () => {
+                isSpeakingAudio = false;
+                if (chatStopBtn) chatStopBtn.classList.add('hidden');
+                if (ctrl) ctrl.classList.add('hidden');
+                currentAudioElement = null;
+                playGoogleNeuralTTS(cleanText, isSlow);
+              };
+
+              await audio.play();
+              return;
+            }
           }
         } catch(err) {
-          console.log("Cloud speech fallback to browser:", err);
+          console.log("Cloud speech fallback to Google Neural TTS:", err);
         }
       }
 
-      // 2. Browser Native Speech Synthesis (Engineered for Native American Executive Cadence)
-      speakWithBrowserTTS(cleanText);
+      // 2. Free Google US Neural Studio Voice (100% Free, NO API Key needed, authentic Native American)
+      try {
+        await playGoogleNeuralTTS(cleanText, isSlow);
+      } catch(err) {
+        speakWithBrowserTTS(cleanText, isSlow);
+      }
     }
 
-    function speakWithBrowserTTS(cleanText) {
+    function speakWithBrowserTTS(cleanText, isSlow = false) {
       if (!('speechSynthesis' in window)) return;
 
       const utterance = new SpeechSynthesisUtterance(cleanText);
@@ -753,10 +1013,8 @@ Veerakumar
         utterance.voice = executiveVoice;
       }
 
-      // Native American Executive Cadence:
-      // Measured rate 0.92 gives authoritative, unhurried boardroom presence
-      // Pitch 1.02 gives warm, resonant female clarity
-      utterance.rate = 0.92;
+      const userRate = parseFloat(localStorage.getItem('supernova_voice_speed') || '1.02');
+      utterance.rate = isSlow ? 0.8 : userRate;
       utterance.pitch = 1.02;
 
       utterance.onstart = () => {
@@ -836,12 +1094,25 @@ Veerakumar
       loadVoices();
     }
 
+    // Voice Speed Selector in Preferences
+    const voiceSpeedSelect = document.getElementById('voiceSpeedSelect');
+    const speedBadgeLabel = document.getElementById('speedBadgeLabel');
+    const savedSpeed = localStorage.getItem('supernova_voice_speed') || '1.02';
+    if (voiceSpeedSelect) {
+      voiceSpeedSelect.value = savedSpeed;
+      if (speedBadgeLabel) speedBadgeLabel.innerText = `${savedSpeed}x`;
+      voiceSpeedSelect.onchange = () => {
+        localStorage.setItem('supernova_voice_speed', voiceSpeedSelect.value);
+        if (speedBadgeLabel) speedBadgeLabel.innerText = `${voiceSpeedSelect.value}x`;
+      };
+    }
+
     // Test Voice Button in Preferences
     const testVoiceBtn = document.getElementById('testCoachVoiceBtn');
     if (testVoiceBtn) {
       testVoiceBtn.addEventListener('click', () => {
         stopNovaSpeaking();
-        speakText("Hey Veerakumar! I am Coach Sarah. Speaking with steady, deliberate pacing builds tremendous executive presence in leadership meetings. You have great potential, and we are going to master your corporate fluency together!");
+        speakText("Hey Veerakumar! I am Coach Sarah. Speaking with confident native pacing builds tremendous executive presence in leadership meetings. You have great potential, and we are going to master your corporate fluency together!");
       });
     }
 
@@ -1153,8 +1424,15 @@ Veerakumar
 
     // Listen button speaks the correct answer for model listening
     document.getElementById('listenPromptBtn').addEventListener('click', () => {
-      speakText(currentActiveChapter.correct);
+      speakText(currentActiveChapter.correct, false);
     });
+
+    const listenSlowPromptBtn = document.getElementById('listenSlowPromptBtn');
+    if (listenSlowPromptBtn) {
+      listenSlowPromptBtn.addEventListener('click', () => {
+        speakText(currentActiveChapter.correct, true);
+      });
+    }
 
     // Check Answer Button (DYNAMIC AI or SMART LINGUISTIC GRADING)
     document.getElementById('modalCheckBtn').addEventListener('click', async () => {
@@ -1263,6 +1541,22 @@ Veerakumar
         alert("🎉 Congratulations! You have completed all 45 chapters!");
       }
     });
+
+    const listenResBtn = document.getElementById('listenResultEnBtn');
+    if (listenResBtn) {
+      listenResBtn.addEventListener('click', () => {
+        const text = document.getElementById('modalCorrectEn').innerText.replace(/^"|"$/g, '').trim();
+        if (text) speakText(text, false);
+      });
+    }
+
+    const listenResSlowBtn = document.getElementById('listenResultSlowEnBtn');
+    if (listenResSlowBtn) {
+      listenResSlowBtn.addEventListener('click', () => {
+        const text = document.getElementById('modalCorrectEn').innerText.replace(/^"|"$/g, '').trim();
+        if (text) speakText(text, true);
+      });
+    }
 
     // =========================================================================
     // SPEECH TRANSCRIPTION CLEANING & DEDUPLICATION UTILITY
@@ -1502,14 +1796,24 @@ Veerakumar
               <div class="max-w-[88%] bg-[#161c2e] border border-slate-700/80 text-slate-100 rounded-2xl rounded-tl-xs p-3.5 shadow-md space-y-2.5">
                 <div class="flex items-center justify-between border-b border-slate-800/80 pb-1.5">
                   <span class="text-[10px] font-bold text-purple-400 font-mono tracking-wider">COACH SARAH</span>
-                  <button class="msg-speak-btn text-[11px] text-slate-400 hover:text-purple-300 active:scale-95 flex items-center gap-1 font-semibold transition-colors" data-msg-idx="${idx}" title="Listen to this message">
-                    🔊 <span>Listen</span>
-                  </button>
+                  <div class="flex items-center gap-1.5">
+                    <button class="msg-speak-btn text-[11px] text-slate-300 hover:text-white px-2 py-0.5 rounded-lg bg-slate-900 border border-slate-700 active:scale-95 flex items-center gap-1 font-semibold transition-colors" data-msg-idx="${idx}" title="Listen to this message at standard native speed">
+                      🔊 <span>Listen</span>
+                    </button>
+                    <button class="msg-slow-btn text-[11px] text-amber-400 hover:text-amber-300 px-2 py-0.5 rounded-lg bg-slate-900 border border-slate-700 active:scale-95 flex items-center gap-1 font-semibold transition-colors" data-msg-idx="${idx}" title="Listen slow at 0.8x for pronunciation">
+                      🐌 <span>Slow</span>
+                    </button>
+                  </div>
                 </div>
                 <p class="text-xs leading-relaxed text-slate-200 font-sans select-text whitespace-pre-wrap">${escapeHtml(msg.text)}</p>
                 ${msg.tamilNote ? `
-                  <div class="p-2.5 bg-[#0d111d] rounded-xl border border-amber-500/30 text-amber-200 text-xs font-tamil leading-relaxed space-y-1">
-                    <span class="text-[10px] text-amber-400 uppercase font-bold block">💡 Tamil Coaching Note:</span>
+                  <div class="p-2.5 bg-[#0d111d] rounded-xl border border-amber-500/30 text-amber-200 text-xs font-tamil leading-relaxed space-y-1.5">
+                    <div class="flex items-center justify-between">
+                      <span class="text-[10px] text-amber-400 uppercase font-bold">💡 Tamil Coaching Note:</span>
+                      <button class="msg-tip-btn text-[10px] px-2 py-0.5 rounded-lg bg-purple-900/70 hover:bg-purple-800 text-purple-200 font-sans font-bold flex items-center gap-1 border border-purple-600/50 transition-colors" data-msg-idx="${idx}" title="Open Suggested Tip & Mistakes modal">
+                        <span>Mistakes paarungal!</span> ➔
+                      </button>
+                    </div>
                     <div>${escapeHtml(msg.tamilNote)}</div>
                   </div>
                 ` : ''}
@@ -1520,7 +1824,7 @@ Veerakumar
         }
       }).join('');
 
-      // Wire replay audio listeners
+      // 1. Normal Listen (1.02x)
       container.querySelectorAll('.msg-speak-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
           e.stopPropagation();
@@ -1528,13 +1832,118 @@ Veerakumar
           if (chatHistory[i] && chatHistory[i].text) {
             const wasMuted = isVoiceMuted;
             isVoiceMuted = false;
-            speakText(chatHistory[i].text);
+            speakText(chatHistory[i].text, false);
             isVoiceMuted = wasMuted;
           }
         });
       });
 
+      // 2. Slow Listen (0.8x for pronunciation dissection)
+      container.querySelectorAll('.msg-slow-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const i = parseInt(btn.getAttribute('data-msg-idx'), 10);
+          if (chatHistory[i] && chatHistory[i].text) {
+            const wasMuted = isVoiceMuted;
+            isVoiceMuted = false;
+            speakText(chatHistory[i].text, true);
+            isVoiceMuted = wasMuted;
+          }
+        });
+      });
+
+      // 3. Suggested Tip Modal Trigger (Mistakes paarungal!)
+      container.querySelectorAll('.msg-tip-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const i = parseInt(btn.getAttribute('data-msg-idx'), 10);
+          const currentMsg = chatHistory[i];
+          if (!currentMsg) return;
+
+          let prevUserText = "";
+          for (let p = i - 1; p >= 0; p--) {
+            if (chatHistory[p].sender === 'user') {
+              prevUserText = chatHistory[p].text;
+              break;
+            }
+          }
+          openSuggestedTipModal(prevUserText || "Your spoken sentence", currentMsg.text, currentMsg.tamilNote);
+        });
+      });
+
       container.scrollTop = container.scrollHeight;
+    }
+
+    // =========================================================================
+    // SUGGESTED TIP / MISTAKES PAARUNGAL MODAL CONTROLLER
+    // =========================================================================
+    let currentTipUserText = "";
+    let currentTipCorrectText = "";
+    let currentTipExplanation = "";
+
+    function openSuggestedTipModal(userText, correctText, tamilExplanation) {
+      currentTipUserText = userText;
+      currentTipCorrectText = correctText;
+      currentTipExplanation = tamilExplanation;
+
+      const modal = document.getElementById('suggestedTipModal');
+      const uEl = document.getElementById('tipUserText');
+      const cEl = document.getElementById('tipCorrectText');
+      const tEl = document.getElementById('tipTamilExplanation');
+
+      if (uEl) uEl.innerText = `"${userText}"`;
+      if (cEl) cEl.innerText = `"${correctText}"`;
+      if (tEl) tEl.innerText = tamilExplanation || "Review and master this executive structure.";
+
+      if (modal) modal.classList.remove('hidden');
+
+      speakText(correctText, false);
+    }
+
+    const closeTipBtn = document.getElementById('closeTipModalBtn');
+    if (closeTipBtn) {
+      closeTipBtn.addEventListener('click', () => {
+        stopNovaSpeaking();
+        const m = document.getElementById('suggestedTipModal');
+        if (m) m.classList.add('hidden');
+      });
+    }
+
+    const tipGotIt = document.getElementById('tipGotItBtn');
+    if (tipGotIt) {
+      tipGotIt.addEventListener('click', () => {
+        stopNovaSpeaking();
+        const m = document.getElementById('suggestedTipModal');
+        if (m) m.classList.add('hidden');
+      });
+    }
+
+    const tipUserAudio = document.getElementById('tipUserAudioBtn');
+    if (tipUserAudio) {
+      tipUserAudio.addEventListener('click', () => {
+        if (currentTipUserText) speakText(currentTipUserText, false);
+      });
+    }
+
+    const tipPlayNormal = document.getElementById('tipPlayNormalBtn');
+    if (tipPlayNormal) {
+      tipPlayNormal.addEventListener('click', () => {
+        if (currentTipCorrectText) speakText(currentTipCorrectText, false);
+      });
+    }
+
+    const tipPlaySlow = document.getElementById('tipPlaySlowBtn');
+    if (tipPlaySlow) {
+      tipPlaySlow.addEventListener('click', () => {
+        if (currentTipCorrectText) speakText(currentTipCorrectText, true);
+      });
+    }
+
+    const tipExplainAudio = document.getElementById('tipExplainAudioBtn');
+    if (tipExplainAudio) {
+      tipExplainAudio.addEventListener('click', () => {
+        if (currentTipExplanation) speakText(currentTipExplanation, false);
+      });
     }
 
     function escapeHtml(text) {
