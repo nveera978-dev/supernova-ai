@@ -887,10 +887,9 @@ Veerakumar
       }
     }
 
-    // Call Gemini REST API directly from browser
+    // Call Gemini REST API directly from browser with multi-model resilience
     async function callGemini(promptText, systemInstruction) {
       if (!GEMINI_KEY) return null;
-      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_KEY}`;
       
       const payload = {
         contents: [
@@ -906,32 +905,36 @@ Veerakumar
         };
       }
 
-      try {
-        const resp = await fetch(url, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
+      function extractResponseText(data) {
+        if (!data || !data.candidates || !data.candidates[0] || !data.candidates[0].content) return null;
+        const parts = data.candidates[0].content.parts || [];
+        for (let i = parts.length - 1; i >= 0; i--) {
+          if (!parts[i].thought && parts[i].text) {
+            return parts[i].text;
+          }
+        }
+        return parts[0] ? parts[0].text : null;
+      }
 
-        if (!resp.ok) {
-          // Fallback to gemini-1.5-flash if 2.5 is rate-limited
-          const fallbackUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_KEY}`;
-          const fallbackResp = await fetch(fallbackUrl, {
+      const modelsToTry = ['gemini-2.0-flash', 'gemini-2.5-flash', 'gemini-1.5-flash'];
+      for (const model of modelsToTry) {
+        try {
+          const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${GEMINI_KEY}`;
+          const resp = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(payload)
           });
-          if (!fallbackResp.ok) throw new Error("API call failed");
-          const fData = await fallbackResp.json();
-          return fData.candidates[0].content.parts[0].text;
+          if (resp.ok) {
+            const data = await resp.json();
+            const text = extractResponseText(data);
+            if (text && text.trim()) return text;
+          }
+        } catch (err) {
+          console.warn(`Gemini ${model} attempt error:`, err);
         }
-
-        const data = await resp.json();
-        return data.candidates[0].content.parts[0].text;
-      } catch (err) {
-        console.error("Gemini API Error:", err);
-        return null;
       }
+      return null;
     }
 
     // =========================================================================
@@ -1261,12 +1264,59 @@ Veerakumar
       }
     });
 
+    // =========================================================================
+    // SPEECH TRANSCRIPTION CLEANING & DEDUPLICATION UTILITY
+    // =========================================================================
+    // Completely eliminates 2x/3x word duplication and recognizer restart echoes
+    function cleanSpeechTranscript(text) {
+      if (!text) return "";
+      let s = text.replace(/\s+/g, ' ').trim();
+      if (!s) return "";
+
+      // 1. Deduplicate consecutive repeated single words (e.g. 'hello hello' -> 'hello')
+      const words = s.split(' ');
+      const dedupedWords = [];
+      for (let i = 0; i < words.length; i++) {
+        const cur = words[i];
+        const prev = dedupedWords[dedupedWords.length - 1];
+        if (!prev || cur.toLowerCase() !== prev.toLowerCase()) {
+          dedupedWords.push(cur);
+        }
+      }
+      s = dedupedWords.join(' ');
+
+      // 2. Deduplicate consecutive repeated phrases (2 to 10 words)
+      // Handles 2x, 3x duplicated phrases caused by Android Chrome recognizer restarts
+      let tokens = s.split(' ');
+      for (let n = Math.min(10, Math.floor(tokens.length / 2)); n >= 2; n--) {
+        for (let i = 0; i <= tokens.length - 2 * n; i++) {
+          const phrase1 = tokens.slice(i, i + n).map(w => w.toLowerCase().replace(/[^a-z0-9]/g, '')).join(' ');
+          const phrase2 = tokens.slice(i + n, i + 2 * n).map(w => w.toLowerCase().replace(/[^a-z0-9]/g, '')).join(' ');
+          if (phrase1 && phrase1 === phrase2) {
+            tokens.splice(i + n, n);
+            i--; // re-check at same index in case phrase was repeated 3x or 4x
+          }
+        }
+      }
+      return tokens.join(' ').replace(/\s+/g, ' ').trim();
+    }
+
     // Microphone in Lesson Modal (Zero-Duplication Continuous Dictation across pauses)
     let isLessonRecording = false;
     let lessonRecognition = null;
     let lessonCommittedText = '';
     let lessonSessionFinal = '';
     let lessonRestartTimer = null;
+
+    function killLessonRecognition() {
+      if (lessonRecognition) {
+        lessonRecognition.onresult = null;
+        lessonRecognition.onerror = null;
+        lessonRecognition.onend = null;
+        try { lessonRecognition.abort(); } catch(e){}
+        lessonRecognition = null;
+      }
+    }
 
     document.getElementById('modalMicBtn').addEventListener('click', () => {
       stopNovaSpeaking();
@@ -1284,12 +1334,11 @@ Veerakumar
         // User clicked to Stop
         isLessonRecording = false;
         clearTimeout(lessonRestartTimer);
-        if (lessonRecognition) {
-          try { lessonRecognition.stop(); } catch(e){}
-        }
+        const capturedFinal = lessonSessionFinal;
+        killLessonRecognition();
         micText.innerText = "Speak";
         micBtn.classList.remove('bg-rose-600', 'speech-wave');
-        const finalRecorded = (lessonCommittedText + " " + lessonSessionFinal).replace(/\s+/g, ' ').trim();
+        const finalRecorded = cleanSpeechTranscript(lessonCommittedText + " " + capturedFinal);
         if (finalRecorded) inputEl.value = finalRecorded;
         lessonCommittedText = '';
         lessonSessionFinal = '';
@@ -1304,7 +1353,7 @@ Veerakumar
 
         function launchLessonRecognition() {
           if (!isLessonRecording) return;
-          try { if (lessonRecognition) lessonRecognition.abort(); } catch(e){}
+          killLessonRecognition();
 
           lessonRecognition = new SR();
           lessonRecognition.continuous = true;
@@ -1324,7 +1373,8 @@ Veerakumar
               }
             }
             lessonSessionFinal = final;
-            inputEl.value = (lessonCommittedText + " " + lessonSessionFinal + " " + interim).replace(/\s+/g, ' ').trim();
+            const currentDeduped = cleanSpeechTranscript(lessonCommittedText + " " + lessonSessionFinal);
+            inputEl.value = (currentDeduped + (interim ? " " + interim.trim() : "")).replace(/\s+/g, ' ').trim();
           };
 
           lessonRecognition.onerror = (e) => {
@@ -1332,14 +1382,16 @@ Veerakumar
           };
 
           lessonRecognition.onend = () => {
-            if (isLessonRecording) {
-              lessonCommittedText = (lessonCommittedText + " " + lessonSessionFinal).replace(/\s+/g, ' ').trim();
+            if (!isLessonRecording) return;
+            if (lessonSessionFinal && lessonSessionFinal.trim()) {
+              lessonCommittedText = cleanSpeechTranscript(lessonCommittedText + " " + lessonSessionFinal);
               lessonSessionFinal = '';
-              clearTimeout(lessonRestartTimer);
-              lessonRestartTimer = setTimeout(() => {
-                if (isLessonRecording) launchLessonRecognition();
-              }, 150);
             }
+            killLessonRecognition();
+            clearTimeout(lessonRestartTimer);
+            lessonRestartTimer = setTimeout(() => {
+              if (isLessonRecording) launchLessonRecognition();
+            }, 100);
           };
 
           try {
@@ -1522,6 +1574,16 @@ Veerakumar
     let chatSessionFinal = "";
     let chatRestartTimer = null;
 
+    function killChatRecognition() {
+      if (chatRecognition) {
+        chatRecognition.onresult = null;
+        chatRecognition.onerror = null;
+        chatRecognition.onend = null;
+        try { chatRecognition.abort(); } catch(e){}
+        chatRecognition = null;
+      }
+    }
+
     const chatMicBtn = document.getElementById('chatMicBtn');
     const chatMicStatus = document.getElementById('chatMicStatusLabel');
     const liveSubtitle = document.getElementById('liveSubtitleText');
@@ -1582,11 +1644,9 @@ Veerakumar
 
     function launchChatRecognition() {
       const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SR) return;
+      if (!SR || !isChatRecording) return;
 
-      try {
-        if (chatRecognition) chatRecognition.abort();
-      } catch(e){}
+      killChatRecognition();
 
       chatRecognition = new SR();
       chatRecognition.continuous = true;
@@ -1608,7 +1668,8 @@ Veerakumar
         }
         chatSessionFinal = final;
 
-        const liveText = (chatCommittedText + " " + chatSessionFinal + " " + interim).replace(/\s+/g, ' ').trim();
+        const currentDeduped = cleanSpeechTranscript(chatCommittedText + " " + chatSessionFinal);
+        const liveText = (currentDeduped + (interim ? " " + interim.trim() : "")).replace(/\s+/g, ' ').trim();
         if (liveSubtitle && liveText) {
           liveSubtitle.innerText = liveText;
           liveSubtitle.className = "text-xs text-purple-300 font-medium italic";
@@ -1624,20 +1685,25 @@ Veerakumar
       };
 
       chatRecognition.onend = () => {
-        if (isChatRecording) {
-          chatCommittedText = (chatCommittedText + " " + chatSessionFinal).replace(/\s+/g, ' ').trim();
+        if (!isChatRecording) return;
+
+        if (chatSessionFinal && chatSessionFinal.trim()) {
+          chatCommittedText = cleanSpeechTranscript(chatCommittedText + " " + chatSessionFinal);
           chatSessionFinal = "";
-          clearTimeout(chatRestartTimer);
-          chatRestartTimer = setTimeout(() => {
-            if (isChatRecording) {
-              try {
-                launchChatRecognition();
-              } catch(err){
-                console.log("Voice restart error:", err);
-              }
-            }
-          }, 150);
         }
+
+        killChatRecognition();
+
+        clearTimeout(chatRestartTimer);
+        chatRestartTimer = setTimeout(() => {
+          if (isChatRecording) {
+            try {
+              launchChatRecognition();
+            } catch(err){
+              console.log("Voice restart error:", err);
+            }
+          }
+        }, 100);
       };
 
       try {
@@ -1651,11 +1717,10 @@ Veerakumar
       isChatRecording = false;
       clearTimeout(chatRestartTimer);
 
-      if (chatRecognition) {
-        try { chatRecognition.stop(); } catch(e){}
-      }
+      const capturedFinal = chatSessionFinal;
+      killChatRecognition();
 
-      const totalSpeech = (chatCommittedText + " " + chatSessionFinal).replace(/\s+/g, ' ').trim();
+      const totalSpeech = cleanSpeechTranscript(chatCommittedText + " " + capturedFinal);
       chatCommittedText = "";
       chatSessionFinal = "";
 
@@ -1666,6 +1731,128 @@ Veerakumar
       }
     }
 
+    // =========================================================================
+    // COACH SARAH CONVERSATIONAL INTELLIGENCE ENGINE (DEEP TOPIC & INTENT UNDERSTANDING)
+    // =========================================================================
+    function generateSarahResponse(userText) {
+      if (!userText || !userText.trim()) return null;
+      const raw = userText.trim();
+      const low = raw.toLowerCase();
+
+      let en = '';
+      let ta = '';
+
+      // 1. TAMIL MTI & GRAMMATICAL REFINEMENTS (HIGHEST PRIORITY)
+      if (low.includes("can't able") || low.includes("cannot able") || low.includes("couldn't able") || low.includes("could not able")) {
+        en = "I understand the hurdle! In English, 'can' and 'able' both signify capability. Instead of 'can't able', say 'I am unable to do this' or 'I cannot do this'. What specific task is posing a challenge?";
+        ta = "'Can' மற்றும் 'Able' இரண்டுமே திறனைக் (Capability) குறிக்கும். எனவே 'can't able' என்று இரட்டையாகப் பயன்படுத்தக் கூடாது. 'I am unable to' அல்லது 'I cannot' என்றே பயன்படுத்த வேண்டும்.";
+      } else if (low.includes("buyed")) {
+        en = "The past tense of buy is irregular—it is 'bought', never 'buyed'. You can say: 'I bought new equipment for my workspace.' What other tools did you purchase recently?";
+        ta = "'Buy'-ன் இறந்த காலம் (Past Tense) 'bought' மட்டுமே, 'buyed' அல்ல. எ.கா: 'I bought a new phone'.";
+      } else if (low.includes("doubt")) {
+        en = "In international business, 'doubt' implies suspicion or disbelief! When you need clarity, say 'I have a question' or 'Could you clarify this point?'. What detail would you like to clarify?";
+        ta = "கார்ப்பரேட் சூழலில் 'I have a doubt' என்று சொல்லக் கூடாது (doubt என்றால் சந்தேகம்/நம்பிக்கையின்மை). 'I have a question' அல்லது 'Could you please clarify this?' என்று கேட்க வேண்டும்.";
+      } else if (low.includes("revert back")) {
+        en = "'Revert' already means to return or reply, so adding 'back' is redundant. Say 'I will revert by 3 PM' or 'I will get back to you shortly'. When do you expect the next update?";
+        ta = "'Revert' என்ற சொல்லுக்கே 'பதிலளிப்பது' என்று பொருள். அதனுடன் 'back' சேர்க்கக் கூடாது. 'I will get back to you' அல்லது 'I will revert' என்பதே சரி.";
+      } else if (low.match(/didn't (went|came|saw|took|got|did|played|wrote|spoke)/i) || low.match(/did not (went|came|saw|took|got|did|played|wrote|spoke)/i)) {
+        en = "When you use 'didn't' or 'did not', always pair it with the base form of the verb: 'didn't go', 'didn't see', or 'didn't come'. Who did you need to connect with regarding this?";
+        ta = "'Didn't' அல்லது 'did not' வந்தாலே அடுத்து Base Verb (Present form) தான் வர வேண்டும்: 'didn't go' (didn't went அல்ல), 'didn't see' (didn't saw அல்ல).";
+      } else if (low.includes("today morning") || low.includes("yesterday night")) {
+        en = "Native speakers say 'this morning' instead of 'today morning', and 'last night' instead of 'yesterday night'. What was the primary takeaway from that session?";
+        ta = "இயல்பான ஆங்கிலத்தில் 'today morning' என்பதற்குப் பதிலாக 'this morning' என்றும், 'yesterday night' என்பதற்குப் பதிலாக 'last night' என்றும் கூற வேண்டும்.";
+      } else if (low.includes("prepone")) {
+        en = "The term 'prepone' is unique to Indian English. In global teams, say 'bring forward', 'advance the meeting', or 'reschedule earlier'. What time works best for the discussion?";
+        ta = "சர்வதேச கார்ப்பரேட் ஆங்கிலத்தில் 'Prepone' என்ற சொல் பயன்பாட்டில் இல்லை. 'Bring forward' அல்லது 'Reschedule earlier' என்று பயன்படுத்தவும்.";
+      } else if (low.match(/\bmyself [a-z]+/i)) {
+        en = "When introducing yourself in meetings or interviews, always say 'I am Veerakumar' or 'My name is Veerakumar'. Starting with 'Myself' is grammatically incomplete.";
+        ta = "சுய அறிமுகம் செய்யும்போது 'Myself Veerakumar' என்று சொல்லக் கூடாது. 'I am Veerakumar' அல்லது 'My name is Veerakumar' என்று கூறுவதே தொழில்முறை தரம்.";
+      } else if (low.includes("pass out") || low.includes("passed out")) {
+        en = "In native English, 'to pass out' means to faint or lose consciousness! When referring to completing college, say 'I graduated in 2021'. What was your engineering major?";
+        ta = "'Pass out' என்றால் மயக்கமடைவது என்று பொருள். கல்லூரியில் படிப்பை முடித்ததற்கு 'I graduated' என்று சொல்ல வேண்டும்.";
+      } else if (low.includes("discuss about")) {
+        en = "Notice that 'discuss' already means 'talk about', so omit 'about'. Say 'Let's discuss the project timeline' instead of 'discuss about'. What agenda item would you like to cover?";
+        ta = "'Discuss' என்ற சொல்லிலேயே 'about' அடங்கியுள்ளது. எனவே 'discuss about' தவறு; 'let us discuss the project' என்று நேரடியாகக் கூற வேண்டும்.";
+      } else if (low.includes("cope up with")) {
+        en = "The correct idiom in English is simply 'cope with', without the word 'up'. For example: 'He is learning to cope with heavy workloads'.";
+        ta = "'Cope up with' என்பது தவறான பயன்பாடு; 'Cope with' என்று மட்டுமே பயன்படுத்த வேண்டும்.";
+      } else if (low.includes("one of my friend")) {
+        en = "When using 'one of my', the noun must be plural because you are selecting one among many: 'one of my friends' or 'one of my colleagues'. What did your colleague suggest?";
+        ta = "'One of my' பயன்படுத்தும்போது பலரில் ஒருவர் என்பதால் பெயர்ச்சொல் பன்மையாக (Plural) இருக்க வேண்டும்: 'one of my friends' ('friend' அல்ல).";
+      } else if (low.includes("tell to me") || low.includes("say to me")) {
+        en = "In English, say 'tell me' or 'say something to me'. 'Tell' takes an object directly without 'to': 'He told me about the release'. What did they share?";
+        ta = "'Tell' தொடர்ந்து நேரடியாக Object வர வேண்டும்: 'tell me' என்பதே சரி, 'tell to me' தவறு.";
+      } else if (low.includes("anyways")) {
+        en = "In standard corporate English, the correct word is 'anyway' without the 's'. For example: 'Anyway, let us focus on our primary deliverable'.";
+        ta = "முறையான ஆங்கிலத்தில் 'anyways' என்று கூறக் கூடாது; 'anyway' என்று மட்டுமே சொல்ல வேண்டும்.";
+      }
+
+      // 2. CONVERSATIONAL INTENT & QUESTION ANSWERING
+      if (!en) {
+        if (low.includes("can you hear") || low.includes("am i audible") || low.includes("mic test") || low.includes("hear me") || low.includes("testing")) {
+          en = "I hear you loud and clear, Veera! Your voice input is transmitting crisply. What would you like to practice or discuss today?";
+          ta = "உங்கள் குரல் தெளிவாகக் கேட்கிறது! இன்று நாம் எந்த தலைப்பில் பேசலாம்?";
+        } else if (low.includes("who are you") || low.includes("your name") || low.includes("what do you do") || low.includes("tell me about yourself")) {
+          en = "I am Coach Sarah, your personal executive communication coach. I help engineers articulate technical ideas with the confidence and cadence of global tech leaders. What communication goal are you aiming for this week?";
+          ta = "நான் கோச் சாரா. தொழில்நுட்ப வல்லுநர்கள் தங்கள் கருத்துக்களை சர்வதேச தலைவர்களைப் போல தன்னம்பிக்கையுடன் பேச பயிற்சி அளிக்கிறேன்.";
+        } else if (low.includes("how to improve") || low.includes("how can i improve") || low.includes("fluency") || low.includes("fluent") || low.includes("speak better") || low.includes("practice english")) {
+          en = "Fluency comes from cadence and confidence, not speed! First, stop translating Tamil word-by-word. Second, pause for one second before key points to command attention. Third, practice describing your daily tasks out loud. Tell me: what was the last script or task you worked on?";
+          ta = "ஆங்கிலத்தில் யோசித்து ஆங்கிலத்திலேயே பேசுங்கள். தமிழ் வார்த்தைகளை ஒவ்வொன்றாக மொழிபெயர்க்க வேண்டாம். முக்கிய கருத்துக்களைப் பேசும் முன் 1 வினாடி இடைவெளி (pause) விட்டுப் பேசுங்கள்.";
+        } else if (low.includes("interview") || low.includes("job") || low.includes("resume") || low.includes("hire") || low.includes("hiring")) {
+          en = "For interviews, the most persuasive framework is STAR: Situation, Task, Action, and Result. Always lead with the business impact of your work. How would you answer: 'Can you introduce yourself and your recent automation work?'";
+          ta = "நேர்காணல்களில் (Interviews) STAR முறையைப் பின்பற்றுங்கள்: Situation (சூழ்நிலை), Task (பணி), Action (நீங்கள் எடுத்த நடவடிக்கை), Result (முடிவு மற்றும் பலன்).";
+        } else if (low.includes("nervous") || low.includes("fear") || low.includes("afraid") || low.includes("hesitate") || low.includes("hesitation") || low.includes("stuck")) {
+          en = "It is completely normal to feel hesitation when speaking a second language! In executive communication, brief pauses make you sound thoughtful, not hesitant. Take a deep breath and speak with steady cadence. Let's practice together right now!";
+          ta = "பதற்றமடையத் தேவையில்லை! பேசும்போது நிறுத்தி நிதானமாகப் பேசுவது உங்களை ஒரு சிந்தனையாளராகவும் தலைமைப் பண்பு கொண்டவராகவும் காட்டும்.";
+        } else if (low.includes("python") || low.includes("automation") || low.includes("script") || low.includes("pipeline") || low.includes("code") || low.includes("bug") || low.includes("server") || low.includes("api")) {
+          en = "Automation and engineering require clear, concise communication. When presenting technical solutions to leadership, highlight the outcome first—such as time saved or reliability gained. What is the latest optimization you built?";
+          ta = "தொழில்நுட்ப பணிகளைப் பற்றி பேசும்போது 'This automation saves 4 hours of manual effort weekly' என்று அதன் வணிகப் பலனை (Business Value) முன்னிறுத்திப் பேசுங்கள்.";
+        } else if (low.includes("standup") || low.includes("meeting") || low.includes("client") || low.includes("presentation") || low.includes("call")) {
+          en = "In standups and client calls, keep your updates crisp: 'Yesterday I finished the core modules, today I am running integration tests, and I have no blockers.' How did your last team meeting go?";
+          ta = "தினசரி ஸ்டாண்டப் மீட்டிங்கில் 30 வினாடிகளில் என்ன செய்தீர்கள், என்ன செய்யப் போகிறீர்கள், ஏதேனும் தடை உள்ளதா என்பதை சுருக்கமாகக் கூறுங்கள்.";
+        } else if (low.includes("feedback") || low.includes("how was my") || low.includes("did i speak") || low.includes("is it correct") || low.includes("check this")) {
+          en = "Your vocal delivery was clear and your words were well-structured! To make it even more compelling, emphasize the action verbs and conclude firmly without trailing off. What aspect would you like to refine next?";
+          ta = "உங்கள் உச்சரிப்பு தெளிவாக இருந்தது! வினைச்சொற்களுக்கு (Action Verbs) கூடுதல் அழுத்தம் கொடுத்து பேசிப் பழகுங்கள்.";
+        } else if (low.includes("hello") || low.includes("hi") || low.includes("hey") || low.includes("good morning") || low.includes("good afternoon") || low.includes("good evening")) {
+          en = "Hello Veera! Great to hear your voice. I am ready to coach you. Tell me about your day so far, or what project you're currently driving forward!";
+          ta = "வணக்கம் வீரா! உங்கள் குரலைக் கேட்பதில் மகிழ்ச்சி. உங்கள் இன்றைய பணிகளைப் பற்றி பேசத் தொடங்குங்கள்.";
+        } else if (low === "yes" || low === "yeah" || low === "ok" || low === "okay" || low === "sure" || low === "understood" || low === "fine" || low === "got it") {
+          en = "Terrific! Let's put this into action. Try telling me in two sentences: what is the most important milestone you want to achieve this week?";
+          ta = "சிறப்பு! இந்த வாரம் நீங்கள் முடிக்க விரும்பும் மிக முக்கியமான பணி என்ன என்பதை இரண்டு வாக்கியங்களில் கூறிப் பழகுங்கள்.";
+        } else if (low.startsWith("why ") || low.startsWith("what ") || low.startsWith("how ") || low.startsWith("can you ") || low.startsWith("could you ")) {
+          en = "That is an insightful question! Asking crisp questions is a hallmark of leadership. In corporate meetings, leading with 'Could you clarify the core requirement?' builds strong alignment. What is your priority here?";
+          ta = "கார்ப்பரேட் கூட்டங்களில் தெளிவான கேள்விகளைக் கேட்பது உங்கள் தலைமைப் பண்பை (Executive Presence) வெளிப்படுத்தும்.";
+        }
+      }
+
+      // 3. DYNAMIC CONTEXTUAL REFLECTION FOR GENERAL WORK & LIFE TOPICS
+      if (!en) {
+        let match = raw.match(/\b(going to|traveling to|heading to|visiting)\s+([^.!?]+)/i);
+        if (match) {
+          const dest = match[2].trim();
+          en = `That sounds like a productive trip! When mentioning travel plans in conversations, you can say: "I am scheduled to head to ${dest}." How are you planning your itinerary?`;
+          ta = "பயணத் திட்டங்களைப் பற்றி பேசும்போது 'I am scheduled to visit...' அல்லது 'I will be traveling to...' என்று தெளிவாகக் கூறலாம்.";
+        } else if (match = raw.match(/\b(planning to|preparing for|looking to|trying to)\s+([^.!?]+)/i)) {
+          const action = match[2].trim();
+          en = `That sounds like a meaningful initiative! Setting clear milestones for ${action} helps maintain strong momentum. What is your initial milestone for this?`;
+          ta = "எதிர்கால திட்டங்களைப் பற்றி பேசும்போது 'My primary objective is to...' என்று இலக்கை முன்னிறுத்திப் பேசுங்கள்.";
+        } else if (match = raw.match(/\b(working on|building|developing|creating|optimizing|fixing|debugging)\s+([^.!?]+)/i)) {
+          const task = match[2].trim();
+          en = `Focusing on ${task} is valuable work. In engineering updates, stating both the approach and expected impact will impress any team lead. How is your progress so far?`;
+          ta = "பணிகளைப் பற்றி விளக்கும்போது 'Currently, I am streamlining...' போன்ற வார்த்தைகளைப் பயன்படுத்துங்கள்.";
+        } else if (match = raw.match(/\b(completed|finished|deployed|delivered|released)\s+([^.!?]+)/i)) {
+          const task = match[2].trim();
+          en = `Excellent achievement on finishing ${task}! Acknowledging milestones with clarity builds tremendous executive credibility. What is the next deliverable on your roadmap?`;
+          ta = "முடித்த பணிகளைப் பற்றி கூறும்போது 'We successfully finalized...' என்று உறுதியுடன் கூறுங்கள்.";
+        } else {
+          en = "You articulated that with steady, confident rhythm! In leadership conversations, speaking in measured, deliberate phrases commands immediate attention. What is the next key milestone on your roadmap?";
+          ta = "தொடர்ந்து பேசும்போது உங்கள் வாக்கிய அமைப்பும் உச்சரிப்பும் இயல்பாக மாறும். தினமும் சில நிமிடங்கள் இதேபோல தொடர்ந்து பேசிப் பழகுங்கள்!";
+        }
+      }
+
+      return { en, ta };
+    }
+
     // Process Voice Message (Clean WhatsApp/Gemini Experience - NO "I heard you say", NO Brackets!)
     async function handleUserChatMessage(userText) {
       if (!userText || !userText.trim()) return;
@@ -1673,7 +1860,7 @@ Veerakumar
       const now = new Date();
       const timeStr = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
-      // 1. Add User Message to Chat Stream
+      // 1. Add User Message to Chat Stream (Clean & deduplicated)
       chatHistory.push({
         sender: "user",
         text: userText.trim(),
@@ -1710,9 +1897,10 @@ Veerakumar
 CRITICAL RULES:
 1. Speak with real native US executive presence: calm, articulate, confident, and inspiring (2-3 sentences max).
 2. Treat Veerakumar like a talented professional whom you are coaching for leadership meetings, boardroom discussions, and US client presentations.
-3. NEVER say "I heard you say", "You said", or repeat the user's sentence back to them.
-4. NEVER include meta commentary, disclaimers, markdown symbols, or bracketed instructions (NO "(Add your Gemini API key...)", NO "(Gemini API...)").
-5. If Veerakumar made a grammatical slip, Tamil MTI error (e.g., 'can't able', 'buyed', 'doubt', 'didn't went', 'revert back', 'prepone', 'pass out', 'today morning', 'myself [name]', 'tell me', 'anyways'), or awkward phrasing:
+3. DIRECTLY RESPOND to what Veerakumar spoke! Answer his question, comment on his specific topic, or provide actionable feedback.
+4. NEVER say "I heard you say", "You said", or repeat the user's sentence back to them.
+5. NEVER include meta commentary, disclaimers, markdown symbols, or bracketed instructions (NO "(Add your Gemini API key...)", NO "(Gemini API...)").
+6. If Veerakumar made a grammatical slip, Tamil MTI error (e.g., 'can't able', 'buyed', 'doubt', 'didn't went', 'revert back', 'prepone', 'pass out', 'today morning', 'myself [name]', 'tell me', 'anyways'), or awkward phrasing:
    - Provide your executive English reply first demonstrating confident corporate phrasing.
    - Then provide a clear Tamil coaching tip explaining the sentence rule or formula so he understands the logic without mugging up.
 Format your output EXACTLY as:
@@ -1736,63 +1924,12 @@ Format your output EXACTLY as:
         }
       }
 
-      // 4. Offline / Fallback Linguistic Engine (Zero Robotic Phrases, Zero Brackets!)
+      // 4. Smart Linguistic Fallback Engine (Runs whenever offline or Gemini API is not configured)
       if (!replyEnglish) {
-        const low = userText.toLowerCase();
-
-        if (low.includes("can't able") || low.includes("cannot able") || low.includes("couldn't able") || low.includes("could not able")) {
-          replyEnglish = "I understand the obstacle. In English, 'can' and 'able' both represent capability, so we say 'I am unable to do this' or 'I cannot do this'. What specific part is blocking you right now?";
-          replyTamilNote = "Can மற்றும் Able இரண்டுமே திறனைக் (Capability) குறிக்கும் சொற்கள். எனவே இரண்டையும் ஒன்றாகச் சேர்த்து 'can't able' என்று கூறக் கூடாது. 'I am unable to do this' அல்லது 'I cannot do this' என்று பயன்படுத்துங்கள்.";
-        } else if (low.includes("buyed")) {
-          replyEnglish = "The past tense of buy is 'bought', never 'buyed'. You can say 'I bought the new equipment yesterday'. What other tools or devices did you purchase?";
-          replyTamilNote = "Buy-ன் கடந்த காலம் (Past Tense) 'bought' மட்டுமே, 'buyed' அல்ல. எ.கா: 'I bought a new laptop yesterday'.";
-        } else if (low.includes("doubt")) {
-          replyEnglish = "In corporate communications, instead of saying 'I have a doubt', say 'I have a question' or 'Could you please clarify this point?'. What detail would you like to verify?";
-          replyTamilNote = "கார்ப்பரேட் அலுவலகங்களில் 'I have a doubt' என்பதற்குப் பதிலாக 'I have a question' அல்லது 'Could you please clarify this?' என்று கேட்பது தொழில்முறைத் தரம்.";
-        } else if (low.includes("revert back")) {
-          replyEnglish = "Avoid saying 'revert back' because revert already means to return or reply. You can say 'I will get back to you' or 'I will revert by noon'. When do you expect the updates?";
-          replyTamilNote = "'Revert' என்ற சொல்லுக்கே 'பதிலளிப்பது' என்று பொருள். எனவே மீண்டும் 'back' சேர்க்கக் கூடாது. 'I will get back to you' அல்லது 'I will revert' என்பதே சரி.";
-        } else if (low.includes("didn't went") || low.includes("did not went") || low.includes("didn't came") || low.includes("didn't saw")) {
-          replyEnglish = "When using 'did not', always pair it with the base present verb: 'I didn't go' or 'I didn't see'. Who did you need to connect with regarding this?";
-          replyTamilNote = "'Did not' வந்தாலே அடுத்து Base Verb (Present form) தான் வர வேண்டும்: 'didn't go' (didn't went அல்ல), 'didn't come' (didn't came அல்ல).";
-        } else if (low.includes("today morning") || low.includes("yesterday night")) {
-          replyEnglish = "Native speakers say 'this morning' instead of 'today morning', and 'last night' instead of 'yesterday night'. What was the primary takeaway from that session?";
-          replyTamilNote = "இயல்பான ஆங்கிலத்தில் 'today morning' என்பதற்குப் பதிலாக 'this morning' என்றும், 'yesterday night' என்பதற்குப் பதிலாக 'last night' என்றும் கூற வேண்டும்.";
-        } else if (low.includes("prepone")) {
-          replyEnglish = "The word 'prepone' is Indian English. In international teams, say 'bring forward' or 'move the meeting earlier'. What time works best for the discussion?";
-          replyTamilNote = "சர்வதேச அளவில் 'Prepone' என்ற சொல் பயன்பாட்டில் இல்லை. 'Bring forward' அல்லது 'Move the meeting earlier' என்று பயன்படுத்தவும்.";
-        } else if (low.includes("myself ")) {
-          replyEnglish = "When introducing yourself, say 'I am Veerakumar' or 'My name is Veerakumar', rather than 'Myself Veerakumar'. It gives you an immediate confident presence!";
-          replyTamilNote = "சுய அறிமுகம் செய்யும்போது 'Myself Veerakumar' என்று சொல்லக் கூடாது. 'I am Veerakumar' அல்லது 'My name is Veerakumar' என்று கூறுவதே சரியான முறை.";
-        } else if (low.includes("pass out") || low.includes("passed out")) {
-          replyEnglish = "In native English, 'pass out' means to faint! When referring to completing college, say 'I graduated in 2021'. What was your engineering major?";
-          replyTamilNote = "'Pass out' என்றால் மயக்கமடைவது என்று பொருள். கல்லூரியில் படிப்பை முடித்ததற்கு 'I graduated' என்று சொல்ல வேண்டும்.";
-        } else if (low.includes("meeting") || low.includes("standup") || low.includes("client") || low.includes("call")) {
-          replyEnglish = "Sounds like a key discussion! When presenting in standups, keep your update crisp using the BLUF format: lead with your conclusion first. How did your team respond to your points?";
-          replyTamilNote = "குழு சந்திப்புகளில் பேசும்போது BLUF (Bottom Line Up Front) முறையைப் பின்பற்றுங்கள். முக்கிய முடிவை முதல் வரியிலேயே பேசிவிட்டு, பின் விளக்கத்தைத் தொடங்குங்கள்.";
-        } else if (low.includes("code") || low.includes("python") || low.includes("script") || low.includes("automation") || low.includes("test") || low.includes("bug")) {
-          replyEnglish = "Automating repetitive workflows is always the most effective path forward. Make sure to test for edge cases and document the logic clearly. What is the next module you are planning to optimize?";
-          replyTamilNote = "தொழில்நுட்ப விவாதங்களில் 'In order to optimize this, I refactored the pipeline' போன்ற சொற்களைப் பயன்படுத்துவது உங்கள் தொழில்முறை ஆளுமையை உயர்த்தும்.";
-        } else if (low.includes("hello") || low.includes("hi") || low.includes("hey") || low.includes("good morning") || low.includes("good afternoon") || low.includes("good evening")) {
-          replyEnglish = "Hello Veera! Great to hear from you. How are your projects shaping up today, and what would you like to practice together?";
-        } else {
-          const conversationalPicks = [
-            {
-              en: "That is a very clear point! Speaking with that steady rhythm builds great executive presence. What is the main priority you want to complete today?",
-              ta: "தொடர்ந்து பேசும்போது உங்கள் உச்சரிப்பும் வாக்கிய அமைப்பும் இயல்பாக மாறும். தினமும் 5 நிமிடங்கள் இதேபோல பேசிப் பழகுங்கள்!"
-            },
-            {
-              en: "You articulated that smoothly! Taking a brief pause between thoughts gives your points tremendous weight. How is your project timeline looking for this week?",
-              ta: "வேகமாகப் பேசுவதை விட, வார்த்தைகளுக்கு இடையே சிறு இடைவெளி (pause) விட்டுப் பேசுவது தலைமைப் பண்பை (Executive Presence) வெளிப்படுத்தும்."
-            },
-            {
-              en: "Great pacing on that sentence! Your fluency is shaping up naturally. Would you like to practice explaining an automation challenge you recently solved?",
-              ta: "மனப்பாடம் செய்யாமல் சொந்தமாக வாக்கியங்களை அமைத்துப் பேசுவதே உண்மையான சரளமான ஆங்கிலத்திற்கு வழிவகுக்கும்."
-            }
-          ];
-          const pick = conversationalPicks[Math.floor(Math.random() * conversationalPicks.length)];
-          replyEnglish = pick.en;
-          replyTamilNote = pick.ta;
+        const fallback = generateSarahResponse(userText);
+        if (fallback) {
+          replyEnglish = fallback.en;
+          replyTamilNote = fallback.ta;
         }
       }
 
