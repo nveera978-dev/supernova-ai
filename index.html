@@ -395,7 +395,7 @@
     <div class="bg-[#161c2e] border border-slate-800 rounded-3xl max-w-sm w-full p-6 text-center space-y-4 shadow-2xl relative">
       <button id="closeVoiceModal" class="absolute top-4 right-4 text-slate-400 hover:text-white text-lg font-bold">&times;</button>
 
-      <div class="w-20 h-20 rounded-full border-2 border-purple-500 p-0.5 mx-auto shadow-2xl shadow-purple-500/40 flex items-center justify-center bg-purple-950/30">
+      <div class="w-20 h-20 rounded-full border-2 border-purple-500 p-0.5 mx-auto shadow-2xl shadow-purple-500/40 flex items-center justify-center bg-purple-950/30 cursor-pointer" id="avatarStopAudioBtn" title="Click to Stop Voice">
         <span class="text-3xl">👩‍🏫</span>
       </div>
 
@@ -404,28 +404,42 @@
         <p class="text-xs text-purple-300 font-tamil">ஆங்கிலத்தில் பேசுங்கள் அல்லது தமிழில் கேளுங்கள்!</p>
       </div>
 
+      <!-- Audio Replay Control (Stop / Replay) -->
+      <div id="novaAudioControl" class="hidden flex items-center justify-center gap-2 pt-0.5">
+        <button id="stopAudioBtn" class="px-3.5 py-1.5 rounded-full bg-rose-950/80 border border-rose-500/60 text-rose-300 hover:text-white text-xs font-bold flex items-center gap-1.5 shadow-md active:scale-95 transition-all">
+          <span>⏹️</span>
+          <span>Stop Speaking</span>
+        </button>
+        <button id="replayAudioBtn" class="px-3.5 py-1.5 rounded-full bg-slate-800 border border-slate-700 text-slate-300 hover:text-white text-xs font-bold flex items-center gap-1.5 active:scale-95 transition-all">
+          <span>🔁</span>
+          <span>Replay</span>
+        </button>
+      </div>
+
       <!-- Dialogue History / AI Reply Box -->
-      <div class="p-3.5 bg-[#0d111d] rounded-2xl border border-slate-800 text-xs text-left min-h-[90px] max-h-[160px] overflow-y-auto no-scrollbar flex flex-col justify-center space-y-1.5">
+      <div id="voiceModalDialogueBox" class="p-3.5 bg-[#0d111d] rounded-2xl border border-slate-800 text-xs text-left min-h-[90px] max-h-[160px] overflow-y-auto no-scrollbar flex flex-col justify-center space-y-1.5 cursor-pointer" title="Tap to Stop Voice">
         <div id="voiceModalLoading" class="hidden text-center text-purple-400 text-xs font-mono animate-pulse">
           Nova is thinking & analyzing... 💭
         </div>
         <p id="voiceModalDialogue" class="text-slate-200 leading-relaxed font-sans">
-          "Hello Veera! I am listening. Tell me what tasks you are working on today or ask any doubt in English or Tamil!"
+          "Hello Veera! I am listening. Tell me what tasks you are working on today or ask any question in English or Tamil!"
         </p>
       </div>
 
-      <!-- Speech Input Box -->
-      <textarea id="voiceModalInput" rows="2" class="w-full bg-[#0d111d] border border-slate-800 rounded-xl p-2.5 text-xs text-slate-100 placeholder-slate-500 focus:outline-none resize-none" placeholder="What you say will appear here..."></textarea>
+      <!-- Speech Input Box (Continuous Streaming across pauses) -->
+      <textarea id="voiceModalInput" rows="3" class="w-full bg-[#0d111d] border border-slate-800 rounded-xl p-3 text-xs text-slate-100 placeholder-slate-500 focus:outline-none resize-none leading-relaxed" placeholder="Tap the mic below and start speaking. You can pause anytime and continue speaking..."></textarea>
 
-      <!-- Big Mic & Send Buttons -->
-      <div class="flex items-center justify-center gap-3">
-        <button id="voiceModalMicBtn" class="w-14 h-14 rounded-full bg-purple-600 hover:bg-purple-500 active:scale-95 text-white font-bold flex items-center justify-center text-2xl shadow-xl shadow-purple-600/40 transition-all">
+      <!-- BIG MIC ONLY (Continuous Recording & Tap-to-Send) -->
+      <div class="flex flex-col items-center justify-center gap-2 pt-1">
+        <button id="voiceModalMicBtn" class="w-20 h-20 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 active:scale-95 text-white font-bold flex items-center justify-center text-3xl shadow-2xl shadow-purple-600/40 transition-all border-4 border-slate-800">
           🎙️
         </button>
-        <button id="voiceModalSubmitBtn" class="px-5 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 active:scale-95 text-white font-bold text-xs shadow-md transition-all flex items-center gap-1">
-          <span>Send</span>
-          <span>➔</span>
-        </button>
+        <span id="voiceModalMicStatus" class="text-xs font-bold text-slate-300">
+          Tap Mic to Start Speaking
+        </span>
+        <span class="text-[10px] text-slate-500">
+          Continuous speech across all pauses • Tap again to send
+        </span>
       </div>
     </div>
   </div>
@@ -564,20 +578,50 @@ Veerakumar
       document.querySelector('[data-screen="screenAccount"]').click();
     });
 
-    // 3. Speech Synthesis (American English Accent)
+    // 3. Speech Synthesis (American English Accent) with Stop / Replay Controls
+    let isSpeakingAudio = false;
+    let lastSpokenText = "";
+
+    function stopNovaSpeaking() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      isSpeakingAudio = false;
+      const ctrl = document.getElementById('novaAudioControl');
+      if (ctrl) ctrl.classList.add('hidden');
+    }
+
     function speakText(text) {
       if (!('speechSynthesis' in window)) return;
-      window.speechSynthesis.cancel();
+      stopNovaSpeaking();
 
       // Only speak English text, omit Tamil or markdown brackets
-      let cleanText = text.replace(/[\u0B80-\u0BFF]+/g, '').replace(/[*#_~]/g, '').trim();
+      let cleanText = text.replace(/[\u0B80-\u0BFF]+/g, '').replace(/[*#_~()\[\]]/g, '').trim();
       if (!cleanText) return;
 
+      lastSpokenText = cleanText;
       const utterance = new SpeechSynthesisUtterance(cleanText);
       const voices = window.speechSynthesis.getVoices();
       const usVoice = voices.find(v => v.lang === 'en-US' && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Jenny') || v.name.includes('Samantha') || v.name.includes('Zira'))) || voices.find(v => v.lang.startsWith('en'));
       if (usVoice) utterance.voice = usVoice;
       utterance.rate = 0.95;
+
+      utterance.onstart = () => {
+        isSpeakingAudio = true;
+        const ctrl = document.getElementById('novaAudioControl');
+        if (ctrl) ctrl.classList.remove('hidden');
+      };
+      utterance.onend = () => {
+        isSpeakingAudio = false;
+        const ctrl = document.getElementById('novaAudioControl');
+        if (ctrl) ctrl.classList.add('hidden');
+      };
+      utterance.onerror = () => {
+        isSpeakingAudio = false;
+        const ctrl = document.getElementById('novaAudioControl');
+        if (ctrl) ctrl.classList.add('hidden');
+      };
+
       window.speechSynthesis.speak(utterance);
     }
 
@@ -1003,37 +1047,78 @@ Veerakumar
       }
     });
 
-    // Microphone in Lesson Modal
+    // Microphone in Lesson Modal (Continuous Dictation across pauses)
+    let isLessonRecording = false;
+    let lessonRecognition = null;
+    let lessonAccumulated = '';
+    let lessonRestartTimer = null;
+
     document.getElementById('modalMicBtn').addEventListener('click', () => {
+      stopNovaSpeaking();
       const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
       if (!SR) {
         alert("Microphone recognition not supported in this browser. Please type directly into the box!");
         return;
       }
+      
+      const micText = document.getElementById('modalMicText');
+      const micBtn = document.getElementById('modalMicBtn');
+      const inputEl = document.getElementById('modalTranslationInput');
+
       if (isLessonRecording) {
-        if (lessonRecognition) lessonRecognition.stop();
+        // User clicked to Stop
         isLessonRecording = false;
-        document.getElementById('modalMicText').innerText = "Speak";
-        document.getElementById('modalMicBtn').classList.remove('bg-rose-600', 'speech-wave');
+        clearTimeout(lessonRestartTimer);
+        if (lessonRecognition) {
+          try { lessonRecognition.stop(); } catch(e){}
+        }
+        micText.innerText = "Speak";
+        micBtn.classList.remove('bg-rose-600', 'speech-wave');
       } else {
+        // User clicked to Start
+        isLessonRecording = true;
+        micText.innerText = "Listening... (Tap to Finish)";
+        micBtn.classList.add('bg-rose-600', 'speech-wave');
+
+        lessonAccumulated = inputEl.value.trim() ? inputEl.value.trim() + " " : "";
+
         lessonRecognition = new SR();
-        lessonRecognition.continuous = false;
+        lessonRecognition.continuous = true;
         lessonRecognition.interimResults = true;
         lessonRecognition.lang = 'en-US';
-        lessonRecognition.onresult = (e) => {
-          let t = '';
-          for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript;
-          document.getElementById('modalTranslationInput').value = t;
+
+        lessonRecognition.onresult = (event) => {
+          let interim = '';
+          let finalChunk = '';
+          for (let i = event.resultIndex; i < event.results.length; ++i) {
+            if (event.results[i].isFinal) {
+              finalChunk += event.results[i][0].transcript + ' ';
+            } else {
+              interim += event.results[i][0].transcript;
+            }
+          }
+          lessonAccumulated += finalChunk;
+          inputEl.value = (lessonAccumulated + interim).trim();
         };
+
+        lessonRecognition.onerror = (e) => {
+          console.log("Lesson mic error:", e.error);
+        };
+
         lessonRecognition.onend = () => {
-          isLessonRecording = false;
-          document.getElementById('modalMicText').innerText = "Speak";
-          document.getElementById('modalMicBtn').classList.remove('bg-rose-600', 'speech-wave');
+          if (isLessonRecording) {
+            clearTimeout(lessonRestartTimer);
+            lessonRestartTimer = setTimeout(() => {
+              try {
+                if (isLessonRecording) lessonRecognition.start();
+              } catch(err){}
+            }, 200);
+          }
         };
-        lessonRecognition.start();
-        isLessonRecording = true;
-        document.getElementById('modalMicText').innerText = "Listening...";
-        document.getElementById('modalMicBtn').classList.add('bg-rose-600', 'speech-wave');
+
+        try {
+          lessonRecognition.start();
+        } catch(e){}
       }
     });
 
@@ -1046,8 +1131,18 @@ Veerakumar
     });
 
     document.getElementById('closeVoiceModal').addEventListener('click', () => {
+      stopNovaSpeaking();
+      stopVoiceRecognitionAndSend(false);
       document.getElementById('novaVoiceModal').classList.add('hidden');
     });
+
+    // Audio Control Pill buttons & Avatar Tap to Stop
+    document.getElementById('stopAudioBtn').addEventListener('click', stopNovaSpeaking);
+    document.getElementById('replayAudioBtn').addEventListener('click', () => {
+      if (lastSpokenText) speakText(lastSpokenText);
+    });
+    document.getElementById('avatarStopAudioBtn').addEventListener('click', stopNovaSpeaking);
+    document.getElementById('voiceModalDialogueBox').addEventListener('click', stopNovaSpeaking);
 
     document.getElementById('actionPracticeCard').addEventListener('click', () => {
       document.getElementById('novaVoiceModal').classList.remove('hidden');
@@ -1061,11 +1156,116 @@ Veerakumar
       speakText("Tell me any sentence in Tamil, and I will translate it into native English for you.");
     });
 
-    // Send in Voice Modal (Real Gemini AI Conversation!)
-    document.getElementById('voiceModalSubmitBtn').addEventListener('click', async () => {
-      const userTxt = document.getElementById('voiceModalInput').value.trim();
-      if (!userTxt) return;
+    // BIG MIC ONLY: Continuous Voice Recording across speech pauses
+    let isVoiceModalRec = false;
+    let voiceModalRec = null;
+    let voiceAccumulated = '';
+    let voiceRestartTimer = null;
 
+    const voiceMicBtn = document.getElementById('voiceModalMicBtn');
+    const voiceMicStatus = document.getElementById('voiceModalMicStatus');
+    const voiceInput = document.getElementById('voiceModalInput');
+
+    voiceMicBtn.addEventListener('click', () => {
+      stopNovaSpeaking();
+
+      if (isVoiceModalRec) {
+        // User clicked again: STOP recording and automatically SEND!
+        stopVoiceRecognitionAndSend(true);
+      } else {
+        // User clicked: START recording continuously!
+        startVoiceRecognition();
+      }
+    });
+
+    function startVoiceRecognition() {
+      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SR) {
+        alert("Microphone recognition not supported in this browser. Please type directly into the box!");
+        return;
+      }
+
+      isVoiceModalRec = true;
+      voiceMicBtn.className = "w-20 h-20 rounded-full bg-rose-600 hover:bg-rose-500 active:scale-95 text-white font-bold flex items-center justify-center text-3xl shadow-2xl shadow-rose-600/50 transition-all border-4 border-rose-400 speech-wave";
+      voiceMicStatus.innerText = "🔴 Listening... Speak as long as you want (Tap here to Finish & Send)";
+      voiceMicStatus.className = "text-xs font-bold text-rose-400 animate-pulse";
+
+      // Append to whatever was in the box or start fresh
+      voiceAccumulated = voiceInput.value.trim() ? voiceInput.value.trim() + " " : "";
+
+      voiceModalRec = new SR();
+      voiceModalRec.continuous = true;
+      voiceModalRec.interimResults = true;
+      voiceModalRec.lang = 'en-US';
+
+      voiceModalRec.onresult = (event) => {
+        let interim = '';
+        let finalChunk = '';
+        for (let i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            finalChunk += event.results[i][0].transcript + ' ';
+          } else {
+            interim += event.results[i][0].transcript;
+          }
+        }
+        voiceAccumulated += finalChunk;
+        voiceInput.value = (voiceAccumulated + interim).trim();
+      };
+
+      voiceModalRec.onerror = (e) => {
+        console.log("Speech recognition error:", e.error);
+        if (e.error === 'not-allowed') {
+          alert("Microphone permission was denied. Please allow microphone in your browser settings.");
+          resetVoiceMicUI();
+        }
+      };
+
+      voiceModalRec.onend = () => {
+        // If user is still in recording mode, automatically restart so pauses do NOT stop it!
+        if (isVoiceModalRec) {
+          clearTimeout(voiceRestartTimer);
+          voiceRestartTimer = setTimeout(() => {
+            try {
+              if (isVoiceModalRec) voiceModalRec.start();
+            } catch (err) {
+              console.log("Voice restart error:", err);
+            }
+          }, 200);
+        }
+      };
+
+      try {
+        voiceModalRec.start();
+      } catch(e) {
+        console.log("Voice start error:", e);
+      }
+    }
+
+    function stopVoiceRecognitionAndSend(shouldSend = true) {
+      isVoiceModalRec = false;
+      clearTimeout(voiceRestartTimer);
+      if (voiceModalRec) {
+        try { voiceModalRec.stop(); } catch(e){}
+      }
+      resetVoiceMicUI();
+
+      if (shouldSend) {
+        const textToSend = voiceInput.value.trim();
+        if (textToSend) {
+          processUserVoiceInput(textToSend);
+        }
+      }
+    }
+
+    function resetVoiceMicUI() {
+      isVoiceModalRec = false;
+      voiceMicBtn.className = "w-20 h-20 rounded-full bg-gradient-to-tr from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 active:scale-95 text-white font-bold flex items-center justify-center text-3xl shadow-2xl shadow-purple-600/40 transition-all border-4 border-slate-800";
+      voiceMicStatus.innerText = "Tap Mic to Start Speaking";
+      voiceMicStatus.className = "text-xs font-bold text-slate-300";
+    }
+
+    // Process Voice Message (Real Conversational AI - NO "I heard you say", NO bracket notifications!)
+    async function processUserVoiceInput(userTxt) {
       const loader = document.getElementById('voiceModalLoading');
       const dialog = document.getElementById('voiceModalDialogue');
       loader.classList.remove('hidden');
@@ -1074,69 +1274,43 @@ Veerakumar
 
       // 1. If Gemini AI is Connected
       if (GEMINI_KEY) {
-        const sysPrompt = "You are Nova, an empathetic, encouraging Native American English speaking coach who is fluent in Tamil. The learner is Veerakumar, an IT professional from Tamil Nadu learning spoken English. First, respond directly and conversationally to what the user said (acknowledge their thoughts). Second, if they made any grammar, pronunciation, or Tamil-MTI errors (e.g. 'can't able', 'buyed', 'doubt', 'didn't went'), point it out and explain the correct formula in clear Tamil. Keep your reply concise (2-4 sentences total) so it is natural when spoken out loud. End with an engaging follow-up question to keep the conversation flowing.";
+        const sysPrompt = "You are Nova, an empathetic, encouraging Native American English speaking coach who is completely bilingual in Tamil. The learner is Veerakumar, an IT professional from Tamil Nadu learning spoken English. First, respond directly and conversationally to what the user said (acknowledge their thoughts). Do NOT say 'I heard you say' and do NOT repeat their words verbatim. Second, if they made any grammar, pronunciation, or Tamil-MTI errors (e.g. 'can't able', 'buyed', 'doubt', 'didn't went', 'revert back'), point it out and explain the correct formula in clear Tamil. Keep your reply concise (2-4 sentences total) so it is natural when spoken out loud. End with an engaging follow-up question. NEVER include meta instructions, disclaimers, or brackets about API keys.";
         reply = await callGemini(userTxt, sysPrompt);
       }
 
-      // 2. If Offline / No Gemini Key (Smart Dynamic Fallback)
+      // 2. If Offline / No Gemini Key (Smart Natural Conversational Engine - NO 'I heard you say', NO brackets!)
       if (!reply) {
         const low = userTxt.toLowerCase();
-        let mtiCorrection = "";
+        
         if (low.includes("buyed")) {
-          mtiCorrection = "Grammar Alert: The past tense of buy is 'bought', never 'buyed'. Say: 'I bought it'.";
+          reply = "In English, the past tense of buy is 'bought', never 'buyed'. தமிழில்: 'I bought it' என்று சொல்ல வேண்டும். What other equipment or tools did you purchase recently?";
         } else if (low.includes("can't able") || low.includes("cannot able")) {
-          mtiCorrection = "Grammar Alert: Never combine can and able. Say: 'I am unable to do this' or 'I cannot do this'.";
+          reply = "Remember, never combine 'can' and 'able'. You should say: 'I am unable to do this' or 'I cannot do this'. தமிழில்: 'unable to' பயன்படுத்துவதே சிறந்தது. What is causing the blocker right now?";
         } else if (low.includes("doubt")) {
-          mtiCorrection = "Vocabulary Tip: In business meetings, don't say 'I have a doubt'. Say: 'Could you please clarify a point?'.";
+          reply = "In business meetings, replace 'I have a doubt' with 'Could you please clarify this point?'. தமிழில்: 'clarify' எனக் கேட்பது தொழில்முறை தரம். What specific technical detail would you like to verify?";
         } else if (low.includes("revert back")) {
-          mtiCorrection = "Vocabulary Tip: Avoid saying 'revert back'. Just say 'I will get back to you'.";
-        }
-
-        if (mtiCorrection) {
-          reply = `${mtiCorrection} Now, try saying your sentence again with the correct formula!`;
+          reply = "Avoid saying 'revert back' as revert already means to return. Simply say 'I will get back to you' or 'I will revert'. When do you expect to have those updates ready?";
+        } else if (low.includes("didn't went") || low.includes("did not went")) {
+          reply = "When using 'did not', always follow with the base verb: 'I didn't go', not 'didn't went'. தமிழில்: 'didn't go' என்பதே சரி. Who did you need to connect with regarding this?";
+        } else if (low.includes("meeting") || low.includes("standup") || low.includes("client")) {
+          reply = "That sounds like an important discussion. When presenting in team meetings, keep your updates crisp using the BLUF format: lead with your conclusion first. How did the team respond to your update?";
+        } else if (low.includes("code") || low.includes("script") || low.includes("python") || low.includes("automation") || low.includes("test")) {
+          reply = "Automating repetitive workflows is always the most effective path forward. Make sure to document your code and test for edge cases before production. What is the next module you are planning to optimize?";
         } else {
-          reply = `I heard you say: "${userTxt}". That was phrased well! In professional English, remember to speak with a relaxed pace and pause naturally between sentences. What is your next priority today? (Add your free Gemini API key in AI Setup to talk completely freely with me!)`;
+          const conversationalPicks = [
+            "That is a very clear point. Speaking with that steady rhythm builds great executive presence. What is the main priority you are aiming to complete today?",
+            "You articulated that smoothly! When speaking with leadership, taking a brief pause between thoughts gives your points great impact. How is your project timeline looking for this week?",
+            "Well said! Your sentence structure is coming together naturally. Would you like to practice explaining an automation challenge you recently solved?"
+          ];
+          reply = conversationalPicks[Math.floor(Math.random() * conversationalPicks.length)];
         }
       }
 
       loader.classList.add('hidden');
       dialog.innerText = reply;
-      document.getElementById('voiceModalInput').value = '';
+      voiceInput.value = '';
       speakText(reply);
-    });
-
-    // Voice Modal Mic Toggle
-    let isVoiceModalRec = false;
-    let voiceModalRec = null;
-    document.getElementById('voiceModalMicBtn').addEventListener('click', () => {
-      const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SR) {
-        alert("Microphone recognition not supported in this browser. Please type directly into the box!");
-        return;
-      }
-      if (isVoiceModalRec) {
-        if (voiceModalRec) voiceModalRec.stop();
-        isVoiceModalRec = false;
-        document.getElementById('voiceModalMicBtn').classList.remove('bg-rose-600', 'speech-wave');
-      } else {
-        voiceModalRec = new SR();
-        voiceModalRec.continuous = false;
-        voiceModalRec.interimResults = true;
-        voiceModalRec.lang = 'en-US';
-        voiceModalRec.onresult = (e) => {
-          let t = '';
-          for (let i = 0; i < e.results.length; i++) t += e.results[i][0].transcript;
-          document.getElementById('voiceModalInput').value = t;
-        };
-        voiceModalRec.onend = () => {
-          isVoiceModalRec = false;
-          document.getElementById('voiceModalMicBtn').classList.remove('bg-rose-600', 'speech-wave');
-        };
-        voiceModalRec.start();
-        isVoiceModalRec = true;
-        document.getElementById('voiceModalMicBtn').classList.add('bg-rose-600', 'speech-wave');
-      }
-    });
+    }
 
     // Word of the day Flashcards
     const vocabList = [
