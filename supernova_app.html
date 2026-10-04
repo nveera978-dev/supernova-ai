@@ -140,16 +140,16 @@
         <div class="flex items-center gap-2.5">
           <div class="relative">
             <div class="w-10 h-10 rounded-full border border-purple-500 bg-slate-900 flex items-center justify-center text-xl cursor-pointer" id="headerAvatarStopBtn" title="Click to Stop Voice">
-              👩‍🏫
+              👩‍💼
             </div>
             <span class="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-emerald-500 border-2 border-slate-900"></span>
           </div>
           <div>
             <h3 class="text-xs font-bold text-white flex items-center gap-1.5">
-              <span>Nova AI</span>
-              <span class="text-[9px] px-1.5 py-0.2 bg-purple-950 text-purple-300 rounded border border-purple-800 font-mono">COACH</span>
+              <span>Coach Sarah</span>
+              <span class="text-[9px] px-1.5 py-0.2 bg-purple-950 text-purple-300 rounded border border-purple-800 font-mono">US EXECUTIVE</span>
             </h3>
-            <span class="text-[10px] text-slate-400 font-tamil">இருவழி உரையாடல் • Two-Way Chat</span>
+            <span class="text-[10px] text-slate-400 font-tamil">இருவழி உரையாடல் • Native Executive Coach</span>
           </div>
         </div>
 
@@ -268,20 +268,66 @@
         </div>
       </div>
 
-      <!-- App Settings -->
-      <div class="bg-[#161c2e] border border-slate-800 rounded-3xl p-5 text-left space-y-3 text-xs shadow-xl">
-        <span class="text-slate-400 font-bold uppercase text-[10px] tracking-wider block">Preferences</span>
-        <div class="p-3 bg-[#0d111d] rounded-xl border border-slate-800 flex items-center justify-between">
-          <span>AI Coach Voice Accent</span>
-          <strong class="text-purple-400">American Native (en-US)</strong>
+      <!-- App Settings & Voice Persona -->
+      <div class="bg-[#161c2e] border border-slate-800 rounded-3xl p-5 text-left space-y-4 text-xs shadow-xl">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-2.5">
+          <span class="text-slate-400 font-bold uppercase text-[10px] tracking-wider block">AI Coach Voice & Persona</span>
+          <span class="px-2 py-0.5 rounded-full bg-purple-950 text-purple-300 text-[10px] font-mono border border-purple-800">
+            Native US Executive
+          </span>
         </div>
-        <div class="p-3 bg-[#0d111d] rounded-xl border border-slate-800 flex items-center justify-between">
-          <span>Grammar Explanations</span>
-          <strong class="text-indigo-400 font-tamil">தமிழ் (Tamil)</strong>
+
+        <!-- Coach Persona Details -->
+        <div class="space-y-1.5">
+          <label class="text-[11px] text-slate-300 font-bold flex items-center gap-1.5">
+            <span>👩‍💼 Coach Persona:</span>
+          </label>
+          <div class="p-3 bg-[#0d111d] rounded-2xl border border-slate-800 flex items-center justify-between">
+            <div>
+              <div class="font-bold text-white flex items-center gap-1.5">
+                <span>Coach Sarah</span>
+                <span class="text-[9px] px-1.5 py-0.2 bg-emerald-950 text-emerald-400 rounded font-mono border border-emerald-800">ACTIVE</span>
+              </div>
+              <p class="text-[10px] text-slate-400 mt-0.5">Native US Executive Leadership & Boardroom Communication</p>
+            </div>
+            <span class="text-2xl">👩‍💼</span>
+          </div>
         </div>
-        <div class="p-3 bg-[#0d111d] rounded-xl border border-slate-800 flex items-center justify-between">
-          <span>Course Pace</span>
-          <strong class="text-emerald-400">Self-Paced (Instant Unlocks)</strong>
+
+        <!-- Device Voice Selector -->
+        <div class="space-y-1.5">
+          <div class="flex items-center justify-between">
+            <label class="text-[11px] text-slate-300 font-bold">Device Voice Model / Tone:</label>
+            <span id="voiceBadgeLabel" class="text-[10px] text-emerald-400 font-mono font-bold">Natural Neural</span>
+          </div>
+          <select id="voiceModelSelect" class="w-full bg-[#0d111d] border border-slate-700 rounded-xl p-2.5 text-xs text-slate-200 focus:outline-none focus:border-purple-500 font-sans">
+            <option value="">Detecting natural human voices...</option>
+          </select>
+          <p class="text-[10px] text-slate-400 italic">
+            Tip: Browsers like Edge, Chrome, and Safari include free human neural voices with realistic pauses and natural breathing.
+          </p>
+        </div>
+
+        <!-- Test Voice Button -->
+        <button id="testCoachVoiceBtn" class="w-full py-2.5 px-4 rounded-xl bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 active:scale-95 text-white font-bold text-xs flex items-center justify-center gap-2 shadow-lg shadow-purple-600/30 transition-all">
+          <span>🔊</span>
+          <span>Test Sarah's Executive Voice</span>
+        </button>
+
+        <!-- Cadence & Tamil Info -->
+        <div class="border-t border-slate-800 pt-2 space-y-2">
+          <div class="p-2.5 bg-[#0d111d] rounded-xl border border-slate-800 flex items-center justify-between">
+            <span>Executive Cadence (Pace)</span>
+            <strong class="text-purple-400 font-mono">0.92x (Measured & Articulate)</strong>
+          </div>
+          <div class="p-2.5 bg-[#0d111d] rounded-xl border border-slate-800 flex items-center justify-between">
+            <span>Grammar Explanations</span>
+            <strong class="text-indigo-400 font-tamil">தமிழ் (Tamil)</strong>
+          </div>
+          <div class="p-2.5 bg-[#0d111d] rounded-xl border border-slate-800 flex items-center justify-between">
+            <span>Course Pace</span>
+            <strong class="text-emerald-400">Self-Paced (Instant Unlocks)</strong>
+          </div>
         </div>
       </div>
 
@@ -450,10 +496,10 @@ Veerakumar
       <span class="text-xl">〰️</span>
       <span>Chapters (45)</span>
     </button>
-    <!-- Tab 2: Nova AI (Avatar) -->
+    <!-- Tab 2: Sarah AI (Coach) -->
     <button class="nav-tab flex flex-col items-center gap-1 text-slate-400 font-medium p-1" data-screen="screenNovaAI">
       <span class="text-xl">👩‍💼</span>
-      <span>Nova AI</span>
+      <span>Sarah AI</span>
     </button>
     <!-- Tab 3: Account & AI Setup -->
     <button class="nav-tab flex flex-col items-center gap-1 text-slate-400 font-medium p-1" data-screen="screenAccount">
@@ -509,13 +555,137 @@ Veerakumar
       document.querySelector('[data-screen="screenAccount"]').click();
     });
 
-    // 3. Speech Synthesis (American English Accent) with Stop / Replay Controls
+    // 3. COACH SARAH EXECUTIVE SPEECH ENGINE (Dual-Tier: Cloud AI Studio + Natural Human Neural)
     let isSpeakingAudio = false;
     let lastSpokenText = "";
+    let currentAudioElement = null;
+    let cachedVoices = [];
+    let selectedVoiceURI = localStorage.getItem('supernova_selected_voice_uri') || '';
+
+    function loadVoices() {
+      if (!('speechSynthesis' in window)) return [];
+      cachedVoices = window.speechSynthesis.getVoices();
+      populateVoiceDropdown();
+      return cachedVoices;
+    }
+
+    function getBestExecutiveVoice() {
+      const voices = cachedVoices.length ? cachedVoices : (window.speechSynthesis ? window.speechSynthesis.getVoices() : []);
+      if (!voices || voices.length === 0) return null;
+
+      // 1. User manual override from Preferences
+      if (selectedVoiceURI) {
+        const found = voices.find(v => (v.voiceURI === selectedVoiceURI || v.name === selectedVoiceURI));
+        if (found) return found;
+      }
+
+      // 2. High-priority American female executive neural voices (Jenny, Ava, Aria, Google US)
+      const priorityList = [
+        'Microsoft Jenny Online (Natural)',
+        'Microsoft Jenny (Natural)',
+        'Microsoft Ava Online (Natural)',
+        'Microsoft Ava (Natural)',
+        'Microsoft Aria Online (Natural)',
+        'Microsoft Aria (Natural)',
+        'Google US English',
+        'en-us-x-sfg#female_1-local',
+        'en-US-JennyNeural',
+        'en-US-AriaNeural',
+        'en-US-AvaNeural',
+        'Samantha (Enhanced)',
+        'Ava (Premium)',
+        'Allison (Enhanced)',
+        'Samantha',
+        'Victoria'
+      ];
+
+      for (const p of priorityList) {
+        const match = voices.find(v => v.name && v.name.toLowerCase().includes(p.toLowerCase()));
+        if (match) return match;
+      }
+
+      // 3. Any en-US voice containing 'natural', 'neural', 'online', 'premium', or 'enhanced'
+      const naturalUs = voices.find(v => v.lang === 'en-US' && (
+        v.name.toLowerCase().includes('natural') ||
+        v.name.toLowerCase().includes('neural') ||
+        v.name.toLowerCase().includes('online') ||
+        v.name.toLowerCase().includes('premium') ||
+        v.name.toLowerCase().includes('enhanced')
+      ));
+      if (naturalUs) return naturalUs;
+
+      // 4. Any clean en-US voice (strictly filter out robotic desktop voices like Zira, David, Desktop, eSpeak)
+      const cleanUs = voices.find(v => (v.lang === 'en-US' || v.lang === 'en_US') && 
+        !v.name.toLowerCase().includes('zira') &&
+        !v.name.toLowerCase().includes('david') &&
+        !v.name.toLowerCase().includes('desktop') &&
+        !v.name.toLowerCase().includes('espeak')
+      );
+      if (cleanUs) return cleanUs;
+
+      // 5. Fallback
+      return voices.find(v => v.lang === 'en-US') || voices.find(v => v.lang && v.lang.startsWith('en')) || voices[0] || null;
+    }
+
+    function populateVoiceDropdown() {
+      const select = document.getElementById('voiceModelSelect');
+      if (!select) return;
+
+      const voices = cachedVoices.length ? cachedVoices : (window.speechSynthesis ? window.speechSynthesis.getVoices() : []);
+      if (!voices || voices.length === 0) return;
+
+      const bestVoice = getBestExecutiveVoice();
+      const currentSelected = selectedVoiceURI || (bestVoice ? (bestVoice.voiceURI || bestVoice.name) : '');
+
+      const englishVoices = voices.filter(v => v.lang && (v.lang.startsWith('en') || v.lang.includes('US')));
+
+      const isNatural = (v) => {
+        const n = v.name.toLowerCase();
+        return n.includes('natural') || n.includes('neural') || n.includes('online') || n.includes('google') || n.includes('ava') || n.includes('jenny') || n.includes('aria');
+      };
+
+      englishVoices.sort((a, b) => {
+        const aNat = isNatural(a);
+        const bNat = isNatural(b);
+        if (aNat && !bNat) return -1;
+        if (!aNat && bNat) return 1;
+        return a.name.localeCompare(b.name);
+      });
+
+      select.innerHTML = englishVoices.map(v => {
+        const nat = isNatural(v);
+        const val = v.voiceURI || v.name;
+        const isSel = (val === currentSelected);
+        const label = `${nat ? '⭐ ' : ''}${v.name} (${v.lang})${nat ? ' - Human Neural' : ''}`;
+        return `<option value="${val}" ${isSel ? 'selected' : ''}>${label}</option>`;
+      }).join('');
+
+      const badge = document.getElementById('voiceBadgeLabel');
+      if (badge) {
+        const cur = englishVoices.find(x => (x.voiceURI || x.name) === currentSelected);
+        badge.innerText = cur && isNatural(cur) ? "Human Neural" : "Standard Voice";
+      }
+
+      select.onchange = () => {
+        selectedVoiceURI = select.value;
+        localStorage.setItem('supernova_selected_voice_uri', selectedVoiceURI);
+        if (badge) {
+          const v = englishVoices.find(x => (x.voiceURI || x.name) === selectedVoiceURI);
+          badge.innerText = v && isNatural(v) ? "Human Neural" : "Standard Voice";
+        }
+      };
+    }
 
     function stopNovaSpeaking() {
       if ('speechSynthesis' in window) {
         window.speechSynthesis.cancel();
+      }
+      if (currentAudioElement) {
+        try {
+          currentAudioElement.pause();
+          currentAudioElement.currentTime = 0;
+        } catch(e){}
+        currentAudioElement = null;
       }
       isSpeakingAudio = false;
       const ctrl = document.getElementById('novaAudioControl');
@@ -524,8 +694,7 @@ Veerakumar
       if (chatStopBtn) chatStopBtn.classList.add('hidden');
     }
 
-    function speakText(text) {
-      if (!('speechSynthesis' in window)) return;
+    async function speakText(text) {
       stopNovaSpeaking();
 
       // Check if character voice is muted
@@ -533,16 +702,62 @@ Veerakumar
         return;
       }
 
-      // Only speak English text, omit Tamil or markdown brackets
+      // Only speak English text, omit Tamil characters and bracketed meta texts
       let cleanText = text.replace(/[\u0B80-\u0BFF]+/g, '').replace(/[*#_~()\[\]]/g, '').trim();
       if (!cleanText) return;
 
       lastSpokenText = cleanText;
+
+      const chatStopBtn = document.getElementById('chatStopAudioBtn');
+
+      // 1. Try Gemini Cloud AI Studio Voice if connected (Ultra-realistic human neural studio audio)
+      if (GEMINI_KEY) {
+        try {
+          const audioData = await fetchGeminiSpeech(cleanText);
+          if (audioData && audioData.base64) {
+            const audio = new Audio(`data:${audioData.mimeType};base64,${audioData.base64}`);
+            currentAudioElement = audio;
+            isSpeakingAudio = true;
+            if (chatStopBtn) chatStopBtn.classList.remove('hidden');
+
+            audio.onended = () => {
+              isSpeakingAudio = false;
+              if (chatStopBtn) chatStopBtn.classList.add('hidden');
+              currentAudioElement = null;
+            };
+            audio.onerror = () => {
+              isSpeakingAudio = false;
+              if (chatStopBtn) chatStopBtn.classList.add('hidden');
+              currentAudioElement = null;
+              speakWithBrowserTTS(cleanText);
+            };
+
+            await audio.play();
+            return;
+          }
+        } catch(err) {
+          console.log("Cloud speech fallback to browser:", err);
+        }
+      }
+
+      // 2. Browser Native Speech Synthesis (Engineered for Native American Executive Cadence)
+      speakWithBrowserTTS(cleanText);
+    }
+
+    function speakWithBrowserTTS(cleanText) {
+      if (!('speechSynthesis' in window)) return;
+
       const utterance = new SpeechSynthesisUtterance(cleanText);
-      const voices = window.speechSynthesis.getVoices();
-      const usVoice = voices.find(v => v.lang === 'en-US' && (v.name.includes('Natural') || v.name.includes('Google') || v.name.includes('Jenny') || v.name.includes('Samantha') || v.name.includes('Zira'))) || voices.find(v => v.lang.startsWith('en'));
-      if (usVoice) utterance.voice = usVoice;
-      utterance.rate = 0.95;
+      const executiveVoice = getBestExecutiveVoice();
+      if (executiveVoice) {
+        utterance.voice = executiveVoice;
+      }
+
+      // Native American Executive Cadence:
+      // Measured rate 0.92 gives authoritative, unhurried boardroom presence
+      // Pitch 1.02 gives warm, resonant female clarity
+      utterance.rate = 0.92;
+      utterance.pitch = 1.02;
 
       utterance.onstart = () => {
         isSpeakingAudio = true;
@@ -569,8 +784,65 @@ Veerakumar
       window.speechSynthesis.speak(utterance);
     }
 
+    async function fetchGeminiSpeech(text) {
+      if (!GEMINI_KEY) return null;
+      const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_KEY}`;
+      const payload = {
+        contents: [
+          {
+            parts: [{
+              text: `Say with a confident, articulate, warm native American executive leadership tone:\n\n${text}`
+            }]
+          }
+        ],
+        generationConfig: {
+          responseModalities: ["AUDIO"],
+          speechConfig: {
+            voiceConfig: {
+              prebuiltVoiceConfig: {
+                voiceName: "Kore" // Firm, confident American female executive voice
+              }
+            }
+          }
+        }
+      };
+
+      try {
+        const resp = await fetch(url, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (resp.ok) {
+          const data = await resp.json();
+          const part = data.candidates?.[0]?.content?.parts?.[0];
+          if (part && part.inlineData && part.inlineData.data) {
+            return {
+              base64: part.inlineData.data,
+              mimeType: part.inlineData.mimeType || 'audio/wav'
+            };
+          }
+        }
+      } catch(e) {
+        console.log("Gemini Speech API error:", e);
+      }
+      return null;
+    }
+
     if ('speechSynthesis' in window) {
-      window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+      window.speechSynthesis.onvoiceschanged = () => {
+        loadVoices();
+      };
+      loadVoices();
+    }
+
+    // Test Voice Button in Preferences
+    const testVoiceBtn = document.getElementById('testCoachVoiceBtn');
+    if (testVoiceBtn) {
+      testVoiceBtn.addEventListener('click', () => {
+        stopNovaSpeaking();
+        speakText("Hey Veerakumar! I am Coach Sarah. Speaking with steady, deliberate pacing builds tremendous executive presence in leadership meetings. You have great potential, and we are going to master your corporate fluency together!");
+      });
     }
 
     // 4. Gemini API Key Management
@@ -1139,8 +1411,8 @@ Veerakumar
       chatHistory = [
         {
           sender: "nova",
-          text: "Hello Veera! I am Nova, your native English coach. Tap the mic below and tell me how your day is going, what tasks you are tackling, or practice any topic. I am listening! 🌟",
-          tamilNote: "கீழே உள்ள மைக் பட்டனைத் தட்டி ஆங்கிலத்தில் பேசத் தொடங்குங்கள். நீங்கள் பேசும்போது ஏற்படும் இலக்கணப் பிழைகளை நான் திருத்தி வழிகாட்டுகிறேன்!",
+          text: "Hey Veerakumar! I am Coach Sarah, your personal native US executive communication coach. You don't have broken English—you have fast energy that just needs corporate structure and confident cadence. Tap the mic below and let's speak about your day or projects. I am listening! 🌟",
+          tamilNote: "கீழே உள்ள மைக் பட்டனைத் தட்டி ஆங்கிலத்தில் பேசத் தொடங்குங்கள். உங்கள் தலைமைப் பண்பையும் (Executive Presence) சரளமான உச்சரிப்பையும் வளர்க்க நான் உதவுகிறேன்!",
           time: "Just now"
         }
       ];
@@ -1173,11 +1445,11 @@ Veerakumar
           return `
             <div class="flex justify-start items-start gap-2.5 animate-fadeIn">
               <div class="w-8 h-8 rounded-full bg-slate-900 border border-purple-500/80 flex items-center justify-center text-base shrink-0 shadow-md">
-                👩‍🏫
+                👩‍💼
               </div>
               <div class="max-w-[88%] bg-[#161c2e] border border-slate-700/80 text-slate-100 rounded-2xl rounded-tl-xs p-3.5 shadow-md space-y-2.5">
                 <div class="flex items-center justify-between border-b border-slate-800/80 pb-1.5">
-                  <span class="text-[10px] font-bold text-purple-400 font-mono tracking-wider">NOVA COACH</span>
+                  <span class="text-[10px] font-bold text-purple-400 font-mono tracking-wider">COACH SARAH</span>
                   <button class="msg-speak-btn text-[11px] text-slate-400 hover:text-purple-300 active:scale-95 flex items-center gap-1 font-semibold transition-colors" data-msg-idx="${idx}" title="Listen to this message">
                     🔊 <span>Listen</span>
                   </button>
@@ -1417,13 +1689,13 @@ Veerakumar
       typingIndicator.className = 'flex justify-start items-start gap-2.5 animate-fadeIn';
       typingIndicator.innerHTML = `
         <div class="w-8 h-8 rounded-full bg-slate-900 border border-purple-500/80 flex items-center justify-center text-base shrink-0 shadow">
-          👩‍🏫
+          👩‍💼
         </div>
         <div class="bg-[#161c2e] border border-slate-800 rounded-2xl rounded-tl-xs px-4 py-3 shadow-md flex items-center gap-2">
           <span class="w-2 h-2 rounded-full bg-purple-400 animate-bounce"></span>
           <span class="w-2 h-2 rounded-full bg-indigo-400 animate-bounce [animation-delay:0.2s]"></span>
           <span class="w-2 h-2 rounded-full bg-pink-400 animate-bounce [animation-delay:0.4s]"></span>
-          <span class="text-xs text-slate-400 font-mono ml-1">Nova is listening...</span>
+          <span class="text-xs text-slate-400 font-mono ml-1">Coach Sarah is listening...</span>
         </div>
       `;
       container.appendChild(typingIndicator);
@@ -1434,16 +1706,17 @@ Veerakumar
 
       // 3. If Gemini AI is Connected
       if (GEMINI_KEY) {
-        const sysPrompt = `You are Nova, an executive spoken English coach and friendly WhatsApp speaking partner bilingual in English and Tamil. You are speaking with Veerakumar (an IT automation engineer from Tamil Nadu).
+        const sysPrompt = `You are Coach Sarah, a senior native American executive leadership and corporate communication coach (former VP of Communications, Silicon Valley mentor) bilingual in English and Tamil. You are speaking with Veerakumar (an IT automation engineer from Tamil Nadu).
 CRITICAL RULES:
-1. Respond warmly, directly, and naturally like an encouraging friend and senior colleague (2-3 sentences max).
-2. NEVER say "I heard you say", "You said", or repeat the user's sentence back to them.
-3. NEVER include meta commentary, disclaimers, markdown symbols, or bracketed instructions (NO "(Add your Gemini API key...)", NO "(Gemini API...)").
-4. If Veerakumar made a grammatical slip, Tamil MTI error (e.g., 'can't able', 'buyed', 'doubt', 'didn't went', 'revert back', 'prepone', 'pass out', 'today morning', 'myself [name]', 'tell me', 'anyways'), or awkward phrasing:
-   - Provide your warm conversational English reply first.
+1. Speak with real native US executive presence: calm, articulate, confident, and inspiring (2-3 sentences max).
+2. Treat Veerakumar like a talented professional whom you are coaching for leadership meetings, boardroom discussions, and US client presentations.
+3. NEVER say "I heard you say", "You said", or repeat the user's sentence back to them.
+4. NEVER include meta commentary, disclaimers, markdown symbols, or bracketed instructions (NO "(Add your Gemini API key...)", NO "(Gemini API...)").
+5. If Veerakumar made a grammatical slip, Tamil MTI error (e.g., 'can't able', 'buyed', 'doubt', 'didn't went', 'revert back', 'prepone', 'pass out', 'today morning', 'myself [name]', 'tell me', 'anyways'), or awkward phrasing:
+   - Provide your executive English reply first demonstrating confident corporate phrasing.
    - Then provide a clear Tamil coaching tip explaining the sentence rule or formula so he understands the logic without mugging up.
 Format your output EXACTLY as:
-[Your English conversational reply here]
+[Your English executive leadership reply here]
 ---TAMIL_NOTE---
 [Your Tamil grammar rule or corporate tip here, or leave empty if speech was completely correct]`;
 
